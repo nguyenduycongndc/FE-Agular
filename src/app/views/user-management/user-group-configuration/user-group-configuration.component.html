@@ -1,0 +1,454 @@
+<form [formGroup]="form">
+  <div class="col-md-12">
+     <div class="card">
+        <div class="card-header">
+           <div class="row">
+              <div class="col-md-6" style="margin-top: 6px; margin-bottom: 3px;">
+                 <span class="fa-passwd-reset fa-stack">
+                  <i class="fa fa-cog" style="font-size: 25px;"></i>
+                </span>
+                 <strong>&nbsp;Cấu hình nhóm người sử dụng</strong>
+              </div>
+              <div class="col-md-6" style="text-align: end; padding: 0 1% 0 21%;">
+                 <div class="form-group has-search" style="margin-bottom: 0% !important;" tabindex="1">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" #searchByKeyWordInput (keyup.enter)="searchByKeyWord($event.target.value);"
+                    placeholder="Mã nhóm / Tên nhóm">
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="card-body" style="padding: 0.6rem !important;">
+           <div class="form-group" style="max-width: 100%;
+              max-height: 50%;border:1px solid #80808069;border-radius: 3px;padding-top: 1%; margin-bottom: 0%;" >
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                 <div class="form-group row" style="margin-bottom: 0;">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12" style="padding: 0% 15px;">
+                        <label for="" class="col-form-label" style="float: left;">Năm học:</label>
+                        <ng-select  #selectSemesterSearch
+                        [items]="ddlYearSearchData"
+                        class="customYear"
+                        tabIndex="2"
+                        [clearable]="false"
+                        bindLabel="name"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        placeholder="Chọn năm"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedYear"
+                        formControlName="yearSearch"
+                        (change)="onSelectYear($event)">
+                        </ng-select>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12" style="padding: 0% 15px;">
+                          <label for="" class="col-form-label" style="float: left;">Khối:</label>
+                          <ng-select [items]="ddlGradeSearchData"
+                            class="gradeSearchExtraSmallDevices"
+                            tabIndex="3"
+                            bindLabel="name"
+                            placeholder="Chọn khối"
+                            notFoundText="Không có dữ liệu"
+                            [multiple]="true"
+                            [closeOnSelect]="false"
+                            [(ngModel)]="selectedGradeSearch"
+                            formControlName="gradeSearch"
+                            (change)="selectGradeSearch($event)">
+                            <ng-template ng-header-tmp>
+                              <div>
+                                <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                                <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+                              </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items">
+                              <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                                <span>{{item.name}}</span>
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 1" >
+                                <span class="ng-value-label">+{{items.length - 1}}</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12" style="padding: 0% 15px;">
+                          <label for="" class="col-form-label" style="float: left;">Lớp:</label>
+                          <ng-select [items]="ddlClassSearchData"
+                          class="classSearchExtraSmallDevices"
+                            tabIndex="4"
+                            bindLabel="name"
+                            placeholder="Chọn lớp"
+                            notFoundText="Không có dữ liệu"
+                            [multiple]="true"
+                            [closeOnSelect]="false"
+                            [(ngModel)]="selectedClassSearch"
+                            formControlName="classSearch">
+                            <ng-template ng-header-tmp>
+                              <div>
+                                <button class="btn btn-link" (click)="selectAllClassSearch(ddlClassSearchData)">Chọn tất cả</button>
+                                <button class="btn btn-link" (click)="deSelectAllClassSearch()">Bỏ chọn tất cả</button>
+                              </div>
+                            </ng-template>
+                            <ng-template ng-multi-label-tmp let-items="items">
+                              <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                                <span>{{item.name}}</span>
+                              </div>
+                              <div class="ng-value" *ngIf="items.length > 1" >
+                                <span class="ng-value-label">+{{items.length - 1}}</span>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                    </div>
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12" style="max-width: 100%; padding: 0% 15px;">
+                       <div class="form-check" id="responCheckbox" style="float: right; padding: 2% 0 0 0;">
+                          <!-- <label class="container">
+                          <input type="checkbox" checked="checked" formControlName="statusActive">
+                          <span class="checkmark" tabindex="5"></span>Hoạt động
+                          </label> -->
+                          <label class="customCheckbox" style="display: flex;">
+                             <input type="checkbox"tabindex="5" formControlName="statusActive" style="margin: .1em; width: 2em; height: 2em; position: relative; right: 3px;" onclick="return true;" checked>
+                           <a class="customCheckbox2">Hoạt động</a>
+                          </label>
+                       </div>
+                    </div>
+                    <div class="col-xl-1 col-lg-1 col-md-1 col-sm-12 col-12">
+                       <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" [disabled]="loadingFilter"
+                          style="float: right;" autocomplete="off" (click)="searchByInput()" tabindex="6">
+                          <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                          <i class="fa fa-filter" aria-hidden="true"></i>
+                       </button>
+                    </div>
+                    <!-- Lọc dữ liệu -->
+                 </div>
+              </div>
+               <hr style="margin: 1% 0 1% 0;">
+               <div class="col-lg-12 col-md-12 col-sm-12" >
+                  <table class="table table-responsive-sm table-bordered table-striped table-sm"
+                  style="text-align: center;" id="tblUserGroupConfig">
+                    <thead *ngIf="headerUserGroupConfig === true">
+                      <tr>
+                          <th style="width: 5%;cursor: pointer;">STT</th>
+                          <th (click)="sortCode()" style="cursor: pointer;width: auto;">Mã nhóm&nbsp;
+                            <i *ngIf="firstTimeCode == 1" class="fa fa-sort"></i>
+                            <i *ngIf="timesCode == 1" class="fa fa-caret-up"></i>
+                            <i *ngIf="timesCode == 2" class="fa fa-caret-down"></i>
+                          </th>
+                          <th (click)="sortGroupName()" style="width: auto;cursor: pointer;">Tên nhóm&nbsp;
+                            <i *ngIf="firstTimeName == 1" class="fa fa-sort"></i>
+                            <i *ngIf="timesGroupName == 1" class="fa fa-caret-up"></i>
+                            <i *ngIf="timesGroupName == 2" class="fa fa-caret-down"></i>
+                          </th>
+                          <th style="width: auto">Khối</th>
+                          <th style="width: auto">Lớp</th>
+                          <th style="width: auto">Ghi chú</th>
+                          <th style="width: 6%">Trạng thái</th>
+                          <th style="width: 10%">Hoạt động</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="userConfigData">
+                      <tr class="item" *ngFor="let item of userConfigData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index">
+                          <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                          <td style="vertical-align: inherit;">{{ item.code }}</td>
+                          <td style="vertical-align: inherit;">{{ item.name }}</td>
+                          <td style="vertical-align: inherit;">{{ item.grade_name }}</td>
+                          <td style="vertical-align: inherit;">{{ item.class_name }}</td>
+                          <td style="vertical-align: inherit; max-width: 12em;; text-align: left;padding: .3em;" >{{ item.description }}</td>
+                          <td style="vertical-align: middle;">
+                          <div *ngIf="item.status === 1; then active; else inactive" hidden></div>
+                          <ng-template #active>
+                              <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" checked>
+                          </ng-template>
+                          <ng-template #inactive>
+                              <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" disabled>
+                          </ng-template>
+                          </td>
+                          <td style="vertical-align: middle;">
+                            <div class="row" style="padding: 3% 15px;" >
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"  tabIndex="6"
+                                    data-target="#editUserGroupConfigurationModal" (click)="getByIdUserGroupConfig(item.id)" style="margin-top:1px; margin-right: 3%;margin-bottom: 0.2em;margin-top: 0.2em;">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </button>
+                                  <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"  tabIndex="6"
+                                  (click)="deleteUserGroupConfig(item.id)" style="margin-top: 1px;margin-bottom: 0.2em;margin-top: 0.2em;">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                              </div>
+                          </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="checkUserConfigData === false">
+                      <tr>
+                          <td colspan="8"> Dữ liệu không tồn tại
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="text-right" *ngIf="userConfigData">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                              <div *ngFor="let item of userConfigData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                                  <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} - {{(p-1)*countPage+i+1}}/{{userConfigData.length}}</span> bản ghi</p>
+                              </div>
+                            </div>
+                            <div class="col-md-6" *ngIf="headerUserGroupConfig === true">
+                              <pagination-controls (pageChange)="p = $event" tabIndex="7"></pagination-controls>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- Thêm mới -->
+                  <div class="modal fade" id="addUserGroupConfigurationModal" data-keyboard="false" role="dialog"
+                     aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+                     <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="userGroupConfigModalLabel">Thêm mới</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body">
+                            <div class="row">
+                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                  <label for="code">Năm học:<span style="color: red; font-size: large;"></span></label>
+                                  <input class="form-control" type="text" name="text-input" value="{{ selectedYear['name'] }}" disabled>
+                                </div>
+                              </div>
+                              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                  <label for="code">Mã nhóm:<span style="color: red; font-size: large;">*</span></label>
+                                  <input class="form-control" type="text" name="text-input" formControlName="code"  tabIndex="9"
+                                      placeholder="Nhập mã nhóm" [ngClass]="{ 'is-invalid': submitted && f.code.errors }" >
+                                  <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                                      <div *ngIf="f.code.errors.required">Mã nhóm không được để trống</div>
+                                      <div *ngIf="f.code.errors.minlength">Mã nhóm không được nhỏ hơn 2 ký tự</div>
+                                      <div *ngIf="f.code.errors.maxlength">Mã nhóm không được lớn hơn 100 ký tự</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                  <label for="name">Tên nhóm:<span style="color: red; font-size: large;">*</span></label>
+                                  <input class="form-control" type="text" name="text-input" formControlName="name"  tabIndex="10"
+                                      placeholder="Nhập tên nhóm" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                      <div *ngIf="f.name.errors.required">Tên nhóm không được để trống</div>
+                                      <div *ngIf="f.name.errors.minlength">Tên nhóm không được nhỏ hơn 6 ký tự</div>
+                                      <div *ngIf="f.name.errors.maxlength">Tên nhóm không được lớn hơn 100 ký tự</div>
+                                  </div>
+                                </div>
+                                </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                    <label for="grade">Khối:</label>
+                                    <ng-select [items]="ddlGrade"
+                                      tabIndex="11"
+                                      bindLabel="name"
+                                      placeholder="Chọn khối"
+                                      notFoundText="Không có dữ liệu"
+                                      [multiple]="false"
+                                      [closeOnSelect]="true"
+                                      [(ngModel)]="selectedGrade"
+                                      formControlName="grade"
+                                      (change)="selectGradeInsert($event)">
+                                    </ng-select>
+                                  </div>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                  <div class="form-group">
+                                    <label for="class">Lớp:</label>
+                                    <ng-select [items]="ddlClass"
+                                      tabIndex="12"
+                                      bindLabel="name"
+                                      placeholder="Chọn lớp"
+                                      notFoundText="Không có dữ liệu"
+                                      [multiple]="false"
+                                      [closeOnSelect]="true"
+                                      [(ngModel)]="selectedClass"
+                                      formControlName="class">
+                                    </ng-select>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 0%;">
+                                  <div class="form-group">
+                                    <label for="grade">Ghi chú:</label>
+                                    <textarea cols="50" rows="5" class="form-control" formControlName="description" tabIndex="13"
+                                        placeholder="Nhập ghi chú" (keyup)="onKeyUp($event)" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                        <div *ngIf="f.description.errors.maxlength">Mô tả không được lớn hơn 300 ký tự</div>
+                                      </div>
+                                      <span style="float: right; opacity: .6;">
+                                        {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                                      </span>
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" (click)="addUserGroupConfig()" tabIndex="14"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="14"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  <!-- Sửa -->
+                  <div class="modal fade" id="editUserGroupConfigurationModal"  [ngStyle]="{display: userConfigGetById ? 'block':'none'}"
+                     role="dialog" aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+                     <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="userGroupConfigModalLabel">Cập nhật</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                              </button>
+                           </div>
+                           <div class="modal-body">
+                              <div class="row">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                       <label for="code">Mã nhóm:</label>
+                                       <input class="form-control" formControlName="code" type="text" name="text-input" tabIndex="15"
+                                       placeholder="Nhập mã nhóm"  disabled>
+                                    </div>
+                                </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                       <div class="form-group">
+                                          <label for="name">Tên nhóm:<span style="color: red; ">*</span></label>
+                                          <input class="form-control" formControlName="name" type="text" name="text-input" tabIndex="16"
+                                          placeholder="Nhập tên nhóm" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                             <div *ngIf="f.name.errors.required">Tên nhóm không được để trống</div>
+                                             <div *ngIf="f.name.errors.minlength">Tên nhóm không được nhỏ hơn 6 ký tự</div>
+                                             <div *ngIf="f.name.errors.maxlength">Tên nhóm không được lớn hơn 100 ký tự</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                              </div>
+                              <div class="row">
+                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                       <label for="grade">Khối:</label>
+                                       <ng-select [items]="ddlGrade"
+                                          tabIndex="17"
+                                          bindLabel="name"
+                                          placeholder="Chọn khối"
+                                          notFoundText="Không có dữ liệu"
+                                          [multiple]="false"
+                                          [closeOnSelect]="false"
+                                          [(ngModel)]="selectedGrade"
+                                          formControlName="grade"
+                                          (change)="selectGradeUpdate($event)">
+                                        </ng-select>
+                                    </div>
+                                 </div>
+                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="form-group">
+                                       <label for="class">Lớp:</label>
+                                       <ng-select [items]="ddlClass"
+                                       tabIndex="18"
+                                       bindLabel="name"
+                                       placeholder="Chọn lớp"
+                                       notFoundText="Không có dữ liệu"
+                                       [multiple]="false"
+                                       [closeOnSelect]="false"
+                                       [(ngModel)]="selectedClass"
+                                       formControlName="class">
+                                     </ng-select>
+                                    </div>
+                                 </div>
+                              </div>
+
+                              <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 0%;">
+                                 <div class="form-group">
+                                    <label for="grade">Ghi chú:</label>
+                                    <textarea cols="50" rows="5" class="form-control" formControlName="description" tabIndex="19"
+                                       placeholder="Nhập ghi chú" (keyup)="onKeyUp($event)" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                                       <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                        <div *ngIf="f.description.errors.maxlength">Mô tả không được lớn hơn 300 ký tự</div>
+                                      </div>
+                                      <span style="float: right; opacity: .6;">
+                                        {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                                      </span>
+                                 </div>
+                              </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12" style="padding: 0%;">
+                                 <div class="form-group">
+                                    <label for="status">Trạng thái:</label>
+                                    <br>
+                                    <label class="checkbox">
+                                       <input type="checkbox" formControlName="status"/>
+                                    <span class="default" tabIndex="20"></span>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="modal-footer">
+                              <button type="button" class="btn btn-success"
+                                 (click)="updateUserGroupConfig(userConfigGetById.id)" tabIndex="21"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+                              <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="22"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Thoát</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+              <div class="card-footer respon2">
+                <div class="form-group" style="margin-bottom: 0rem;">
+                  <form action="" method="POST" enctype="multipart/form-data">
+                     <div class="row">
+                        <div class="form-group row col-xl-9 col-lg-9 col-md-8 col-sm-7 col-12" style="margin-bottom: 0rem; left: 13px;">
+                           <button class="btn btn-success btn-sm marginButton" type="button" data-toggle="modal" data-target="#addUserGroupConfigurationModal"
+                                 (click)="resetUserGroupConfigForm()" style=" position: relative; left: 2px; height: 34px;float: right;" tabindex="23">
+                              <i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
+                           </button>
+                           <button class="btn btn-primary btn-sm marginButton" type="button" (click)="downloadSampleFile();" tabindex="24" [disabled]="loadingDownload">
+                              <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                              <i class="fa fa-cloud-download"></i> Tải tệp mẫu
+                           </button>
+                           <button class="btn btn-primary btn-sm marginButton" type="button" (click)="exportFile();" tabindex="25" [disabled]="loadingExport">
+                              <span *ngIf="loadingExport" class="spinner-border spinner-border-sm mr-1"></span>
+                           <i class="fa fa-download"></i> Xuất ra tệp
+                           </button>
+                           <button class="btn btn-primary btn-sm marginButton" type="button" (click)="importFile();" tabindex="26" [disabled]="loadingImport">
+                              <span *ngIf="loadingImport" class="spinner-border spinner-border-sm mr-1"></span>
+                           <i class="fa fa-upload"></i> Nhập từ tệp
+                           </button>
+                           <div class="upload marginButton">
+                              <input type="button" class="uploadButton" value="Chọn tệp" tabindex="27" />
+                              <input type="file" name="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileUpload" #fileInput (change)="uploadFile(fileInput.files)"/>
+
+                              <ng-template [ngIf]="fileURL" [ngIfElse]="notChoosenFile">
+                              <span class="text" *ngIf="fileURL" style="overflow: hidden;max-width: 75ch;vertical-align: middle;">{{ fileURL }}</span>
+                              </ng-template>
+                              <ng-template #notChoosenFile>
+                              <span class="text" style="overflow: hidden;max-width: 75ch; vertical-align: middle; position: relative; left: -11px;">Vui lòng chọn tệp</span>
+                              </ng-template>
+                           </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5 col-12" style="left: 36px;">
+                           <div class="row">
+                              <div class="col-xl-4 col-lg-5 col-md-4 col-sm-4 col-3" style="max-width: 200%;padding: 1% 0 0 15px;">
+                                 <span class="hienthi">Hiển thị:</span>
+                              </div>
+                              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-8 col-3" style="margin-right: -50px !important;">
+                                 <select id="hienthiOption" class="form-control" (change)="perPageSelected($event.target.value)" tabindex="28">
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+                </div>
+             </div>
+           </div>
+        </div>
+     </div>
+  </div>
+  </form>

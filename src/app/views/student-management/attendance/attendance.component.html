@@ -1,0 +1,300 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&nbsp;Điểm danh</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body" style="padding: 0.6rem !important">
+      <form [formGroup]="attendanceForm">
+        <div class="card-body">
+
+
+          <!-- <div class="card m-3">
+          <h5 class="card-header">Angular 8 Dynamic Reactive Forms Example</h5>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Number of Tickets</label>
+                <select formControlName="numberOfTickets" class="form-control" (change)="onChangeTickets($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f.numberOfTickets.errors }">
+                  <option value=""></option>
+                  <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">{{i}}</option>
+                </select>
+                <div *ngIf="submitted && f.numberOfTickets.errors" class="invalid-feedback">
+                  <div *ngIf="f.numberOfTickets.errors.required">Number of tickets is required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let ticket of t.controls; let i = index" class="list-group list-group-flush">
+            <div class="list-group-item">
+              <h5 class="card-title">Ticket {{i + 1}}</h5>
+              <div [formGroup]="ticket" class="form-row">
+                <div class="form-group col-6">
+                  <label>Name</label>
+                  <input type="text" formControlName="name" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && ticket.controls.name.errors }" />
+                  <div *ngIf="submitted && ticket.controls.name.errors" class="invalid-feedback">
+                    <div *ngIf="ticket.controls.name.errors.required">Name is required</div>
+                  </div>
+                </div>
+                <div class="form-group col-6">
+                  <label>Email</label>
+                  <input type="text" formControlName="email" class="form-control"
+                    [ngClass]="{ 'is-invalid': submitted && ticket.controls.email.errors }" />
+                  <div *ngIf="submitted && ticket.controls.email.errors" class="invalid-feedback">
+                    <div *ngIf="ticket.controls.email.errors.required">Email is required</div>
+                    <div *ngIf="ticket.controls.email.errors.email">Email must be a valid email address</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-primary mr-1">Buy Tickets</button>
+            <button class="btn btn-secondary mr-1" type="reset" (click)="onReset()">Reset</button>
+            <button class="btn btn-secondary" type="button" (click)="onClear()">Clear</button>
+          </div>
+        </div> -->
+          <div>
+            <pre>{{dataSource | json}}</pre>
+            <!-- <pre>{{ attendanceForm.value | json}}</pre> -->
+            <!-- <pre>{{academicTranscriptForm.controls.academicTranscriptFilter.value | json}}</pre> -->
+          </div>
+
+
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 0.6rem 0.6em 0 0.6em !important;">
+            <div class="form-group row">
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                <label class="col-form-label" style="float: left; margin-right: 1em">Năm học:</label>
+                <ng-select [tabIndex]="1" [items]="ddlYearData" class="customYear" bindValue="id" bindLabel="name"
+                  placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                  [(ngModel)]="filterSelectItems.year" formControlName="year" (change)="onSelectYear($event)">
+                </ng-select>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+                <ng-select [tabIndex]="1" [items]="ddlClassData" class="customClass" bindValue="id" bindLabel="name"
+                  placeholder="Chọn lớp" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                  [(ngModel)]="filterSelectItems.class" formControlName="class" (change)="onSelectClass($event)"
+                  formControlName="class">
+                </ng-select>
+                <span *ngIf="submitted && f?.class?.errors?.required"
+                  style="font-size: 80%; color: #dc3545; float: left; margin-left: 4em; margin-top: 0.5em;">
+                  Lớp không được để trống
+                </span>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                <label class="col-form-label" style="float: left; margin-right: 1em">Hiển thị:</label>
+                <ng-select [tabIndex]="1" [items]="ddlTypeOfTimeData" class="customTypeOfTime" bindValue="id"
+                  bindLabel="name" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                  [(ngModel)]="filterSelectItems.typeOfTime" formControlName="typeOfTime">
+                </ng-select>
+              </div>
+              <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+                <input type="date" *ngIf="filterSelectItems.typeOfTime === 2" [ngModel]="filterSelectItems.startDate"
+                  formControlName="startDate" class="form-control" (blur)="changeDate($event)"
+                  [ngClass]="{ 'is-invalid': submitted && f?.startDate?.errors?.required || checkDate === false && submitted}">
+                <!-- <input (blur)="changeDate($event)" *ngIf="filterSelectItems.typeOfTime === 2" class="form-control"
+                type="text" [min]="minDate" [max]="maxDate" name="text-input" formControlName="startDate"
+                placeholder="dd/mm/yyyy" id="startDate" [ngModel]="filterSelectItems.startDate | date:'dd-MM-yyyy'"
+                value="{{filterSelectItems.startDate | date:'dd-MM-yyyy'}}"
+                [ngClass]="{ 'is-invalid': submitted && f.start_date.errors || checkDate === false && submitted}"
+                tabindex="8" onfocus="(this.type='date')"> -->
+                <ng-select [tabIndex]="1" *ngIf="filterSelectItems.typeOfTime === 1" [items]="ddlMonthData"
+                  class="customTypeOfTime" bindValue="id" bindLabel="name" [clearable]="false"
+                  notFoundText="Không có dữ liệu" [closeOnSelect]="true" [(ngModel)]="filterSelectItems.month"
+                  formControlName="month">
+                </ng-select>
+                <div *ngIf="submitted && f?.startDate?.errors?.required" class="invalid-feedback">
+                  <!-- <div *ngIf="f.start_date.errors.required">Thời gian bắt đầu không được để trống</div> -->
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                    Ngày tháng năm bắt đầu học kỳ không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                    Ngày tháng năm bắt đầu học kỳ không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkDate === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập
+                  năm bao gồm 4 chữ số</small>
+              </div>
+              <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-12 btnFilter">
+                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                  [disabled]="loadingFilter" style="float: right" autocomplete="off" (click)="filter()" tabIndex="1">
+                  <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" [class.disabled]="!header"
+            style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+            <span data-toggle="tooltip" data-placement="top" title="Lưu điểm danh"
+              style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2" (click)="save()">
+              <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+            </span>
+            <span class="brick-stand"></span>
+            <span data-toggle="tooltip" data-placement="top" title="Điểm danh"
+              style="color: white; font-size: 1.1em; cursor: pointer;" (click)="attendanceStatus()" tabIndex="2">
+              <i class="fa fa-bolt fa-1x">&nbsp; Điểm danh</i>
+            </span>
+            <span class="brick-stand"></span>
+            <span data-toggle="tooltip" data-placement="top" title="Ghi chú"
+              style="color: white; font-size: 1.1em; cursor: pointer;">
+              Ghi chú:
+            </span>
+          </div>
+
+
+
+          <div class="shadow-sm p-4 mb-4 bg-white" *ngIf="header" style="text-align: center;">
+            <div class="spinner-border" role="status" style="width: 1.5rem; height: 1.5rem;"
+              *ngIf="loadingFilter === true; else loadedFilterData">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <ng-template #loadedFilterData>
+              <div style="overflow: scroll;">
+                <!-- <div *ngFor="let tickets1 of t.controls; let i = index">
+              <div *ngFor="let tickets2 of tickets1.controls | keyvalue; let j = index">
+                {{tickets2[tickets2.key]}}
+                <input type="text" formControlName="{{tickets2.key}}">
+              </div>
+            </div> -->
+                <!-- <div *ngFor="let item of attendanceForm.get('dataSource')?.controls; let index = index">
+              <div *ngFor="let tickets2 of item.controls | keyvalue; let j = index">
+                {{tickets2[tickets2.key]}}
+                <input tabIndex="8" type="text" maxlength="3" style="width: 46%; text-align: center"
+                  [formControl]="item.get(tickets2.key)" />
+              </div>
+            </div> -->
+
+                <table class="table table-bordered class-summations">
+                  <thead style="font-weight: bold;">
+                    <tr style="text-align: center;">
+                      <!-- <ng-container *ngFor="let item of t.controls; let i = index">
+                    <td *ngFor="let tickets2 of item.controls | keyvalue; let j = index">
+                      Ngày: {{j}}
+                    </td>
+                  </ng-container> -->
+                      <ng-container *ngFor="let col of header;">
+                        <!-- <td *ngIf="!col.isDynamicCol" rowspan="2">{{col.value}}</td> -->
+                        <td *ngIf="col.isSingleRow && col.field === 'orderNumber'" rowspan="2"
+                          style="vertical-align: middle; width: 2em;">
+                          {{col.value}}</td>
+                        <td *ngIf="col.isSingleRow && col.field !== 'orderNumber'" rowspan="2"
+                          style="vertical-align: middle; width: 15em;">
+                          {{col.value}}</td>
+                        <td *ngIf="!col.isSingleRow" style="vertical-align: middle;">
+                          {{col.value}}</td>
+                      </ng-container>
+                    </tr>
+                    <tr style="vertical-align: middle;">
+                      <td *ngFor="let col of dynamicCols;" style="text-align: center;">{{col.value}}</td>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="dataSource && dataSource.length > 0;">
+                    <tr *ngFor="let row of dataSource; let i = index" class="format-text-input">
+                      <ng-container *ngFor="let item of header">
+
+                        <!-- <td>{{row[item.field] | json }}</td> -->
+                        <td *ngIf="item.field == 'orderNumber'" class="text_grid_center">
+                          {{row[item.field]}}</td>
+                        <td *ngIf="item.field == 'code' || item.field == 'name'" class="text_grid_left">
+                          {{row[item.field]}}</td>
+                        <td *ngIf="item.field == 'dob'" class="text_grid_center">
+                          {{row[item.field] | date:'dd/MM/yyyy'}}</td>
+                        <!-- Đủ = 0 | Phép = 1 | Không phép = 2 | Vắng = 3 -->
+                        <!-- <ng-container *ngIf="item.field !== 'code' && item.field !== 'name' && item.field !== 'dob'"
+                        [ngSwitch]="row[item.field]">
+                        <td *ngSwitchCase="'0'"><input type="text"></td>
+                        <td *ngSwitchCase="'1'" [ngClass]="inputStyle"><input type="text"
+                            [(ngModel)]="row[item.field]" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td *ngSwitchCase="'2'" [ngClass]="inputStyle"><input type="text"
+                            (input)="setAttendanceValue($event)" [(ngModel)]="row[item.field]"
+                            [ngModelOptions]="{standalone: true}"></td>
+                        <td *ngSwitchCase="'3'"><input type="text"></td>
+                        <td *ngSwitchDefault><input type="text" (input)="setAttendanceValue($event.target.value)">
+                        </td>
+                      </ng-container> -->
+                        <td
+                          *ngIf="item.field !== 'orderNumber' && item.field !== 'code' && item.field !== 'name' && item.field !== 'dob'"
+                          [ngStyle]="{ 'background-color':
+                          ((row[item.field] !== undefined && row[item.field] !== null ?
+                            (row[item.field] !== ' ' ?
+                              (row[item.field] !== 'P' ?
+                                (row[item.field] !== 'K' ?
+                                  (row[item.field] !== 'V' ?
+                                    (row[item.field] !== '  ' ? 'orange' : 'grey')
+                                    : 'red')
+                                 : 'gold')
+                              : 'green')
+                            : 'white')
+                          : 'white')) }">
+                          <input type="text" (keypress)="removeSpecialCharacter($event)" [(ngModel)]="row[item.field]"
+                            [ngModelOptions]="{standalone: true}" ngModel maxlength="1"
+                            [disabled]="row[item.field] === '  ' || row[item.field] === '   ' ? true : false"
+                            oninput="this.value = this.value.toUpperCase()">
+                        </td>
+                        <!-- oninput="javascript: if (this.value === 'p') this.value = 'P'; else if (this.value === 'k') this.value = 'K';
+                      else if (this.value === 'v') this.value = 'V'; else if (this.value !== 'p' || this.value !== 'k' || this.value !== 'v') this.value = null" -->
+
+                        <!-- <td *ngIf="item.field !== 'code' && item.field !== 'name' && item.field !== 'dob'"
+                        [ngStyle]="{ 'background-color': ((row[item.field] !== undefined && row[item.field] !== null ?
+                          (row[item.field] !== '0' ? (row[item.field] !== '1' ? (row[item.field] !== '2' ? 'red' : 'orange') : 'green') : 'white') : 'white')) }">
+                        <input type="text"
+                          oninput="javascript: if (this.value === 'p') this.value = 'P'; else if (this.value === 'k') this.value = 'K'; else if (this.value !== 'p' || this.value !== 'k') this.value = null"
+                          [(ngModel)]="row[item.field]" [ngModelOptions]="{standalone: true}">
+                      </td> -->
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

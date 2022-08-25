@@ -1,0 +1,20 @@
+::ng-deep tt-ng-select-multi-label {
+  .displayItem {
+    display: inline-block;
+    width: auto;
+    padding: 3px;
+    span {
+      display: inline-block;
+      padding: 0;
+    }
+
+    .removeItem {
+      cursor: pointer;
+      color: gray;
+    }
+  }
+
+  .displayItem:not(:last-child) {
+    margin-right: 3px;
+  }
+}

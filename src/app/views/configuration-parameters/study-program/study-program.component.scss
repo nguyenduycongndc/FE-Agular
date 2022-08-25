@@ -1,0 +1,956 @@
+// p {
+//   font-family: Lato;
+// }
+// :host {
+// 	 display: block;
+// 	 font-size: 18px;
+// }
+input[type="radio"]:checked+span { font-weight: bold; }
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-top: 0;
+  font-weight: 300;
+}
+
+.container {
+  width: 40em;
+  margin: 10px auto;
+}
+
+
+// CSS study program tree list 0
+.ac-label-0 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-0:checked + label, .ac-label-0:hover {
+  background-color: #999;
+}
+.ac-label-0:after, .ac-input-0:checked + .ac-label-0:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-0:hover:after, .ac-input-0:checked + .ac-label-0:after {
+  background-color: #b5b5b5;
+}
+.ac-input-0:checked + .ac-label-0:after {
+  content: "-";
+}
+.ac-input-0 {
+  display: none;
+}
+.ac-text-0, .ac-sub-text-0 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .3em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-0:checked ~ .ac-text-0, .ac-sub-0 .ac-input-0:checked ~ .ac-sub-text-0 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-0 .ac-label-0 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-0 .ac-label-0:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-0 .ac-label-0:after, .ac-sub-0 .ac-input-0:checked + .ac-label-0:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-0 .ac-input-0:checked + label, .ac-sub-0 .ac-label-0:hover {
+  background: none;
+}
+.ac-sub-text-0 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 1
+.ac-label-1 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-1:checked + label, .ac-label-1:hover {
+  background-color: #999;
+}
+.ac-label-1:after, .ac-input-1:checked + .ac-label-1:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-1:hover:after, .ac-input-1:checked + .ac-label-1:after {
+  background-color: #b5b5b5;
+}
+.ac-input-1:checked + .ac-label-1:after {
+  content: "-";
+}
+.ac-input-1 {
+  display: none;
+}
+.ac-text-1, .ac-sub-text-1 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-1:checked ~ .ac-text-1, .ac-sub-1 .ac-input-1:checked ~ .ac-sub-text-1 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-1 .ac-label-1 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-1 .ac-label-1:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-1 .ac-label-1:after, .ac-sub-1 .ac-input-1:checked + .ac-label-1:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-1 .ac-input-1:checked + label, .ac-sub-1 .ac-label-1:hover {
+  background: none;
+}
+.ac-sub-text-1 {
+  padding: 0 1em 0 2.5em;
+}
+
+// CSS study program tree list 2
+.ac-label-2 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-2:checked + label, .ac-label-2:hover {
+  background-color: #999;
+}
+.ac-label-2:after, .ac-input-2:checked + .ac-label-2:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-2:hover:after, .ac-input-2:checked + .ac-label-2:after {
+  background-color: #b5b5b5;
+}
+.ac-input-2:checked + .ac-label-2:after {
+  content: "-";
+}
+.ac-input-2 {
+  display: none;
+}
+.ac-text-2, .ac-sub-text-2 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-2:checked ~ .ac-text-2, .ac-sub-2 .ac-input-2:checked ~ .ac-sub-text-2 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-2 .ac-label-2 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-2 .ac-label-2:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-2 .ac-label-2:after, .ac-sub-2 .ac-input-2:checked + .ac-label-2:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-2 .ac-input-2:checked + label, .ac-sub-2 .ac-label-2:hover {
+  background: none;
+}
+.ac-sub-text-2 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 3
+.ac-label-3 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-3:checked + label, .ac-label-3:hover {
+  background-color: #999;
+}
+.ac-label-3:after, .ac-input-3:checked + .ac-label-3:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-3:hover:after, .ac-input-3:checked + .ac-label-3:after {
+  background-color: #b5b5b5;
+}
+.ac-input-3:checked + .ac-label-3:after {
+  content: "-";
+}
+.ac-input-3 {
+  display: none;
+}
+.ac-text-3, .ac-sub-text-3 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-3:checked ~ .ac-text-3, .ac-sub-3 .ac-input-3:checked ~ .ac-sub-text-3 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-3 .ac-label-3 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-3 .ac-label-3:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-3 .ac-label-3:after, .ac-sub-3 .ac-input-3:checked + .ac-label-3:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-3 .ac-input-3:checked + label, .ac-sub-3 .ac-label-3:hover {
+  background: none;
+}
+.ac-sub-text-3 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 4
+.ac-label-4 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-4:checked + label, .ac-label-4:hover {
+  background-color: #999;
+}
+.ac-label-4:after, .ac-input-4:checked + .ac-label-4:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-4:hover:after, .ac-input-4:checked + .ac-label-4:after {
+  background-color: #b5b5b5;
+}
+.ac-input-4:checked + .ac-label-4:after {
+  content: "-";
+}
+.ac-input-4 {
+  display: none;
+}
+.ac-text-4, .ac-sub-text-4 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-4:checked ~ .ac-text-4, .ac-sub-4 .ac-input-4:checked ~ .ac-sub-text-4 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-4 .ac-label-4 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-4 .ac-label-4:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-4 .ac-label-4:after, .ac-sub-4 .ac-input-4:checked + .ac-label-4:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-4 .ac-input-4:checked + label, .ac-sub-4 .ac-label-4:hover {
+  background: none;
+}
+.ac-sub-text-4 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 5
+.ac-label-5 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-5:checked + label, .ac-label-5:hover {
+  background-color: #999;
+}
+.ac-label-5:after, .ac-input-5:checked + .ac-label-5:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-5:hover:after, .ac-input-5:checked + .ac-label-5:after {
+  background-color: #b5b5b5;
+}
+.ac-input-5:checked + .ac-label-5:after {
+  content: "-";
+}
+.ac-input-5 {
+  display: none;
+}
+.ac-text-5, .ac-sub-text-5 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-5:checked ~ .ac-text-5, .ac-sub-5 .ac-input-5:checked ~ .ac-sub-text-5 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-5 .ac-label-5 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-5 .ac-label-5:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-5 .ac-label-5:after, .ac-sub-5 .ac-input-5:checked + .ac-label-5:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-5 .ac-input-5:checked + label, .ac-sub-5 .ac-label-5:hover {
+  background: none;
+}
+.ac-sub-text-5 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 6
+.ac-label-6 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-6:checked + label, .ac-label-6:hover {
+  background-color: #999;
+}
+.ac-label-6:after, .ac-input-6:checked + .ac-label-6:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-6:hover:after, .ac-input-6:checked + .ac-label-6:after {
+  background-color: #b5b5b5;
+}
+.ac-input-6:checked + .ac-label-6:after {
+  content: "-";
+}
+.ac-input-6 {
+  display: none;
+}
+.ac-text-6, .ac-sub-text-6 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-6:checked ~ .ac-text-6, .ac-sub-6 .ac-input-6:checked ~ .ac-sub-text-6 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-6 .ac-label-6 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-6 .ac-label-6:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-6 .ac-label-6:after, .ac-sub-6 .ac-input-6:checked + .ac-label-6:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-6 .ac-input-6:checked + label, .ac-sub-6 .ac-label-6:hover {
+  background: none;
+}
+.ac-sub-text-6 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 7
+.ac-label-7 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-7:checked + label, .ac-label-7:hover {
+  background-color: #999;
+}
+.ac-label-7:after, .ac-input-7:checked + .ac-label-7:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-7:hover:after, .ac-input-7:checked + .ac-label-7:after {
+  background-color: #b5b5b5;
+}
+.ac-input-7:checked + .ac-label-7:after {
+  content: "-";
+}
+.ac-input-7 {
+  display: none;
+}
+.ac-text-7, .ac-sub-text-7 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-7:checked ~ .ac-text-7, .ac-sub-7 .ac-input-7:checked ~ .ac-sub-text-7 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-7 .ac-label-7 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-7 .ac-label-7:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-7 .ac-label-7:after, .ac-sub-7 .ac-input-7:checked + .ac-label-7:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-7 .ac-input-7:checked + label, .ac-sub-7 .ac-label-7:hover {
+  background: none;
+}
+.ac-sub-text-7 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 8
+.ac-label-8 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-8:checked + label, .ac-label-8:hover {
+  background-color: #999;
+}
+.ac-label-8:after, .ac-input-8:checked + .ac-label-8:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-8:hover:after, .ac-input-8:checked + .ac-label-8:after {
+  background-color: #b5b5b5;
+}
+.ac-input-8:checked + .ac-label-8:after {
+  content: "-";
+}
+.ac-input-8 {
+  display: none;
+}
+.ac-text-8, .ac-sub-text-8 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-8:checked ~ .ac-text-8, .ac-sub-8 .ac-input-8:checked ~ .ac-sub-text-8 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-8 .ac-label-8 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-8 .ac-label-8:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-8 .ac-label-8:after, .ac-sub-8 .ac-input-8:checked + .ac-label-8:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-8 .ac-input-8:checked + label, .ac-sub-8 .ac-label-8:hover {
+  background: none;
+}
+.ac-sub-text-8 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 9
+.ac-label-9 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-9:checked + label, .ac-label-9:hover {
+  background-color: #999;
+}
+.ac-label-9:after, .ac-input-9:checked + .ac-label-9:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-9:hover:after, .ac-input-9:checked + .ac-label-9:after {
+  background-color: #b5b5b5;
+}
+.ac-input-9:checked + .ac-label-9:after {
+  content: "-";
+}
+.ac-input-9 {
+  display: none;
+}
+.ac-text-9, .ac-sub-text-9 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-9:checked ~ .ac-text-9, .ac-sub-9 .ac-input-9:checked ~ .ac-sub-text-9 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-9 .ac-label-9 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-9 .ac-label-9:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-9 .ac-label-9:after, .ac-sub-9 .ac-input-9:checked + .ac-label-9:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-9 .ac-input-9:checked + label, .ac-sub-9 .ac-label-9:hover {
+  background: none;
+}
+.ac-sub-text-9 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 10
+.ac-label-10 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-10:checked + label, .ac-label-10:hover {
+  background-color: #999;
+}
+.ac-label-10:after, .ac-input-10:checked + .ac-label-10:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-10:hover:after, .ac-input-10:checked + .ac-label-10:after {
+  background-color: #b5b5b5;
+}
+.ac-input-10:checked + .ac-label-10:after {
+  content: "-";
+}
+.ac-input-10 {
+  display: none;
+}
+.ac-text-10, .ac-sub-text-10 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-10:checked ~ .ac-text-10, .ac-sub-10 .ac-input-10:checked ~ .ac-sub-text-10 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-10 .ac-label-10 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-10 .ac-label-10:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-10 .ac-label-10:after, .ac-sub-10 .ac-input-10:checked + .ac-label-10:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-10 .ac-input-10:checked + label, .ac-sub-10 .ac-label-10:hover {
+  background: none;
+}
+.ac-sub-text-10 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 11
+.ac-label-11 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-11:checked + label, .ac-label-11:hover {
+  background-color: #999;
+}
+.ac-label-11:after, .ac-input-11:checked + .ac-label-11:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-11:hover:after, .ac-input-11:checked + .ac-label-11:after {
+  background-color: #b5b5b5;
+}
+.ac-input-11:checked + .ac-label-11:after {
+  content: "-";
+}
+.ac-input-11 {
+  display: none;
+}
+.ac-text-11, .ac-sub-text-11 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-11:checked ~ .ac-text-11, .ac-sub-11 .ac-input-11:checked ~ .ac-sub-text-11 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-11 .ac-label-11 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-11 .ac-label-11:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-11 .ac-label-11:after, .ac-sub-11 .ac-input-11:checked + .ac-label-11:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-11 .ac-input-11:checked + label, .ac-sub-11 .ac-label-11:hover {
+  background: none;
+}
+.ac-sub-text-11 {
+  padding: 0 1em 0 2em;
+}
+
+// CSS study program tree list 12
+.ac-label-12 {
+  font-weight: 700;
+  position: relative;
+  padding: .5em 1em;
+  margin-bottom: .5em;
+  display: block;
+  cursor: pointer;
+  background-color: whiteSmoke;
+  transition: background-color .15s ease-in-out;
+}
+.ac-input-12:checked + label, .ac-label-12:hover {
+  background-color: #999;
+}
+.ac-label-12:after, .ac-input-12:checked + .ac-label-12:after {
+  content: "+";
+  position: absolute;
+  display: block;
+  right: 0;
+  top: 0;
+  width: 2em;
+  height: 100%;
+  line-height: 2.25em;
+  text-align: center;
+  background-color: #e5e5e5;
+  transition: background-color .15s ease-in-out;
+}
+.ac-label-12:hover:after, .ac-input-12:checked + .ac-label-12:after {
+  background-color: #b5b5b5;
+}
+.ac-input-12:checked + .ac-label-12:after {
+  content: "-";
+}
+.ac-input-12 {
+  display: none;
+}
+.ac-text-12, .ac-sub-text-12 {
+  opacity: 0;
+  height: 0;
+  margin-bottom: .5em;
+  transition: opacity .5s ease-in-out;
+  overflow: hidden;
+}
+.ac-input-12:checked ~ .ac-text-12, .ac-sub-12 .ac-input-12:checked ~ .ac-sub-text-12 {
+  opacity: 1;
+  height: auto;
+}
+.ac-sub-12 .ac-label-12 {
+  background: none;
+  font-weight: 600;
+  padding: .5em 2em;
+  margin-bottom: 0;
+}
+.ac-sub-12 .ac-label-12:checked {
+  background: none;
+  border-bottom: 1px solid whitesmoke;
+}
+.ac-sub-12 .ac-label-12:after, .ac-sub-12 .ac-input-12:checked + .ac-label-12:after {
+  left: 0;
+  background: none;
+}
+.ac-sub-12 .ac-input-12:checked + label, .ac-sub-12 .ac-label-12:hover {
+  background: none;
+}
+.ac-sub-text-12 {
+  padding: 0 1em 0 2em;
+}
+
+
+#format-text-input input {
+  padding: 0;
+  margin: 5px 0;
+  outline: none;
+  border: transparent;
+  background-color: transparent;
+}
+#format-text-input input:focus,
+#format-text-input input:active {
+  border-color: transparent;
+  border-bottom: 2px solid #1c87c9;
+}
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 4px;
+  vertical-align: middle;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+ul, #myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+.form-check {
+  padding-right: 2.6em;
+  padding-top: 0;
+  padding-bottom: 2em;
+}

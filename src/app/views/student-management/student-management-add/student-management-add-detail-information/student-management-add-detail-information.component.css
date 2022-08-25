@@ -1,0 +1,45 @@
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+  /* background-color: red; */
+  width: 0px;
+  }
+
+  :host /deep/ .multiselect-dropdown .dropdown-btn .selected-item  {
+    max-height: 25px !important;
+    max-width: 75%;
+    }
+  .checkbox_center{
+    margin: auto 0 auto 0;
+  }
+
+  .form-group {
+    margin-bottom: 0.5rem;
+  }
+
+  @media only screen and (max-device-width: 767px){
+    .checkbox_center{
+      margin-top: 1.5%;
+    }
+    .address_respon{
+      margin-bottom:5.5%;
+    }
+    .check_doivien{
+      padding-top:5%;
+    }
+    .padding_ward{
+      padding-bottom: 2%;
+    }
+  }
+
+  @media only screen and (width: 1366px){
+    .input_date{
+      padding:0 !important;
+    }
+    .input_date1{
+      padding-left:0 !important;
+    }
+    .form-check{
+      text-align: right;
+    }
+  }
+
+

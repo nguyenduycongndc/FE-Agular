@@ -1,0 +1,206 @@
+<div class="col-lg-12 col-md-12 col-sm-12">
+  <div class="card">
+    <form [formGroup]="form" enctype="multipart/form-data">
+      <div class="card-header">
+        <span class="fa-stack">
+          <i class="fa fa-cog fa-stack-2x"></i>
+        </span>
+        <strong>&emsp;Cấu hình trường học</strong>
+      </div>
+      <div class="card-body" style="padding: 0.5rem;">
+        <!--Ảnh-->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-12" id="customImg">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="text-align: center;">
+                <ng-template [ngIf]="imgURL" [ngIfElse]="imgURLNull">
+                  <img [src]="imgURL" *ngIf="imgURL" style="height:150px;position:relative; margin-top: 4%; margin-bottom: 9%;">
+                </ng-template>
+                <ng-template #imgURLNull>
+                  <img src="assets/img/avatars/avatar.png" alt="Avatar" style="height:150px; position:relative; margin-top: 4%; margin-bottom: 9%;">
+                </ng-template>
+
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="row">
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+
+                  </div>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8" style="text-align: center;">
+                    <!-- <a class='btn btn-primary' href='javascript:;' tabindex="11">
+                      Chọn logo
+                    </a> -->
+                    <div class="row">
+
+                      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <a id="customFontSize" class='btn btn-primary' href='javascript:;' tabindex="11">Chọn logo</a>
+                        <!-- <input value="Chọn" type="file" #fileInput accept='image/*' (change)="preview(fileInput.files)" style='position:relative;z-index:2;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());' > -->
+                        <input id="Img" type="file" #fileInput accept='image/*' (change)="preview(fileInput.files)" style='position:absolute;z-index:2;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-2">
+
+                  </div>
+                </div>
+
+                  <!-- &nbsp; -->
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-12">
+            <div class="form-group row">
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <label for="name">Tên trường <span style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name" tabindex="1"
+                    placeholder="Vui lòng nhập tên trường" [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên trường không được để trống</div>
+                  <div *ngIf="f.name.errors.minlength">Tên trường không được nhỏ hơn 6 ký tự</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên trường không được lớn hơn 80 ký tự</div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <label for="tin">Mã số thuế <span style="color: red; font-size: large;"></span></label>
+                <input class="form-control" type="text" name="text-input" maxlength="10" (keypress)="numberOnly($event)" formControlName="tin"
+                    placeholder="Vui lòng nhập mã số thuế" tabindex="2">
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="margin-bottom: 0rem;">
+                <div class="form-group row">
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label for="level">Cấp <span style="color: red; font-size: large;"></span></label>
+                      <ng-select [items]="ddlSchoolLevelData"
+                      tabIndex="3"
+                      bindLabel="name"
+                      placeholder="Chọn cấp học"
+                      notFoundText="Không có dữ liệu"
+                      [multiple]="false"
+                      [closeOnSelect]="true"
+                      formControlName="level"
+                      [(ngModel)]="selectedSchoolLevel"
+                      (change)="onSelectSchoolLevel($event)">
+                    </ng-select>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label for="email">Email <span style="color: red; font-size: large;"></span></label>
+                    <input class="form-control" type="text" name="text-input" formControlName="email"
+                    placeholder="Vui lòng nhập email" tabindex="4">
+                  </div>
+                  <!--Số điện thoại-->
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label for="phone">Số điện thoại <span style="color: red; font-size: large;">*</span></label>
+                      <ngx-intl-tel-input
+                        tabindex="5"
+                        [inputId]="'phone'"
+                        [cssClass]="'form-control'"
+                        [onlyCountries]="CountryISO.Vietnam"
+                        [enableAutoCountrySelect]="true"
+                        [enablePlaceholder]="true"
+                        [selectedCountryISO]="CountryISO.Vietnam"
+                        [maxLength]="15"
+                        [phoneValidation]="true"
+                        searchCountryPlaceholder='Tìm kiếm quốc gia'
+                        [separateDialCode]="separateDialCode"
+                        [(ngModel)]="showTelephoneNumber"
+                        name="phone" formControlName="phone">
+                      </ngx-intl-tel-input>
+                      <span *ngIf="submitted && f?.phone?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                        Số điện thoại không được để trống
+                      </span>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <label for="fax">Fax <span style="color: red; font-size: large;"></span></label>
+                    <input class="form-control" type="text" (keypress)="numberOnly($event)" name="text-input" formControlName="fax"
+                      placeholder="Vui lòng nhập số fax" [ngClass]="{ 'is-invalid': submitted && f.fax.errors }" tabindex="6">
+                    <div *ngIf="submitted && f.fax.errors" class="invalid-feedback">
+                      <div *ngIf="f.fax.errors?.pattern">Số Fax không hợp lệ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+        <!-- Địa chỉ -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p_input" id="p_address">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row p_input" style="position: relative; bottom: 27px;">
+              <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="province">Tỉnh/Thành phố <span style="color: red; font-size: large;">*</span></label>
+                <ng-select [items]="ddlProvinceData"
+                  tabindex="7"
+                  bindLabel="name"
+                  placeholder="Chọn Tỉnh/Thành phố"
+                  notFoundText="Không có dữ liệu"
+                  formControlName="province"
+                  [(ngModel)]="selectedProvince"
+                  (change)="onSelectProvince($event)">
+                </ng-select>
+                <span *ngIf="submitted && f?.province?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Tỉnh/Thành không được để trống
+                </span>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="district">Quận/Huyện <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlDistrictData"
+                      tabindex="8"
+                      bindLabel="name"
+                      placeholder="Chọn Quận/Huyện"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="district"
+                      [(ngModel)]="selectedDistrict"
+                      (change)="onSelectDistrict($event)">
+                    </ng-select>
+                    <span *ngIf="submitted && f?.district?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                      Quận/Huyện không được để trống
+                    </span>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="ward">Phường/Xã <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlWardData"
+                      tabindex="9"
+                      bindLabel="name"
+                      placeholder="Chọn Phường/Xã"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="ward"
+                      [(ngModel)]="selectedWard">
+                    </ng-select>
+                    <span *ngIf="submitted && f?.ward?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                      Phường/Xã không được để trống
+                    </span>
+              </div>
+            <!-- </div> -->
+            </div>
+        </div>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 p_input">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row p_input" style="position: relative; bottom: 25px;">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <label for="address_detail">Địa chỉ<span style="color: red; font-size: large;">*</span></label>
+              <input class="form-control" type="text" name="text-input" formControlName="address_detail"
+                  placeholder="Vui lòng nhập địa chỉ" [ngClass]="{ 'is-invalid': submitted && f.address_detail.errors }"tabindex="10">
+              <div *ngIf="submitted && f.address_detail.errors" class="invalid-feedback">
+                <div *ngIf="f.address_detail.errors.required">Địa chỉ không được để trống</div>
+                <div *ngIf="f.address_detail.errors.minlength">Địa chỉ không được nhỏ hơn 2 ký tự</div>
+                <div *ngIf="f.address_detail.errors.maxlength">Địa chỉ không được lớn hơn 300 ký tự</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-footer" style="padding: 0.6rem 1.25rem 3rem 1rem !important;">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="row" style="float: right; margin-top: 2px;">
+            <button class="col-lg-12 col-md-12 col-sm-12 " class="btn btn-success" (click)="update()" tabindex="12">
+              <i class="fa fa-floppy-o"></i>&nbsp;Cập nhật
+            </button>
+            &nbsp;
+            <button class="col-lg-12 col-md-12 col-sm-12 " class="btn btn-danger" (click)="goBack()" tabindex="13">
+              <i class="fa fa-ban"></i>&nbsp;Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

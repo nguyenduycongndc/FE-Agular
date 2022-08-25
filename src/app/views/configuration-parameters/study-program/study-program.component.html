@@ -1,0 +1,845 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6 col-md-6 col-sm-6" style="margin-top: 6px; margin-bottom: 3px;">
+          <span class="fa-stack">
+            <i class="fa fa-list fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Chương trình học </strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6em 0.5em 1.5em 0.5em;">
+      <form [formGroup]="studyProgramDetailForm">
+        <div class="form-group" style="margin-bottom: -0.8rem;">
+          <div class="row">
+            <div class="col-xl-3 col-lg-6 col-md-5 col-sm-5 col-6" style="padding-right: 3px;">
+              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="basic-information-tab" tabIndex="1">Chương trình học</a>
+                </li>
+              </ul>
+              <div class="tab-content" #addDetailInformationTab id="myTabContent" style="height: auto;">
+                <div class="tab-pane fade show active" id="addBasicInformation" role="tabpanel"
+                  aria-labelledby="basic-information-tab"
+                  style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;"
+                  class="active">
+                  <div class="col-lg-12">
+                    <span data-toggle="tooltip" data-placement="top" title="Thêm chương trình học"
+                      style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                      <i class="fa fa-plus fa-1x" data-toggle="modal" (click)="resetCreateStudyProgram()"
+                        data-target="#createStudyProgramModal"></i>
+                    </span>
+                    <span data-toggle="tooltip" data-placement="top" title="Sửa chương trình học"
+                      style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                      <i class="fa fa-pencil fa-1x" (click)="checkSelectStudyProgram()"></i>
+                    </span>
+                    <span data-toggle="tooltip" data-placement="top" title="Xóa chương trình học"
+                      style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                      <i class="fa fa-trash-o fa-1x" (click)="deleteStudyProgram()"></i>
+                    </span>
+                    <span data-toggle="tooltip" data-placement="top" title="Sao chép chương trình học"
+                      style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                      <i class="fa fa-files-o fa-1x" (click)="checkStudyProgramCopy()"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="spinner-border" role="status" style="margin-left: 45%; width: 1.5rem; height: 1.5rem;"
+                  *ngIf="loadingStudyProgram === true; else loaded">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <ng-template #loaded>
+                  <div *ngFor="let studyProgram of studyProgramDetail; index as i">
+                    <input class="ac-input-{{i}}" id="ac-{{studyProgram[0][0] + '-' + i}}"
+                      name="ac-{{studyProgram[0][0] + '-' + i}}" type="checkbox" />
+                    <label class="ac-label-{{i}}"
+                      for="ac-{{studyProgram[0][0] + '-' + i}}">{{ studyProgram[0][0] }}</label>
+                    <article class="ac-text-{{i}}">
+                      <div class="ac-sub-{{i}}" *ngFor="let semester of studyProgram[0][1]; index as j">
+                        <input class="ac-input-{{i}}" id="ac-{{i + semester[0] + '-' + 1}}"
+                          name="ac-{{i + semester[0] + '-' + 1}}" type="checkbox" />
+                        <label class="ac-label-{{i}}" for="ac-{{i + semester[0] + '-' + 1}}">{{ semester[0] }}</label>
+                        <article class="ac-sub-text-{{i}}">
+                          <ul *ngFor="let studyProgram of semester[1]; index as k"
+                            style="padding-left: 0; margin-bottom: .1em;">
+                            <li>
+                              <label
+                                style="padding-top: 0.8em; font-size: 1.1em; cursor: pointer; margin-bottom: .1em;">
+                                <input type="radio" name="studyProgram"
+                                  (click)="setUpdateStudyProgramData(studyProgram.level, studyProgram.id, studyProgram.grade_id, studyProgram.semester_id, studyProgram.name)"
+                                  style="display: none;">
+                                <span>{{ studyProgram.name }}</span><br>
+                              </label>
+                            </li>
+                          </ul>
+                        </article>
+                      </div>
+                    </article>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+            <div class="col-xl-9 col-lg-6 col-md-7 col-sm-7 col-6" style="padding-left: 3px;">
+              <ul class="nav nav-tabs" id="agency_tabs" role="tablist" (click)="studyProgramTabEvent($event)">
+                <li class="nav-item">
+                  <a class="nav-link active" id="subjectProperties" data-toggle="tab"
+                    data-group="subject-properties-tab" role="tab" aria-controls="subjectProperties"
+                    [ngClass]="{ 'active':activeTab==='subjectProperties'}" aria-selected="false" tabIndex="1">Môn học
+                    và thuộc tính</a>
+                </li>
+                <li class="nav-item" *ngIf="checkSchoolLevel !== 0 && checkSchoolLevel !== 1"
+                  data-group="regular-configuration-tab">
+                  <a class="nav-link" id="regularConfiguration" data-toggle="tab" role="tab"
+                    [ngClass]="{ 'active':activeTab==='regularConfiguration'}" aria-controls="regularConfiguration"
+                    aria-selected="false" tabIndex="1">Cấu hình điểm
+                    môn song ngữ</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" id="applyClass" data-toggle="tab" role="tab" data-group="apply-class-tab"
+                    [ngClass]="{ 'active':activeTab==='applyClass'}" aria-controls="applyClass" aria-selected="false"
+                    tabIndex="1">Danh sách lớp áp dụng</a>
+                </li>
+              </ul>
+              <div class="tab-content" #addDetailInformationTab id="myTabContent" style="height: auto;">
+
+                <div class="tab-pane fade show active" id="subjectProperties" role="tabpanel"
+                  aria-labelledby="subject-properties-tab" style="padding: 0rem;"
+                  [ngClass]="{ 'active':activeTab==='subjectProperties'}">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                    style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+                    <span data-toggle="tooltip" data-placement="top" title="Lưu chi tiết chương trình học"
+                      style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2"
+                      (click)="createSubjectProperties()">
+                      <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+                    </span>
+                  </div>
+                  <div class="spinner-border" role="status" style="margin-left: 45%; width: 1.5rem; height: 1.5rem;"
+                    *ngIf="loadingSubjectProperties === true; else loadedSubjectProperties">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <ng-template #loadedSubjectProperties>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                      style="overflow: scroll; padding-right: inherit; padding-left: inherit;"
+                      *ngIf="checkSchoolLevel !== 0">
+
+                      <ng-template [ngIf]="checkSchoolLevel !== 0 && checkSchoolLevel === 1" [ngIfElse]="otherLevel">
+                        <table class="table table-bordered" id="customers" style="text-align: center;">
+                          <thead style="font-weight: bold;">
+                            <tr>
+                              <td style="vertical-align: middle;">Áp dụng</td>
+                              <td style="width: 16%; vertical-align: middle;">Môn học</td>
+                              <td style="vertical-align: middle;">Môn tự chọn</td>
+                              <td style="vertical-align: middle;">Kiểm tra giữa kỳ</td>
+                              <td style="vertical-align: middle;">Kiểm tra cuối kỳ</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-template [ngIf]="subjectData.length > 0" [ngIfElse]="noSubjectPropertiesData">
+                              <tr
+                                *ngFor="let row of studyProgramDetailForm.get('studyProgramDetails')?.controls;let index = index;"
+                                id="format-text-input">
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('chkApply')"
+                                      (click)="selectedRowPrimarySchool(row)" id="checkbox1" type="checkbox"
+                                      tabIndex="4">
+                                  </div>
+                                </td>
+                                <td style="text-align: left;">
+                                  <label for=""
+                                    style="width: 130px; overflow: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap; margin-bottom: -0.5em;">
+                                    {{ row.get('subject_name').value}}
+                                  </label>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('op2')" type="checkbox"
+                                      tabIndex="5">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('max2')" type="checkbox"
+                                      tabIndex="5">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('max3')" type="checkbox"
+                                      tabIndex="5">
+                                  </div>
+                                </td>
+                              </tr>
+                            </ng-template>
+                            <ng-template #noSubjectPropertiesData>
+                              <tr>
+                                <td colspan="14" style="text-align: left;"> Không có dữ liệu</td>
+                              </tr>
+                            </ng-template>
+                          </tbody>
+                        </table>
+                      </ng-template>
+
+                      <ng-template #otherLevel>
+                        <table class="table table-bordered" id="customers" style="text-align: center;">
+                          <thead style="font-weight: bold;">
+                            <tr>
+                              <td rowspan="3" style="vertical-align: middle;">Áp dụng</td>
+                              <td rowspan="3" style="width: 16%; vertical-align: middle;">Môn học</td>
+                              <td rowspan="3" style="vertical-align: middle;">Môn nghề</td>
+                              <td rowspan="3" style="vertical-align: middle;">Môn tự chọn</td>
+                              <td colspan="4" style="vertical-align: middle;">Cấu hình môn song ngữ</td>
+                              <td colspan="2" style="vertical-align: middle;">Điểm hệ số 1</td>
+                              <td colspan="2" style="vertical-align: middle;">Điểm hệ số 2</td>
+                              <td colspan="2" style="vertical-align: middle;">Điểm học kỳ</td>
+                            </tr>
+                            <tr>
+                              <td rowspan="2">Môn song ngữ</td>
+                              <td rowspan="2">Môn chính song ngữ</td>
+                              <td rowspan="2">Điểm hệ song ngữ</td>
+                              <td rowspan="2" style="width: 6%;">Hệ số</td>
+                              <td colspan="2">Đánh giá thường xuyên</td>
+                              <td colspan="2">Đánh giá giữa kỳ</td>
+                              <td rowspan="2">Tối đa</td>
+                              <td rowspan="2">Tối thiểu</td>
+                            </tr>
+                            <tr>
+                              <td>Tối đa</td>
+                              <td>T.thiểu </td>
+                              <td>Tối đa</td>
+                              <td>T.thiểu </td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <ng-template [ngIf]="subjectData.length > 0" [ngIfElse]="noSubjectPropertiesData">
+                              <tr
+                                *ngFor="let row of studyProgramDetailForm.get('studyProgramDetails')?.controls;let index = index;"
+                                id="format-text-input">
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('chkApply')"
+                                      (click)="selectedRow(row)" id="checkbox1" type="checkbox" tabIndex="4">
+                                  </div>
+                                </td>
+                                <td style="text-align: left; padding-left: 1em">
+                                  <label for=""
+                                    style="width: 130px; overflow: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap; margin-bottom: -0.5em;">
+                                    {{ row.get('subject_name').value}}
+                                  </label>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('op1')" type="checkbox"
+                                      tabIndex="5">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('op2')" type="checkbox"
+                                      tabIndex="6">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('ops3')" type="checkbox"
+                                      (click)="checkBilingular(row, $event)" tabIndex="7">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('ops4')" type="checkbox"
+                                      (click)="checkBilingualMain(row, $event)" tabIndex="8">
+                                  </div>
+                                </td>
+                                <td>
+                                  <div class="form-check">
+                                    <input class="form-check-input" [formControl]="row.get('ops5')" type="checkbox"
+                                      (click)="checkBilingualMark(row, $event)" tabIndex="9">
+                                  </div>
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('ops6')"
+                                    style="text-align: center; width: 2em;" (keypress)="numberOnly($event, row)"
+                                    maxlength="1" min="1" max="10" tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('max1')" name="max1"
+                                    id="max1_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" maxlength="1" min="1" max="10"
+                                    tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('min1')" name="min1"
+                                    id="min1_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" min="1" max="10" tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('max2')" name="max2"
+                                    id="max2_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" min="1" max="10" tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('min2')" name="min2"
+                                    id="min2_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" min="1" max="10" tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('max3')" name="max3"
+                                    id="max3_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" min="1" max="10" tabIndex="11">
+                                </td>
+                                <td>
+                                  <input type="text" class="point" [formControl]="row.get('min3')" name="max3"
+                                    id="max3_{{index}}" style="text-align: center; width: 2em;"
+                                    (keypress)="numberOnly($event, row)"
+                                    (keyup)="checkSubjectProperties($event, row, index)" min="1" max="10" tabIndex="11">
+                                </td>
+                              </tr>
+                            </ng-template>
+                            <ng-template #noSubjectPropertiesData>
+                              <tr>
+                                <td colspan="14" style="text-align: left;"> Không có dữ liệu</td>
+                              </tr>
+                            </ng-template>
+                          </tbody>
+                        </table>
+                      </ng-template>
+                    </div>
+                  </ng-template>
+                </div>
+                <div class="tab-pane fade show" id="regularConfiguration" role="tabpanel"
+                  aria-labelledby="regular-configuration-tab" style="padding: 0rem;"
+                  [ngClass]="{ 'active':activeTab==='regularConfiguration'}">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                    style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+                    <span data-toggle="tooltip" data-placement="top" title="Lưu cấu hình điểm song ngữ"
+                      style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2" (click)="updateBilingual()">
+                      <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+                    </span>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                    style="overflow: scroll; padding-right: 0px; padding-left: 0px;">
+                    <table class="table table-bordered" id="customers" style="text-align: center;">
+                      <thead style="font-weight: bold;">
+                        <tr>
+                          <td rowspan="3">Áp dụng</td>
+                          <td rowspan="3">Môn học</td>
+                          <td colspan="4">Cấu hình môn song ngữ</td>
+                          <td colspan="10">Điểm hệ số 1</td>
+                          <td colspan="10">Điểm hệ số 2</td>
+                          <td colspan="10">Điểm hệ số 3</td>
+                        </tr>
+                        <tr>
+                          <td rowspan="2">Môn song ngữ</td>
+                          <td rowspan="2">Môn chính song ngữ</td>
+                          <td rowspan="2">Điểm hệ song ngữ</td>
+                          <td rowspan="2">Hệ số</td>
+                          <td colspan="2">CO</td>
+                          <td colspan="2">EO</td>
+                          <td colspan="2">CE</td>
+                          <td colspan="2">EE</td>
+                          <td colspan="2">CL</td>
+                          <td colspan="2">CO</td>
+                          <td colspan="2">EO</td>
+                          <td colspan="2">CE</td>
+                          <td colspan="2">EE</td>
+                          <td colspan="2">CL</td>
+                          <td colspan="2">CO</td>
+                          <td colspan="2">EO</td>
+                          <td colspan="2">CE</td>
+                          <td colspan="2">EE</td>
+                          <td colspan="2">CL</td>
+                        </tr>
+                        <tr>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                          <td>Tối đa</td>
+                          <td>Tối thiểu </td>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="checkExistData === true; else noData">
+                        <tr
+                          *ngFor="let rowRegular of studyProgramDetailForm.get('bilinguals')?.controls;let index = index;"
+                          id="format-text-input">
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" tabIndex="4" checked disabled>
+                            </div>
+                          </td>
+                          <td style="text-align: left; padding-left: 1em">
+                            <label for=""
+                              style="width: 130px; overflow: hidden; display: inline-block; text-overflow: ellipsis; white-space: nowrap; margin-bottom: -0.5em;">
+                              {{ rowRegular.get('subject_name').value}}
+                            </label>
+                          </td>
+
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" [formControl]="rowRegular.get('ops3')" type="checkbox"
+                                tabIndex="5" disabled>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" [formControl]="rowRegular.get('ops4')" type="checkbox"
+                                tabIndex="5" disabled>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" [formControl]="rowRegular.get('ops5')" type="checkbox"
+                                tabIndex="5" disabled>
+                            </div>
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('ops6')"
+                              (keypress)="numberOnly($event, rowRegular)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_co1')" name="max_co1"
+                              id="max_co1_{{index}}" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_co1')" name="min_co1"
+                              id="min_co1_{{index}}" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_eo1')" name="max_eo1"
+                              id="max_eo1_{{index}}" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_eo1')" name="min_eo1"
+                              id="min_eo1_{{index}}" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ce1')" name="max_ce1"
+                              id="max_ce1_{{index}}" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ce1')" name="min_ce1"
+                              id="min_ce1_{{index}}" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ee1')" name="max_ee1"
+                              id="max_ee1" (keypress)="numberOnly($event, rowRegular)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ee1')" name="min_ee1"
+                              id="min_ee1" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_cl1')" name="max_cl1"
+                              id="max_cl1" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_cl1')" name="min_cl1"
+                              id="min_cl1" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_co2')" name="max_co2"
+                              id="max_co2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_co2')" name="min_co2"
+                              id="min_co2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_eo2')" name="max_eo2"
+                              id="max_eo2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_eo2')" name="min_eo2"
+                              id="min_eo2" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ce2')" name="max_ce2"
+                              id="max_ce2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ce2')" name="min_ce2"
+                              id="min_ce2" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ee2')" name="max_ee2"
+                              id="max_ee2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ee2')" name="min_ee2"
+                              id="min_ee2" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_cl2')" name="max_cl2"
+                              id="max_cl2" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_cl2')" name="min_cl2"
+                              id="min_cl2" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_co3')" name="max_co3"
+                              id="max_co3" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_co3')" name="min_co3"
+                              id="min_co3" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_eo3')" name="max_eo3"
+                              id="max_eo3" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_eo3')" name="min_eo3"
+                              id="min_eo3" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ce3')" name="max_ce3"
+                              id="max_ce3" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ce3')" name="min_ce3"
+                              id="min_ce3" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_ee3')" name="max_ee3"
+                              id="max_ee3" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_ee3')" name="min_ee3"
+                              id="min_ee3" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('max_cl3')" name="max_cl3"
+                              id="max_cl3" (keypress)="numberOnly($event, rowRegular)"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                          <td>
+                            <input type="text" class="point" [formControl]="rowRegular.get('min_cl3')" name="min_cl3"
+                              id="min_cl3" (keypress)="numberOnly($event, rowRegular)" maxlength="1"
+                              (keyup)="checkPointCoefficients($event, rowRegular, index)" maxlength="1" min="1" max="10"
+                              style="text-align: center; width: 2em;" tabIndex="10">
+                          </td>
+                        </tr>
+                      </tbody>
+
+
+                      <ng-template #noData>
+                        <tbody>
+                          <tr>
+                            <td colspan="36" style="text-align: left;"> Không có dữ liệu</td>
+                          </tr>
+                        </tbody>
+                      </ng-template>
+
+                    </table>
+                  </div>
+                </div>
+                <div class="tab-pane fade show" id="applyClass" role="tabpanel" aria-labelledby="apply-class-tab"
+                  style="padding: 0rem;" [ngClass]="{ 'active':activeTab==='applyClass'}">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                    style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+                    <span data-toggle="tooltip" data-placement="top" title="Lưu áp dụng chương trình học"
+                      style="color: white; font-size: 1.1em; cursor: pointer;" (click)="applyClassStudyProgram()"
+                      tabIndex="2">
+                      <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+                    </span>
+                  </div>
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                    style="overflow: scroll; padding-right: 0px; padding-left: 0px;" *ngIf="checkSchoolLevel !== 0">
+                    <table class="table table-bordered" id="customers" style="text-align: center;">
+                      <thead style="font-weight: bold;">
+                        <tr>
+                          <td style="width: 10%;">Chọn</td>
+                          <td style="text-align: left; padding-left: 1em;">Lớp</td>
+                          <td style="text-align: left; padding-left: 1em;">Chương trình đã áp dụng</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let class of studyProgramDetailForm.get('classes')?.controls;let index = index;"
+                          id="format-text-input">
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" id="checkbox1" type="checkbox"
+                                [checked]="class.get('apply_class').value" [formControl]="class.get('apply_class')"
+                                value="option1" tabIndex="11">
+                            </div>
+                          </td>
+                          <td style="text-align: left; padding-left: 1em; padding-top: .5em;">
+                            <label for="" style="margin-bottom: 0;">
+                              {{ class.get('class_name').value}}
+                            </label>
+                          </td>
+                          <td style="text-align: left; padding-left: 1em; padding-top: .5em;">
+                            <label for="" style="margin-bottom: 0;">
+                              {{ class.get('applied_class').value}}
+                            </label>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="studyProgramForm">
+  <div class="modal fade" id="createStudyProgramModal" data-keyboard="false" role="dialog"
+    aria-labelledby="createStudyProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="gradeConfigurationModalLabel">Thêm chương trình học</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên chương trình học: <span
+                    style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên chương trình học" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên chương trình học không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên chương trình học không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="school_year">Khối:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="13" [items]="ddlGradeData" class="customGrade" bindLabel="name"
+                  placeholder="Chọn khối" [(ngModel)]="selectedGrade" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="grade_id" (change)="onSelectGrade($event)">
+                </ng-select>
+                <span *ngIf="submitted && f?.grade_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Khối không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="name">Học kỳ:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="14" [items]="ddlSemesterData" class="customSemester" bindLabel="name"
+                  placeholder="Chọn học kỳ" [(ngModel)]="selectedSemester" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="semester_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.semester_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Học kỳ không được để trống
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="createStudyProgram()"><i
+              class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="updateStudyProgramModal" data-keyboard="false" role="dialog"
+    aria-labelledby="updateStudyProgramModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="gradeConfigurationModalLabel">Sửa chương trình học</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên chương trình học: <span
+                    style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên chương trình học" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên chương trình học không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên chương trình học không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="school_year">Khối:<span style="color: red;">*</span></label>
+                <ng-select #grade tabIndex="13" [disabled]=true [items]="ddlGradeData" class="customGrade"
+                  bindLabel="name" placeholder="Chọn khối" [(ngModel)]="selectedGrade" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="grade_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.grade_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Khối không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="name">Học kỳ:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="14" [disabled]="true" [items]="ddlSemesterData" class="customSemester"
+                  bindLabel="name" placeholder="Chọn học kỳ" [(ngModel)]="selectedSemester"
+                  notFoundText="Không có dữ liệu" [closeOnSelect]="true" formControlName="semester_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.semester_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Học kỳ không được để trống
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="updateStudyProgram()"><i
+              class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="studyProgramCopyModal" data-keyboard="false" role="dialog"
+    aria-labelledby="studyProgramCopyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="gradeConfigurationModalLabel">Sửa chương trình học</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên chương trình học: <span
+                    style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên chương trình học" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên chương trình học không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên chương trình học không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="studyProgramCopy()"><i class="fa fa-plus"
+              aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

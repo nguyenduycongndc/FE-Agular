@@ -1,0 +1,16 @@
+::ng-deep tt-pagesize-selector {
+  > div {
+    width: 100%;
+    text-align: right;
+
+    label {
+      display: inline-block;
+    }
+
+    .my-page-select {
+      display: inline-block;
+      width: auto;
+      max-height: 34px;
+    }
+  }
+}

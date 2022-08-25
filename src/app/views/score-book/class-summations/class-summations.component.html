@@ -1,0 +1,352 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&nbsp;Tổng kết theo lớp</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <form [formGroup]="classSummationsFilterForm">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="padding: 0.6rem 0.6em 0 0.6em !important;">
+          <div class="form-group row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Năm học:</label>
+              <ng-select [tabIndex]="1" [items]="ddlYearData" class="customYear" bindValue="id" bindLabel="name"
+                placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                [(ngModel)]="filterSelectItems.year" formControlName="year" (change)="onSelectYear($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+              <ng-select [tabIndex]="1" [items]="ddlClassData" class="customClass" bindValue="id" bindLabel="name"
+                placeholder="Chọn lớp" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                [(ngModel)]="filterSelectItems.class" formControlName="class" (change)="onSelectClass($event)"
+                formControlName="class">
+              </ng-select>
+              <span *ngIf="submitted && f?.class?.errors?.required"
+                style="font-size: 80%; color: #dc3545; float: left; margin-left: 4em; margin-top: 0.5em;">
+                Lớp không được để trống
+              </span>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Học kỳ:</label>
+              <ng-select #semesterProperties [tabIndex]="1" [items]="ddlSemesterData" class="customSemester"
+                bindValue="id" bindLabel="name" placeholder="Chọn kỳ" [clearable]="false"
+                notFoundText="Không có dữ liệu" [closeOnSelect]="true" [(ngModel)]="filterSelectItems.semester"
+                formControlName="semester">
+              </ng-select>
+              <span *ngIf="submitted && f?.semester?.errors?.required"
+                style="font-size: 80%; color: #dc3545; float: left; margin-left: 5.5em; margin-top: 0.5em;">
+                Kỳ học không được để trống
+              </span>
+            </div>
+            <div class="col-xl-2 col-lg-1 col-md-1 col-sm-1 col-12 btnFilter">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                [disabled]="loadingFilter" style="float: right" autocomplete="off" (click)="filter()" tabIndex="1">
+                <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" [class.disabled]="!header"
+          style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+          <span data-toggle="tooltip" data-placement="top" title="Lưu sổ điểm"
+            style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2" (click)="save()">
+            <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+          </span>
+          <span class="brick-stand"></span>
+          <span data-toggle="tooltip" data-placement="top" title="Nhập nhanh nhận xét"
+            style="color: white; font-size: 1.1em; cursor: pointer;" (click)="commentModal()" tabIndex="2">
+            <i class="fa fa-bolt fa-1x">&nbsp; Nhập nhanh</i>
+          </span>
+          <span class="brick-stand"></span>
+          <span data-toggle="tooltip" data-placement="top" title="Nhập nhanh nhận xét"
+            style="color: white; font-size: 1.1em; cursor: pointer;" (click)="summary()" tabIndex="2">
+            <i class="fa fa-graduation-cap fa-1x">&nbsp; Tổng kết điểm</i>
+          </span>
+          <span class="brick-stand"></span>
+          <span *ngIf="lastYear" data-toggle="tooltip" data-placement="top" title="Xét lên lớp cho học sinh khuyết tật"
+            style="color: white; font-size: 1.1em; cursor: pointer;" (click)="studentDisabilitiesModal()" tabIndex="2">
+            <i class="fa fa-arrow-circle-o-up fa-1x">&nbsp; Xét lên lớp cho học sinh khyết tật</i>
+          </span>
+        </div>
+
+        <div class="shadow-sm p-4 mb-4 bg-white" *ngIf="header" style="text-align: center;">
+          <div class="spinner-border" role="status" style="width: 1.5rem; height: 1.5rem;"
+            *ngIf="loadingFilter === true; else loadedFilterData">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <ng-template #loadedFilterData>
+            <table class="table table-bordered class-summations">
+              <thead style="font-weight: bold;">
+                <tr>
+                  <td rowspan="2" (click)="checkUncheckAll()"><input #checkAllProperties tabindex="3" type="checkbox"
+                      [(ngModel)]="isSelected" [ngModelOptions]="{standalone: true}" (change)="checkUncheckAll()" />
+                  </td>
+                  <ng-container *ngFor="let col of header;">
+                    <td *ngIf="!col.isDynamicCol" rowspan="2">{{col.value}}</td>
+                    <td *ngIf="col.isDynamicCol" [colSpan]="col.colspan || 1">
+                      {{col.value}}</td>
+                  </ng-container>
+                </tr>
+                <tr>
+                  <td *ngFor="let col of dynamicCols;">{{col.value}}</td>
+                  <td *ngFor="let col2 of dynamicCols2;">{{col2.value}}</td>
+                </tr>
+              </thead>
+              <tbody *ngIf="dataSource.length > 0; else noData">
+                <tr *ngFor="let row of dataSource; let i = index" class="format-text-input">
+                  <td (click)="cellCheckboxChecked(row)"><input type="checkbox" tabindex="3" [(ngModel)]="row.selected"
+                      [ngModelOptions]="{standalone: true}" (change)="isAllSelected()" /></td>
+                  <ng-container *ngFor="let item of header">
+                    <td *ngIf="item.isDynamicCol == false && (item.field == 'code' || item.field == 'name')"
+                      class="text_grid_left">
+                      {{row[item.field]}}</td>
+                    <td *ngIf="item.isDynamicCol == false && item.field == 'dob'" class="text_grid_center">
+                      {{row[item.field] | date:'dd/MM/yyyy'}}</td>
+                  </ng-container>
+                  <!-- Cột động -->
+                  <ng-container *ngFor="let item1 of dynamicCols">
+                    <ng-container *ngIf="row[item1.field]; then hasData; else noData">
+                    </ng-container>
+                    <ng-template #hasData>
+                      <td *ngIf="item1.isDynamicCol == true && item1.subjectType == 1; else subjectType"
+                        class="text_grid_left">
+                        {{row[item1.field]}}
+                      </td>
+                      <ng-template #subjectType>
+                        <td *ngIf="row[item1.field] && row[item1.field] >= 6.5; else notPass">Đ</td>
+                        <ng-template #notPass>
+                          <td *ngIf="row[item1.field]">C</td>
+                        </ng-template>
+                      </ng-template>
+                    </ng-template>
+                    <ng-template #noData>
+                      <td></td>
+                    </ng-template>
+                  </ng-container>
+                  <ng-container *ngFor="let item2 of dynamicCols2">
+                    <td *ngIf="item2.isDynamicCol == true" class="text_grid_left">
+                      {{row[item2.field]}}</td>
+                  </ng-container>
+                  <td>
+                    {{row['summary']}}
+                  </td>
+                  <td>
+                    <ng-select [tabIndex]="3" [items]="ddlRank" bindValue="id" bindLabel="name" [clearable]="false"
+                      notFoundText="Không có dữ liệu" [closeOnSelect]="true" [(ngModel)]="row['rank']"
+                      [ngModelOptions]="{standalone: true}" [virtualScroll]="true" appendTo="body"
+                      dropdownPosition="bottom" class="ddlWidth">
+                    </ng-select>
+                  </td>
+                  <td>
+                    <ng-select [tabIndex]="3" [items]="ddlConduct" bindValue="id" bindLabel="name" [clearable]="false"
+                      notFoundText="Không có dữ liệu" [closeOnSelect]="true" [(ngModel)]="row['conduct']"
+                      [ngModelOptions]="{standalone: true}" [virtualScroll]="true" appendTo="body"
+                      dropdownPosition="bottom" class="ddlWidth">
+                    </ng-select>
+                  </td>
+                  <td>
+                    <input type="text" [(ngModel)]="row['description']" [ngModelOptions]="{standalone: true}"
+                      class="textInputWidth">
+                  </td>
+                  <td>
+                    <input tabIndex="3" type="number" step="any" min="1" max="100" maxlength="3"
+                      (keypress)="removeSpecialCharacter($event)" class="format-text-input" [disabled]="lastSummary"
+                      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value > 100) this.value = 1;"
+                      [(ngModel)]="row['absent']" [ngModelOptions]="{standalone: true}">
+                  </td>
+                  <ng-container
+                    *ngIf="row['distinction'] && row['distinction'] !== 3; then hasDistinction; else noDistinction">
+                  </ng-container>
+                  <ng-template #hasDistinction>
+                    <td *ngIf="row['distinction'] === 1; else wellDistinction">
+                      Học sinh giỏi
+                    </td>
+                    <ng-template #wellDistinction>
+                      <td>Học sinh tiên tiến</td>
+                    </ng-template>
+                  </ng-template>
+                  <ng-template #noDistinction>
+                    <td></td>
+                  </ng-template>
+                  <td>
+                    <input type="text" [(ngModel)]="row['reward']" [ngModelOptions]="{standalone: true}" tabindex="3"
+                      style="width: 8em;">
+                  </td>
+                  <ng-container *ngIf="lastSummary === true">
+                    <ng-container
+                      *ngIf="(row['level_up'] !== undefined && row['level_up'] !== null) && lastSummary === true; then levelUp; else retentionData">
+                    </ng-container>
+                    <ng-template #levelUp>
+                      <td *ngIf="row['level_up'] === 1; else retention">
+                        Lên lớp
+                      </td>
+                      <ng-template #retention>
+                        <td>Lưu ban</td>
+                      </ng-template>
+                    </ng-template>
+                    <ng-template #retentionData>
+                      <td></td>
+                    </ng-template>
+                    <td>
+                      {{row['scores_retest']}}
+                    </td>
+                    <td>
+                      <ng-select [tabIndex]="3" [items]="ddlRankRetest" bindValue="id" bindLabel="name"
+                        [clearable]="false" [disabled]="(row['level_up'] === 1)  ? true : false"
+                        notFoundText="Không có dữ liệu" [closeOnSelect]="true" [(ngModel)]="row['rank_retest']"
+                        [ngModelOptions]="{standalone: true}" [virtualScroll]="true" appendTo="body"
+                        dropdownPosition="bottom" class="ddlWidth">
+                      </ng-select>
+                    </td>
+
+                    <td>
+                      <ng-select [tabIndex]="3" [items]="ddlConduct" bindValue="id" bindLabel="name" [clearable]="false"
+                        [disabled]="(row['level_up'] === 1)  ? true : false" notFoundText="Không có dữ liệu"
+                        [closeOnSelect]="true" [(ngModel)]="row['conduct_retest']" [ngModelOptions]="{standalone: true}"
+                        [virtualScroll]="true" appendTo="body" dropdownPosition="bottom" class="ddlWidth">
+                      </ng-select>
+                    </td>
+                    <ng-container
+                      *ngIf="(row['level_up_retest'] !== undefined && row['level_up_retest'] !== null); then levelUpRetest; else retentionLevelUpData">
+                    </ng-container>
+                    <ng-template #levelUpRetest>
+                      <td *ngIf="row['level_up_retest'] === 1; else retentionLevelUp">
+                        Lên lớp
+                      </td>
+                      <ng-template #retentionLevelUp>
+                        <td> Lưu ban </td>
+                      </ng-template>
+                    </ng-template>
+                    <ng-template #retentionLevelUpData>
+                      <td>
+                      </td>
+                    </ng-template>
+                    <td>
+                      <input type="text" [(ngModel)]="row['note']" [ngModelOptions]="{standalone: true}"
+                        class="textInputWidth" tabindex="3">
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+              <ng-template #noData>
+                <tbody>
+                  <tr>Không có dữ liệu</tr>
+                </tbody>
+              </ng-template>
+            </table>
+          </ng-template>
+        </div>
+
+      </form>
+      <hr style="margin: .5em 0 .5em 0; border-top: none;" />
+      <div class="form-group" style="margin-bottom: 1em;">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="classSummationsFilterForm">
+  <div class="modal fade" id="quichEntryModal" role="dialog" aria-labelledby="quichEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%">
+          <h5 class="modal-title" id="quichEntryModalLabel">Nhập nhanh nhận xét</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group row" style="margin-bottom: 0rem;">
+              <label class="col-form-label">Nội dung nhận xét:<span style="color: red;">*</span></label>
+              <textarea cols="10" rows="5" class="form-control" (keyup)="onKeyUp($event)" formControlName="comment"
+                placeholder="Nhập nội dung nhận xét" tabIndex="4"></textarea>
+            </div>
+            <div>
+              <span *ngIf="submitted && f?.comment?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                Vui lòng nhập nội dung nhận xét!
+              </span>
+
+              <span style="float: right; opacity: .6;">
+                {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%">
+          <button type="button" class="btn btn-success" tabIndex="4" (click)="bindingComment()">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="4">
+            <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="studentDisabilitiesModal" role="dialog" aria-labelledby="studentDisabilitiesModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%">
+          <h5 class="modal-title" id="studentDisabilitiesModalLabel">Xét lên lớp cho học sinh khuyết tật</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label">Loại nhận xét:</label>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+              <ng-select [items]="ddlResult" [clearable]="false" bindValue="id" bindLabel="name" [multiple]="false"
+                [closeOnSelect]="true" [(ngModel)]="modalItems.result" notFoundText="Không có dữ liệu" tabindex="5"
+                formControlName="result">
+              </ng-select>
+              <span *ngIf="submitted && f?.result?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                Vui lòng chọn loại nhận xét!
+              </span>
+            </div>
+          </div>
+          <div class="form-group row" style="margin-bottom: 0rem;">
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label">Lý do:<span style="color: red;">*</span></label>
+            </div>
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+              <textarea cols="10" rows="3" class="form-control" formControlName="reason" [(ngModel)]="modalItems.reason"
+                (keyup)="onKeyUp($event)" placeholder="Nhập lý do" tabindex="5"></textarea>
+              <span *ngIf="submitted && f?.reason?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                Lý do không được để trống
+              </span>
+              <span style="float: right; opacity: .6;">
+                {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%">
+          <button type="button" class="btn btn-success" (click)="evaluateSave()" tabIndex="5">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="5">
+            <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,149 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Đăng ký môn học tự chọn</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <form [formGroup]="form">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Năm học:</label>
+              <ng-select
+              class="customNgSelect"
+                [tabIndex]="1"
+                [items]="dataYear"
+                bindLabel="name"
+                placeholder="Chọn năm"
+                notFoundText="Không có dữ liệu"
+                [(ngModel)]="selectedYear"
+                [clearable]="false"
+                formControlName="year"
+                (change)="onSelectYear($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+              <ng-select
+              class="customNgSelect"
+                [tabIndex]="2"
+                [items]="dataClass"
+                bindLabel="name"
+                placeholder="Chọn lớp"
+                [clearable]="false"
+                notFoundText="Không có dữ liệu"
+                [closeOnSelect]="true"
+                [(ngModel)]="selectedClass"
+                formControlName="class"
+                (change)="onSelectClass($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Học kỳ:</label>
+              <ng-select
+                [tabIndex]="3"
+                [items]="dataSemester"
+                class="customNgSelect"
+                bindLabel="name"
+                placeholder="Chọn kỳ đánh giá"
+                notFoundText="Không có dữ liệu"
+                [clearable]="false"
+                [closeOnSelect]="true"
+                [(ngModel)]="selectedSemester"
+                formControlName="semester"
+                (change)="onSelectSemester($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-2 col-lg-1 col-md-1 col-sm-1 col-12">
+              <button type="button"
+                class="btn btn-primary filter"
+                data-toggle="button"
+                aria-pressed="false"
+                [disabled]=""
+                style="float: right"
+                autocomplete="off"
+                (click)="filter()"
+                tabIndex="4">
+                <span *ngIf="" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr style="margin: 1% 0 1% 0" />
+      <form>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <td *ngFor="let col of cols" style="text-align: center; font-weight: bold; cursor: pointer; vertical-align: middle;">
+                  <p *ngIf="col.value == 'name'" tt-col-header [field]="'name'" [sortFields]="['reverseName']" [fieldType]="'string'" [header]="'Họ và tên'" [(data)]="dataSource" style="margin-bottom: 0px;"></p>
+                  <p *ngIf="col.value != 'name'" style="margin-bottom: 0px;">{{ col.name }}</p>
+                </td>
+              </tr>
+              <tr>
+                <td [hidden]="existStudent" *ngFor="let col of cols" style="text-align: center; font-weight: bold;" [ngStyle]="{'padding':col.value.startsWith('p_') ? '5px 0px 0px 0px': '0px'}">
+                  <!-- checkbox -->
+                  <input type="checkbox" *ngIf="col.value.startsWith('p_')" [(ngModel)]="col.checked" name="{{col.value}}" (change)="onCheckAllChange(col, $event)" style="width: 1.4em; height: 1.4em;">
+                  <!-- search -->
+                  <tt-col-filter *ngIf="col.value == 'code'" [field]="'code'" [data]="dataSource" [(dataFiltered)]="dataPaged"></tt-col-filter>
+                  <tt-col-filter *ngIf="col.value == 'name'" [field]="'name'" [data]="dataSource" [(dataFiltered)]="dataPaged"></tt-col-filter>
+                  <!-- <tt-col-filter *ngIf="col.value == 'dob'" [field]="'dob'" [data]="dataSource" [(dataFiltered)]="dataPaged"></tt-col-filter> -->
+                </td>
+                <td [hidden]="!existStudent" style="text-align: center; vertical-align: middle;background:rgb(236,236,236)" [colSpan]="cols != null ? cols.length : 4">Không có dữ liệu học sinh</td>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- <tr [hidden]="!dataPaged " *ngFor="let row of dataPaged; let index = index"> -->
+                <tr [hidden]="!dataPaged" *ngFor="let row of dataPaged; let index = index">
+                  <td *ngFor="let col of cols" [ngSwitch] = "col.value" style="text-align: center; padding-left: 1em; vertical-align: middle;">
+                      <p *ngSwitchCase = "'id'" class="textGrip">{{index + 1}}</p>
+                      <p *ngSwitchCase = "'dob'" class="textGrip">{{ row[col.value] | date:'dd/MM/yyyy'}}</p>
+                      <p *ngSwitchCase = "'name'" style="text-align: left; margin-bottom: 0px;">{{ row[col.value] }}</p>
+                      <p *ngSwitchCase = "'code'" class="textGrip">{{ row[col.value] }}</p>
+                      <input *ngSwitchDefault
+                        type="checkbox"
+                        [(ngModel)]="row[col.value]"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="checkValue($event)"
+                        style="width: 1.4em; height: 1.4em;"
+                      >
+    <!-- ngModel kết hợp với ngModelOptions sẽ gán được thêm giá trị vào mảng dataSource -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      <!-- phân trang -->
+      <tt-paginator [(data)]="dataSource" [(dataPaged)]="dataPaged" [pageSize]="countPage" [(currentPage)]="p">
+      </tt-paginator>
+    </form>
+    </div>
+  <div class="card-footer text-muted">
+    <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> -->
+      <div class="form-group row" style="margin-bottom: 0;">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-6">
+          <button
+            [disabled]="unDisSave || existStudent ? true : false"
+            type="submit"
+            class="btn btn-success"
+            (click)="luulai()">
+            <i class="fa fa-save"></i> Lưu lại
+          </button>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6">
+          <tt-pagesize-selector [(pageSize)]="countPage"></tt-pagesize-selector>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+  </div>
+</div>

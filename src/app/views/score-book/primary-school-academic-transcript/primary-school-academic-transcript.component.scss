@@ -1,0 +1,189 @@
+::ng-deep app-primary-school-academic-transcript {
+  .radio_enter_type {
+    float: right;
+    margin-right: 1em;
+  }
+  .radio_enter_type {
+    i {
+    color: white; background-color: #1e656d; border: #1e656d;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+  .table{
+        th{
+          vertical-align: inherit;
+        }
+        td{
+          vertical-align: inherit;
+        }
+        p{
+          margin-bottom: 0;
+        }
+  }
+.inputRow1 {
+  outline: none;
+  border: transparent;
+  background-color: transparent;
+  display: block;
+  overflow-x: auto;
+  }
+.inputRow2 {
+  outline: none;
+  border: transparent;
+  background-color: transparent;
+  display: block;
+  overflow-x: auto;
+  }
+.inputRow3 {
+  outline: none;
+  border: transparent;
+  background-color: transparent;
+  display: block;
+  overflow-x: auto;
+  }
+
+
+  .table-responsive-sm{
+    display: block;
+    overflow-x: auto;
+  }
+
+  @media only screen and(min-width: 2560px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+    .customClass {
+      float: left;
+      width: 89%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 84%;
+      max-width: 100%;
+    }
+
+  }
+  @media only screen and(max-width: 2559px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 89%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 84%;
+      max-width: 100%;
+    }
+
+  }
+  @media only screen and(max-width: 1912px) {
+
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 89%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 83%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 1515px) {
+
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 85%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 76%;
+      max-width: 100%;
+    }
+  }
+  @media only screen and(max-width: 1365px) {
+    .customYear {
+      float: left;
+      width: 66%;
+      max-width: 100%;
+    }
+  }
+  @media only screen and(max-width: 1024px) {
+
+    .customYear {
+      float: left;
+      width: 68%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 73%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 58%;
+      max-width: 100%;
+    }
+  }
+  @media only screen and(max-width: 540px) {
+
+    .customYear {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .customClass {
+      float: left;
+      width: 88%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .customSemester {
+      float: left;
+      width: 74%;
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .btnFilter {
+      margin-top: 1em;
+    }
+  }
+}

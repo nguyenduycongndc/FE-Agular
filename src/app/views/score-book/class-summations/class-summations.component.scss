@@ -1,0 +1,221 @@
+::ng-deep class-summations {
+
+  @media only screen and(min-width: 2560px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 2559px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 1912px) {
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 52%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 1515px) {
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 52%;
+      max-width: 100%;
+    }
+  }
+
+  // @media only screen and(max-device-width: 1366px) {
+  //   #format-text-input select {
+  //     right: 2px;
+  //     position: relative;
+  //     padding: 5px;
+  //     margin: 5px 0;
+  //     outline: none;
+  //     width: 116%;
+  //     border: transparent;
+  //     background-color: transparent;
+  //   }
+
+  //   #format-text-input input {
+  //     right: 2px;
+  //     position: relative;
+  //     padding: 5px;
+  //     margin: 5px 0;
+  //     outline: none;
+  //     width: 116%;
+  //     border: transparent;
+  //     background-color: transparent;
+  //   }
+
+  // }
+
+  // @media only screen and(max-width: 1365px) {
+  //   #format-text-input select {
+  //     right: 2px;
+  //     position: relative;
+  //     padding: 5px;
+  //     margin: 5px 0;
+  //     outline: none;
+  //     width: 129%;
+  //     border: transparent;
+  //     background-color: transparent;
+  //   }
+
+  //   #format-text-input input {
+  //     right: 2px;
+  //     position: relative;
+  //     padding: 5px;
+  //     margin: 5px 0;
+  //     outline: none;
+  //     width: 129%;
+  //     border: transparent;
+  //     background-color: transparent;
+  //   }
+
+  // }
+
+  @media only screen and(max-width: 540px) {
+    .customYear {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .customSemester {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .btnFilter {
+      margin-top: 1em;
+    }
+  }
+
+  .brick-stand {
+    height: 14px;
+    margin-left: 1em;
+    margin-right: 1em;
+    border-style: solid;
+    border-width: 0 0 0 1px;
+    border-left-color: #d0d0d0;
+    border-right-color: #fff;
+  }
+
+  table.class-summations td {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .format-text-input input {
+    padding: 5px;
+    margin: 5px 0;
+    outline: none;
+    width: 40px;
+    border: transparent;
+    background-color: transparent;
+    text-align: center;
+  }
+  #format-text-input input:focus,
+  #format-text-input input:active {
+    border-color: transparent;
+    border-bottom: 2px solid #1c87c9;
+  }
+  .p-4 {
+    padding: 0rem!important;
+  }
+  .mb-4{
+    overflow: auto;
+    margin-bottom: 0rem!important;
+  }
+  .disabled {
+    pointer-events: none;
+    display: none;
+  }
+  .notification-counter {
+    cursor: pointer;
+  }
+  .table {
+    margin-bottom: 0rem;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input[type=checkbox]{
+    box-sizing: border-box;
+    padding: 0;
+  }
+  .ddlWidth {
+    width: 6em !important;
+  }
+  .textInputWidth {
+    width: 15em !important;
+  }
+}

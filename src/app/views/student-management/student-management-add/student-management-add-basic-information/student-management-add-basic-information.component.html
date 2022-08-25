@@ -1,0 +1,168 @@
+
+<form [formGroup]="form">
+  <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+    <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12" id="customImg" style="text-align: center;">
+        <ng-template [ngIf]="imgURL" [ngIfElse]="imgURLNull">
+          <img [src]="imgURL" height="166" *ngIf="imgURL" id="img_url" style="max-width: 147px; max-height:147px; margin-bottom: 10%;">
+        </ng-template>
+        <ng-template #imgURLNull>
+          <img src="assets/img/avatars/avatar.png" id="img" alt="Avatar" style="max-width: 147px; max-height:147px; margin-bottom: 10%;">
+        </ng-template>
+        <div style="position:relative; margin-left: 5%;" id="img1">
+          <a class='btn btn-primary' href='javascript:;' tabindex="8">
+              Chọn ảnh
+              <input type="file" id="inputIng" #fileInput accept='image/*' (change)="preview(fileInput.files)" style='position:absolute;z-index:2;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+          </a>
+          &nbsp;
+        </div>
+    </div>
+    <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+        <div class="form-group row" id="rowName">
+          <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group row">
+              <label for="" class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 col-form-label">
+                Họ và tên:<span style="color: red;">*</span>
+              </label>
+              <div class="col-xl-8 col-lg-9 col-md-12 col-sm-12 col-12">
+                <input class="form-control" type="text" name="text-input" formControlName="fullname"
+                placeholder="Vui lòng nhập họ và tên" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" tabindex="1">
+                <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                  <div *ngIf="f.fullname.errors.required">Họ và tên không được để trống</div>
+                  <div *ngIf="f.fullname.errors.minlength">Họ và tên không được nhỏ hơn 6 ký tự</div>
+                  <div *ngIf="f.fullname.errors.maxlength">Họ và tên không được lớn hơn 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-xl-6 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="form-group row" id="rowGender">
+              <label for="" class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 col-form-label">
+                Giới tính:<span style="color: red;">*</span>
+              </label>
+              <div class="col-xl-6 col-lg-9 col-md-12 col-sm-12 col-12">
+                <ng-select #selectGender
+                [items] = "genderData"
+                bindLabel = "name"
+                placeholder = "Giới tính"
+                notFoundText = "không có dữ liệu"
+                tabindex="2"
+                [(ngModel)]="selectedGender"
+                formControlName = "gender_id"
+                >
+                </ng-select>
+                <span *ngIf="submitted && f?.gender_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Vui lòng chọn giới tính
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-12 col-md-6 col-sm-12 col-12">
+            <div class="form-group row" id="rowDob">
+              <label for="" class="col-xl-4 col-lg-3 col-md-12 col-sm-12 col-12 col-form-label">
+                Ngày sinh:<span style="color: red;">*</span>
+              </label>
+              <div class="col-xl-8 col-lg-9 col-md-12 col-sm-12 col-12">
+                <input (blur)="changeDate($event)" class="form-control" id="date-input" type="date" name="date-input" formControlName="dob"
+                placeholder="dob" [ngClass]="{ 'is-invalid': submitted && f.dob.errors || checkCurrentDate === false && submitted}" tabindex="3">
+                <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                  <div style="color: rgb(220,53,69);" *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                    Ngày tháng năm sinh không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);" *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                    Ngày tháng năm sinh không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);" *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkCurrentDate === false && submitted" style="color: rgb(220,53,69);">Không được nhập ngày trong tương lai</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" id="rowAddress">
+            <label for="" class="col-xl-2 col-lg-3 col-md-12 col-sm-12 col-12 col-form-label">
+              Nơi ở hiện nay:<span style="color: red;">*</span>
+            </label>
+            <div class="col-xl-10 col-lg-9 col-md-12 col-sm-12 col-12">
+              <div class="form-group row">
+                 <!--Tỉnh-->
+                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12" id="proviceId">
+                  <ng-select #selectProvince
+                  [items] = "provinceData"
+                  bindLabel = "name"
+                  placeholder = "Tỉnh/Thành phố"
+                  notFoundText = "không có dữ liệu"
+                  tabindex="4"
+                  [(ngModel)]="selectedProvince"
+                  formControlName = "province_id"
+                  (change) = "onSelectProvince($event)"
+                  >
+                  </ng-select>
+                    <span *ngIf="submitted && f?.province_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                      Vui lòng chọn tỉnh/thành phố
+                    </span>
+                </div>
+                <!--Quận-Huyện-->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12" id="districtId">
+                  <ng-select #selectDistrict
+                  [items] = "districtData"
+                  bindLabel = "name"
+                  placeholder = "Quận/Huyện"
+                  notFoundText = "không có dữ liệu"
+                  tabindex="5"
+                  [(ngModel)]="selectedDistrict"
+                  formControlName = "district_id"
+                  (change) = "onSelectDistrict($event)"
+                  >
+                  </ng-select>
+                  <span *ngIf="submitted && f?.district_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                    Vui lòng chọn quận/huyện
+                  </span>
+                </div>
+                <!--Xã-->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12" id="wardId">
+                  <ng-select #selectWard
+                  [items] = "wardData"
+                  bindLabel = "name"
+                  placeholder = "Phường/Xã"
+                  notFoundText = "không có dữ liệu"
+                  tabindex="6"
+                  [(ngModel)]="selectedWard"
+                  formControlName = "ward_id"
+                  (change) = "onSelectWard($event)"
+                  >
+                  </ng-select>
+                    <span *ngIf="submitted && f?.ward_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                    Vui lòng chọn phường/xã
+                    </span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" id="addressDetail">
+                  <input class="form-control" type="text" name="text-input" formControlName="address_detail"
+                    placeholder="Số nhà/Xóm/Thôn/Phố" [ngClass]="{ 'is-invalid': submitted && f.address_detail.errors }" tabindex="7">
+                  <div *ngIf="submitted && f.address_detail.errors" class="invalid-feedback">
+                    <div *ngIf="f.address_detail.errors.required">Địa chỉ không được để trống</div>
+                    <div *ngIf="f.address_detail.errors.pattern">Địa chỉ không chứ kí tự đặc biệt</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    <div class="form-group" style=" text-align: right;margin-right: 1%;" id="customRowButton">
+      <button type="submit" class="btn btn-success btn_footer" id="btnAdd" style="position: relative" (click)="addNewStudent()" tabindex="9"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+      <div class="float-left">&emsp;</div>
+      <button type="submit" class="btn btn-success btn_footer" id="btnAddMany" style="position: relative" (click)="addNewManyStudent()" tabindex="10"><i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu lại & tiếp tục</button>
+      <div class="float-left">&emsp;</div>
+      <button type="submit" class="btn btn-primary btn_footer" id="btnNext" (click)="nextAddNewStudent()"  tabindex="11"><i class="fa fa-arrow-circle-right"></i>&nbsp;Tiếp</button>
+    </div>
+  </div>
+</form>
+<!-- <pre>{{form.value | json}}</pre> -->
+
+
+

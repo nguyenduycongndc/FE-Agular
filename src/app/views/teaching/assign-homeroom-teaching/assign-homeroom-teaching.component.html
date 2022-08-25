@@ -1,0 +1,178 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Phân công giáo viên chủ nhiệm</strong>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align: end; padding: 0 1% 0 21%;">
+          <form [formGroup]="form">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;" tabindex="1">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input type="text" class="form-control" #searchByKeyWordInput formControlName="search"
+                (keyup.enter)="searchTeacher($event.target.value);" placeholder="Giáo viên">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <form [formGroup]="form">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row">
+          <!-- <div class="form-group row"> -->
+            <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-3">
+              <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+              <ng-select #selectYearSearch [tabIndex]="2" [items]="ddlYearData" class="customYear" bindLabel="name"
+                placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+                [(ngModel)]="selectedYear" formControlName="year" (change)="onSelectYear($event)">
+              </ng-select>
+            </div>
+            <div class="col-12 col-sm-7 col-md-4 col-lg-5 col-xl-4">
+              <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Khối:</label>
+              <ng-select [items]="ddlGradeSearchData" class="customGrade" [tabIndex]="3" bindLabel="name"
+                placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true" [closeOnSelect]="false"
+                formControlName="grade" [(ngModel)]="selectedGradeSearch">
+                <ng-template ng-header-tmp>
+                  <div>
+                    <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                    <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+                  </div>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items">
+                  <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                    <span>{{item.name}}</span>
+                  </div>
+                  <div class="ng-value" *ngIf="items.length > 2">
+                    <span class="ng-value-label">+{{items.length - 2}}</span>
+                  </div>
+                </ng-template>
+              </ng-select>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-12 col-xl-5 btnFilter">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                [disabled]="loadingFilter" style="float: right; margin-bottom: 2%;" autocomplete="off"
+                (click)="filter()" tabindex="5">
+                <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </button>
+            </div>
+          <!-- </div> -->
+        </div>
+      </form>
+      <hr/>
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div *ngIf="headerAssignHomeroomTeaching === true" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+          style="background-color: #1e656d; padding-top: 0.45rem; padding-bottom: 0.45rem; text-align: left;">
+          <button data-toggle="tooltip" data-placement="top" title="Lưu"
+            style="color: white;background-color: #1e656d;border: #1e656d;font-size: 1.1em;cursor: pointer;"
+            tabIndex="6" (click)="save()">
+            <i class="fa fa-floppy-o fa-1x"></i>&nbsp;Lưu</button>&nbsp;
+        </div>
+        <div *ngIf="checkTable == true" style="overflow: scroll">
+          <table class="table table-bordered table-striped" style="text-align: center">
+            <thead *ngIf="headerAssignHomeroomTeaching === true" style="font-weight: bold">
+              <tr>
+                <td style="vertical-align: inherit; width: 5%">
+                  STT
+                </td>
+                <td tt-col-header [tableId]="'assign-homeroom-teaching'" [field]="'grade_name'" [fieldType]="'string'"
+                  [header]="'Khối'" [(data)]="dataSource" style="vertical-align: inherit; cursor: pointer">
+                </td>
+                <td tt-col-header [tableId]="'assign-homeroom-teaching'" [field]="'class_name'" [fieldType]="'string'"
+                  [header]="'Lớp'" [(data)]="dataSource" style="vertical-align: inherit; cursor: pointer">
+                </td>
+                <!-- <td style="vertical-align: inherit">Khối</td>
+                <td style="vertical-align: inherit; cursor: pointer">Lớp</td> -->
+                <td tt-col-header [tableId]="'assign-homeroom-teaching'" [field]="'teacher_name'"
+                  [sortFields]="['reverseTeacherName']" [fieldType]="'string'" [header]="'Giáo Viên'"
+                  [(data)]="dataSource" style="vertical-align: inherit; cursor: pointer">
+                </td>
+              </tr>
+              <tr class="table-filter-row">
+                <td></td>
+                <td>
+                  <tt-col-filter [tableId]="'assign-homeroom-teaching'" [field]="'grade_name'"></tt-col-filter>
+                </td>
+                <td>
+                  <tt-col-filter [tableId]="'assign-homeroom-teaching'" [field]="'class_name'"></tt-col-filter>
+                </td>
+                <td>
+                  <tt-col-filter [tableId]="'assign-homeroom-teaching'" [field]="'teacher_name'"></tt-col-filter>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dataPaged; index as i;" id="format-text-input">
+                <td style="vertical-align: inherit">
+                  {{ (p - 1) * countPage + i + 1 }}
+                </td>
+                <td style="vertical-align: inherit; text-align: left">
+                  <label for="" style="
+                        width: 130px;
+                        overflow: hidden;
+                        display: inline-block;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        margin-bottom: -0.5em;
+                      ">
+                    {{ item.grade_name }}
+                  </label>
+                </td>
+                <td style="vertical-align: inherit; text-align: left">
+                  <label for="" style="
+                        width: 130px;
+                        overflow: hidden;
+                        display: inline-block;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        margin-bottom: -0.5em;
+                      ">
+                    {{ item.class_name }}
+                  </label>
+                </td>
+                <td style="vertical-align: inherit; padding: 5px">
+                  <!-- <ng-select style="text-align: left" #selectConment [items]="ddlTeacher" class="teacherTypeAdd"
+                    tabindex="9" [clearable]="true" [searchable]="true" bindLabel="label" bindValue="id"
+                    [multiple]="false" [closeOnSelect]="true" placeholder="Chọn giáo viên"
+                    notFoundText="Không có dữ liệu" [(ngModel)]="item.teacher_id"
+                    (change)="changeTeacherOnRowData(item, $event)">
+                  </ng-select> -->
+                  <tt-dropdown-table [(value)]="item.teacher_id" [(displayValue)]="item.teacher_name"
+                    [data]="item.ddlTeacher" [dataAll]="ddlTeacher" [cols]="ddlTeacherColumns" [valueField]="'id'"
+                    [displayField]="'fullName'" [placeholder]="'Chọn giáo viên'"
+                    [searchFields]="['code','fullName','dob']" (valueChange)="onChangeTeacherIdOnRowData($event)"
+                    (onBeforeClearValue)="onBeforeClearTeacherId($event)"
+                    (displayValueChange)="onChangeDisplayTeacherName(item, $event)">
+                  </tt-dropdown-table>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="checkData == false">
+              <tr>
+                <td colspan="11"> Dữ liệu không tồn tại
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <tt-paginator [tableId]="'assign-homeroom-teaching'" [(data)]="dataSource" [(dataPaged)]="dataPaged"
+            [pageSize]="countPage" [(currentPage)]="p">
+          </tt-paginator>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer respon2">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="form-group row" style="margin-bottom: 0;">
+          <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+            <tt-pagesize-selector [(pageSize)]="countPage"></tt-pagesize-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

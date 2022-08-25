@@ -1,0 +1,153 @@
+::ng-deep app-assign-of-teaching{
+  tt-ng-select-multi-label{
+    display: contents;
+  }
+  .customYear{
+      float: left;
+      width: 60%;
+      max-width: 60%;
+    }
+  .customGrade{
+      float: left;
+      width: 68%;
+      max-width: 68%;
+    }
+  .customClass{
+      float: left;
+      width: 78%;
+      max-width: 78%;
+    }
+  .customSubject{
+      float: left;
+      width: 69%;
+      max-width: 69%;
+    }
+  .customTeacher{
+      float: left;
+      width: 71%;
+      max-width: 71%;
+    }
+    @media only screen and (max-width: 2560px){
+
+    }
+    @media only screen and (max-device-width: 1366px){
+      .customClass{
+        float: left;
+        width: 69%;
+        max-width: 69%;
+      }
+      .customTeacher{
+        float: left;
+        width: 68%;
+        max-width: 68%;
+
+        // width: 71%;
+        // max-width: 71%;
+      }
+    }
+    hr{
+      margin: 1% 0 1% 0;
+    }
+    @media only screen and (min-device-width: 992px) and (max-device-width: 1199px){
+      .btnYear{
+
+      }
+      .btnGrade{
+
+      }
+      .btnClass{
+        top: 8px;
+      }
+      .btnTeacher{
+        top: 8px;
+      }
+      .btnFilter{
+        top: 8px;
+      }
+    }
+    @media only screen and (min-device-width: 768px) and (max-device-width: 991px){
+      .btnYear{
+
+      }
+      .btnGrade{
+
+      }
+      .btnClass{
+        top: 8px;
+      }
+      .btnTeacher{
+        top: 8px;
+      }
+      .btnFilter{
+        top: 8px;
+      }
+      hr{
+        margin: 2% 0 1% 0;
+      }
+    }
+    @media only screen and (min-device-width: 576px) and (max-device-width: 767px){
+      .btnYear{
+
+      }
+      .btnGrade{
+
+      }
+      .btnClass{
+      }
+      .btnTeacher{
+      }
+      .btnFilter{
+        top: 8px;
+      }
+      hr{
+        margin: 3% 0 3% 0;
+      }
+    }
+    @media only screen and (max-width: 576px){
+      .customYear{
+        max-width: 100%;
+        width: 100%;
+      }
+      .customGrade {
+          float: left;
+          max-width: 100%;
+          width: 100%;
+      }
+      .customClass{
+          float: left;
+          width: 100%;
+          max-width: 100%;
+        }
+      .customTeacher{
+          float: left;
+          width: 100%;
+          max-width: 100%;
+        }
+      .customSubject{
+          float: left;
+          width: 100%;
+          max-width: 100%;
+        }
+        hr{
+          margin: 3% 0 3% 0;
+        }
+  }
+  @media only screen and (max-width: 575px){
+    .btnYear{
+
+    }
+    .btnGrade{
+
+    }
+    .btnClass{
+    }
+    .btnTeacher{
+    }
+    .btnFilter{
+      top: 8px;
+    }
+    hr{
+      margin: 3% 0 3% 0;
+    }
+  }
+}

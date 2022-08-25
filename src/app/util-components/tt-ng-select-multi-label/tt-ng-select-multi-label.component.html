@@ -1,0 +1,9 @@
+<div class="ng-value displayItem" *ngFor="let item of (items ? items.slice(0,maxDisplayCount): [])">
+  <span>
+    {{ item[displayField] }}
+    <span class="removeItem" (click)="removeItem(item)"><i class="fa fa-times"></i></span>
+  </span>
+</div>
+<div class="ng-value" *ngIf="items.length > maxDisplayCount">
+  <span class="ng-value-label">+{{ items.length - maxDisplayCount }}</span>
+</div>

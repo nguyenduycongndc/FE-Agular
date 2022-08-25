@@ -1,0 +1,201 @@
+<form [formGroup]="form">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-group fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Khóa/mở sổ điểm</strong>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+<!-- <div>
+  <pre> {{dataSource|json}}</pre>
+</div> -->
+
+          <div class="form-group row" style="margin-bottom: -0.45rem;">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+              <label for="father_name" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+                <ng-select tabindex="2"
+                  [items]="dataYear"
+                  class="customYear"
+                  bindValue="id"
+                  bindLabel="name"
+                  [clearable]="false"
+                  placeholder="Chọn năm"
+                  notFoundText="Không có dữ liệu"
+                  formControlName="year_id"
+                  [(ngModel)]="lock_filter.year_id"
+                  [multiple]="false"
+                  [closeOnSelect]="true"
+                  (change)="onSelectYear($event)"
+                  >
+                </ng-select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                <label for="father_name" id="custom_semester" class="col-form-label" style="float: left; margin-right: 1em;">Cấp học:</label>
+                <ng-select tabindex="3"
+                [items]="dataLevel"
+                class="customGrade"
+                bindValue="id"
+                bindLabel="name"
+                [clearable]="false"
+                placeholder="Chọn cấp"
+                notFoundText="Không có dữ liệu"
+                formControlName="level"
+                [(ngModel)]="lock_filter.level"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                (change)="onSelectLevel($event)"
+                >
+              </ng-select>
+              <span class="vd_grade" *ngIf="submitted && f?.level?.errors?.required" >
+                Vui lòng chọn cấp
+              </span>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-5 col-xl-3">
+                <label for="father_name" class="col-form-label" style="float: left; margin-right: 1em;">Học kỳ:</label>
+                <ng-select tabindex="4"
+                [items]="dataSemester"
+                class="customGrade"
+                bindValue="id"
+                bindLabel="name"
+                [clearable]="false"
+                placeholder="Chọn học kỳ"
+                notFoundText="Không có dữ liệu"
+                formControlName="semester_id"
+                [(ngModel)]="lock_filter.semester_id"
+                [multiple]="false"
+                [closeOnSelect]="true"
+                >
+                </ng-select>
+                <span class="vd_semester" *ngIf="submitted && f?.semester_id?.errors?.required" >
+                  Vui lòng chọn học kỳ
+                </span>
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+              <div class="form-group row" style="float: right; margin-right: 0em;">
+                <button type="button" class="btn btn-primary filter_search" data-toggle="button" aria-pressed="false" (click)="filter()" [disabled]="loadingFilter"
+                autocomplete="off" tabindex="5">
+                    <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- <hr style="margin: 1% 0 1% 0;"> -->
+        <hr style="margin: 1% 0 0.5% 0;">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+          <!-- <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="dataSource"> -->
+            <!-- Table -->
+            <table class="table table-responsive-sm table-bordered table-striped table-sm"
+              style="text-align: center; margin-bottom: 0rem;">
+              <thead *ngIf="headerLock === true">
+                <tr class="middle_header">
+                  <th>STT</th>
+                  <th>Khối</th>
+                  <th>Khóa sổ</th>
+                  <!-- <th>Khóa sổ
+                    <input [tabIndex]="7" type="checkbox" formControlName="idCheckAll"
+                    (change)="checkAllAttendance($event)" />
+                  </th> -->
+
+                  <th>Khóa điểm danh
+                    <input [tabIndex]="7" type="checkbox" formControlName="idCheckAll"
+                    (change)="checkAllAttendance($event)" />
+                  </th>
+                  <th>Khóa sổ điểm
+                    <input [tabIndex]="7" type="checkbox" formControlName="idCheckAllMarkBoard"
+                    (change)="checkAllMarkBoard($event)" />
+                  </th>
+
+                  <ng-template [ngIf]="checkTab == 1" [ngIfElse]="noDis">
+                    <th>Khóa đánh giá môn học
+                      <input [tabIndex]="7" type="checkbox" formControlName="idCheckAllSummary"
+                      (change)="checkAllSummary($event)" />
+                    </th>
+                  </ng-template>
+                  <ng-template #noDis>
+                  </ng-template>
+
+                  <ng-template [ngIf]="checkTab == 2" [ngIfElse]="noDis2">
+                    <th>Khóa tổng kết
+                      <input [tabIndex]="7" type="checkbox" formControlName="idCheckAllAcademic"
+                      (change)="checkAllAcademic($event)" />
+                    </th>
+                  </ng-template>
+                  <ng-template #noDis2>
+                  </ng-template>
+                </tr>
+
+              </thead>
+              <tbody>
+              <!-- <tbody *ngIf="dataSource"> -->
+                <!-- <tr> -->
+                <tr class="item1" *ngFor="let item of dataSource; index as i;" >
+                  <td> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                  <td> {{ item.grade_name }} </td>
+                  <td><input type="checkbox" class="allcb"></td>
+                  <!--Điểm danh-->
+                  <td style="vertical-align: middle;" >
+                    <input type="checkbox" class="chk" [(ngModel)]="item['attendance']" [ngModelOptions]="{standalone: true}">
+                  </td>
+
+                  <!--Bảng điểm-->
+                  <td style="vertical-align: middle;" >
+                    <input type="checkbox" class="chk" [(ngModel)]="item['mark_board']" [ngModelOptions]="{standalone: true}">
+                  </td>
+
+                  <ng-template [ngIf]="checkTab == 1" [ngIfElse]="noDis">
+                  <!--Tiểu học-->
+                    <td style="vertical-align: middle;" >
+                      <input type="checkbox" class="chk" [(ngModel)]="item['summary']" [ngModelOptions]="{standalone: true}">
+                    </td>
+                  </ng-template>
+                  <ng-template #noDis>
+                  </ng-template>
+
+                  <ng-template [ngIf]="checkTab == 2" [ngIfElse]="noDis2">
+                      <!--Cấp 2,3-->
+                      <td style="vertical-align: middle;" >
+                        <input type="checkbox" class="chk" [(ngModel)]="item['academic_transcript']" [ngModelOptions]="{standalone: true}">
+                      </td>
+                  </ng-template>
+                  <ng-template #noDis2>
+                  </ng-template>
+
+
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+      </div>
+
+      <!--Card-Footer-->
+      <div class="card-footer respon2">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row" style="margin-bottom: 0;">
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+              <button class="btn btn-primary" type="button" style="margin-right: 0.3em; margin-bottom: 0.3em;"
+                (click)="save()" tabindex="5">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Card-Footer-->
+
+    </div>
+  </div>
+
+
+</form>

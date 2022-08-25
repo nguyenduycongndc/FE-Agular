@@ -1,0 +1,388 @@
+<!-- <form [formGroup]="form"> -->
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Phân công giảng dạy</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row">
+        <!-- <div class="form-group row"> -->
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 btnYear">
+          <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+          <ng-select #selectYearSearch [tabIndex]="1" [items]="ddlYearData" class="customYear" bindLabel="name"
+            placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+            [(ngModel)]="selectedYear" (change)="onSelectYear($event)">
+            <!-- <ng-select #selectYearSearch [tabIndex]="2" [items]="ddlYearData" class="customYear" bindLabel="name"
+                placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+                [(ngModel)]="selectedYear" formControlName="year" (change)="onSelectYear($event)"> -->
+          </ng-select>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-3 btnGrade">
+          <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Khối:</label>
+          <ng-select [items]="ddlGradeSearchData" class="customGrade" [tabIndex]="2" bindLabel="name"
+            placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true" [closeOnSelect]="false"
+            [(ngModel)]="selectedGradeSearch" (change)="onSelectGrade($event)">
+            <!-- <ng-select [items]="ddlGradeSearchData" class="customGrade" [tabIndex]="3" bindLabel="name"
+                placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true" [closeOnSelect]="false"
+                formControlName="grade" [(ngModel)]="selectedGradeSearch" (change)="onSelectGrade($event)"> -->
+            <ng-template ng-header-tmp>
+              <div>
+                <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+              </div>
+            </ng-template>
+            <ng-template ng-multi-label-tmp let-items="items">
+              <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                <span>{{item.name}}</span>
+              </div>
+              <div class="ng-value" *ngIf="items.length > 2">
+                <span class="ng-value-label">+{{items.length - 2}}</span>
+              </div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-2 btnClass">
+          <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+          <ng-select [tabIndex]="3" [items]="ddlClassSearchData" class="customClass" bindLabel="name"
+            placeholder="Tất cả" [multiple]="true" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+            [(ngModel)]="selectedClassSearch" (change)="onSelectClass($event)">
+            <!-- <ng-select [tabIndex]="2" [items]="ddlClassSearchData" class="customClass" bindLabel="name"
+                placeholder="Tất cả" [multiple]="true" notFoundText="Không có dữ liệu"
+                [closeOnSelect]="false" [(ngModel)]="selectedClassSearch" formControlName="class"
+                (change)="onSelectClass($event)"> -->
+            <ng-template ng-header-tmp>
+              <div>
+                <button class="btn btn-link" (click)="selectAllClassSearch(ddlClassSearchData)">Chọn tất cả</button>
+                <button class="btn btn-link" (click)="deSelectAllClassSearch()">Bỏ chọn tất cả</button>
+              </div>
+            </ng-template>
+            <ng-template ng-multi-label-tmp let-items="items">
+              <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                <span>{{item.name}}</span>
+              </div>
+              <div class="ng-value" *ngIf="items.length > 1">
+                <span class="ng-value-label">+{{items.length - 1}}</span>
+              </div>
+            </ng-template>
+          </ng-select>
+        </div>
+        <div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 btnTeacher">
+          <label class="col-form-label" style="float: left; margin-right: 1em">Giáo viên:</label>
+          <tt-dropdown-table [(value)]="selectedTeacher.teacher_id" class="customTeacher"
+            [(displayValue)]="selectedTeacher.teacher_name" [data]="ddlTeacherSearchData"
+            [dataAll]="ddlTeacherSearchData" [cols]="ddlTeacherColumns" [valueField]="'id'" [displayField]="'name'"
+            [placeholder]="'Chọn giáo viên'" [searchFields]="['code','name','dob']"
+            (valueChange)="onChangeTeacherIdOnRowData($event)" (onBeforeClearValue)="onBeforeClearTeacherId($event)" tabindex="4">
+          </tt-dropdown-table>
+        </div>
+
+        <div class="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 btnFilter">
+          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+            style="float: right; margin-bottom: 2%;" autocomplete="off" (click)="filter()" tabindex="5">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+
+      </div>
+      <hr/>
+      <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12" *ngIf="dataSource">
+        <!-- <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12"> -->
+        <table class="table table-responsive-sm table-bordered table-striped table-sm"
+          style="text-align: center; margin-bottom: 0rem;">
+          <thead *ngIf="headerAssign === true">
+
+            <th style="vertical-align: inherit;width: 5%;">STT</th>
+            <th tt-col-header [tableId]="'assign-of-teaching'" [field]="'code_teacher'" [fieldType]="'string'"
+              [header]="'Mã giáo viên'" [(data)]="dataSource" class="column-header" style="vertical-align: inherit; width: 10%"></th>
+            <th tt-col-header [tableId]="'assign-of-teaching'" [field]="'teacher_name'"
+              [sortFields]="['reverse_teacher_name']" [fieldType]="'string'" [header]="'Tên giáo viên'"
+              [(data)]="dataSource" class="column-header" style="vertical-align: inherit"></th>
+            <th style="vertical-align: inherit; width: 8%; max-width: 60px">Khối</th>
+            <th style="vertical-align: inherit; width: 12%; max-width: 60px">Môn</th>
+            <th style="vertical-align: inherit; max-width: 60px">Lớp</th>
+            <th style="vertical-align: inherit; max-width: 60px">Học kỳ</th>
+            <th style="vertical-align: inherit; max-width: 60px">Hoạt động</th>
+            <tr class="table-filter-row">
+              <td></td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'code_teacher'"></tt-col-filter>
+              </td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'teacher_name'"></tt-col-filter>
+              </td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'grade_name'"></tt-col-filter>
+              </td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'subject_name'"></tt-col-filter>
+              </td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'class_name'"></tt-col-filter>
+              </td>
+              <td>
+                <tt-col-filter [tableId]="'assign-of-teaching'" [field]="'semester_name'"></tt-col-filter>
+              </td>
+              <td style="max-width: 60px"></td>
+            </tr>
+          </thead>
+          <tbody *ngIf="dataSource">
+            <tr *ngFor="let item of dataPaged; index as i;">
+              <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+              <td style="vertical-align: inherit;">{{ item.code_teacher }}</td>
+              <td style="vertical-align: inherit; text-align: left">{{ item.teacher_name }}</td>
+              <td style="vertical-align: inherit;">{{ item.grade_name }}</td>
+              <td style="vertical-align: inherit; text-align: left">{{ item.subject_name }}</td>
+              <td style="vertical-align: inherit;">{{ item.class_name }}</td>
+              <td style="vertical-align: inherit; text-align: left">{{ item.semester_name }}</td>
+              <td style="vertical-align: inherit;">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                  data-target="#updateModal" (click)="editAssign(item)" style="margin-right: 3%;" tabIndex="6">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                  (click)="deleteAssign(item.ids)" style="margin-top: 3px;margin-bottom: 0.2em;margin-top: 0.2em;"
+                  tabIndex="6">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="checkData == false">
+            <tr>
+              <td colspan="11"> Dữ liệu không tồn tại
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <tt-paginator [tableId]="'assign-of-teaching'" [(data)]="dataSource" [(dataPaged)]="dataPaged"
+          [pageSize]="countPage" [(currentPage)]="p">
+        </tt-paginator>
+      </div>
+    </div>
+    <!--Footer-->
+    <div class="card-footer respon2">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="form-group row" style="margin-bottom: 0;">
+          <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+            <button class="btn btn-success" type="button" style="margin-right: 0.3em; margin-bottom: 0.3em;"
+              data-toggle="modal" data-target="#createModal" (click)="resetForm()" tabIndex="7">
+              <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+            </button>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+            <tt-pagesize-selector tabIndex="7" [(pageSize)]="countPage"></tt-pagesize-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Footer-->
+  </div>
+</div>
+<form [formGroup]="form">
+  <!-- Modal Thêm -->
+  <div class="modal fade" id="createModal" data-keyboard="false" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thêm mới</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="8">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ">
+              <label class="col-form-label" style=" margin-right: 1em">Giáo viên:<span
+                  style="color: red;">*</span></label>
+
+              <tt-dropdown-table [(value)]="saveItem.teacher_id" [(displayValue)]="saveItem.teacher_name"
+                [data]="ddlTeacherSearchData" [dataAll]="ddlTeacherSearchData" [cols]="ddlTeacherColumns"
+                [valueField]="'id'" [displayField]="'name'" [placeholder]="'Chọn giáo viên'"
+                [searchFields]="['code','name','dob']" (valueChange)="onChangeTeacherIdOnRowData($event)"
+                (onBeforeClearValue)="onBeforeClearTeacherId($event)" tabindex="9">
+              </tt-dropdown-table>
+
+              <span *ngIf="submitted && saveItem.showErrorTeacherId" style="font-size: 80%; color: #dc3545;">
+                Giáo viên không được để trống
+              </span>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ">
+              <label for="" class="col-form-label" style=" margin-right: 1em;">Khối:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlGradeInsertData" class="cusGrade" [tabIndex]="9" bindValue="id" bindLabel="name"
+                placeholder="Chọn khối" notFoundText="Không có dữ liệu" [multiple]="false" [closeOnSelect]="false"
+                [(ngModel)]="saveItem.grade_id" formControlName="gradeAdd" (change)="onSelectGradeAdd($event)">
+              </ng-select>
+              <span *ngIf="submitted && saveItem.showErrorGradeId" style="font-size: 80%; color: #dc3545;">
+                Khối không được để trống
+              </span>
+
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style=" margin-right: 1em;">Môn học:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlSubjectAddData" class="cusSubject" [tabIndex]="10" bindValue="id" bindLabel="name"
+                placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="false" [closeOnSelect]="false"
+                [(ngModel)]="saveItem.subject_id" formControlName="subjectAdd" (change)="onSelectSubjectAdd($event)">
+              </ng-select>
+              <span *ngIf="submitted && saveItem.showErrorSubjectId" style="font-size: 80%; color: #dc3545;">
+                Môn không được để trống
+              </span>
+
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style=" margin-right: 1em;">Lớp:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlClassAddData" class="cusClass" [tabIndex]="11" bindValue="class_id"
+                bindLabel="name" placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true"
+                [closeOnSelect]="false" [(ngModel)]="saveItem.class_ids" formControlName="classAdd"
+                (change)="onSelectClassAdd($event)">
+                <ng-template ng-header-tmp>
+                  <tt-ng-select-header-selectall [items]="ddlClassAddData" [(value)]="saveItem.class_ids"
+                    [valueField]="'class_id'" (valueChange)="onSelectClassAdd($event)"></tt-ng-select-header-selectall>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items">
+                  <tt-ng-select-multi-label [items]="items" [(value)]="saveItem.class_ids" [valueField]="'class_id'"
+                    [displayField]="'name'" [maxDisplayCount]="2"></tt-ng-select-multi-label>
+                </ng-template>
+              </ng-select>
+              <span *ngIf="submitted && saveItem.showErrorClassId" style="font-size: 80%; color: #dc3545;">
+                Lớp không được để trống
+              </span>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style=" margin-right: 1em;">Học kỳ:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlSemesterAddData" class="cusSemester" [tabIndex]="12" bindValue="semester_id"
+                bindLabel="name" placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true"
+                [closeOnSelect]="false" [(ngModel)]="saveItem.semester_ids" formControlName="semesterAdd"
+                (change)="onSelectSemesterAdd($event)">
+
+                <ng-template ng-header-tmp>
+                  <tt-ng-select-header-selectall [items]="ddlSemesterAddData" [(value)]="saveItem.semester_ids"
+                    [valueField]="'semester_id'" (valueChange)="onSelectSemesterAdd($event)">
+                  </tt-ng-select-header-selectall>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items">
+                  <tt-ng-select-multi-label [items]="items" [(value)]="saveItem.semester_ids"
+                    [valueField]="'semester_id'" [displayField]="'name'" [maxDisplayCount]="2">
+                  </tt-ng-select-multi-label>
+                </ng-template>
+              </ng-select>
+              <span *ngIf="submitted && saveItem.showErrorSemesterId" style="font-size: 80%; color: #dc3545;">
+                Học kỳ không được để trống
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-success" (click)="createAssign()" tabIndex="13"><i class="fa fa-plus"
+              aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="14"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Sửa -->
+  <div class="modal fade" id="updateModal" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Cập nhật</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="15">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Giáo viên:<span
+                  style="color: red;">*</span></label>
+              <ng-select [tabIndex]="15" [items]="ddlTeacherSearchData" class="cusTeacher" bindValue="id"
+                bindLabel="name" placeholder="Tất cả" [clearable]="false" [multiple]="false"
+                notFoundText="Không có dữ liệu" [closeOnSelect]="false" [(ngModel)]="saveItem.teacher_id"
+                formControlName="teacherUpdate">
+              </ng-select>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ">
+              <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Khối:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlGradeSearchData" class="cusGrade" [tabIndex]="16" bindValue="id" bindLabel="name"
+                placeholder="Chọn khối" notFoundText="Không có dữ liệu" [multiple]="false" [closeOnSelect]="false"
+                [(ngModel)]="saveItem.grade_id" formControlName="gradeUpdate">
+              </ng-select>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Môn học:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlSubjectUpdateData" class="cusSubject" [tabIndex]="17" bindValue="id"
+                bindLabel="name" placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="false"
+                [closeOnSelect]="false" [(ngModel)]="saveItem.subject_id" formControlName="subjectUpdate">
+              </ng-select>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Lớp:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlClassUpdateData" class="cusClass" [tabIndex]="18" bindValue="class_id"
+                bindLabel="name" placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true"
+                [closeOnSelect]="false" [(ngModel)]="saveItem.class_ids" formControlName="classUpdate"
+                (change)="onSelectClassUpdate($event)">
+                <ng-template ng-header-tmp>
+                  <tt-ng-select-header-selectall [items]="ddlClassUpdateData" [(value)]="saveItem.class_ids"
+                    [valueField]="'class_id'" (valueChange)="onSelectClassUpdate($event)">
+                  </tt-ng-select-header-selectall>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items">
+                  <!-- {{items|json}} -->
+                  <tt-ng-select-multi-label [items]="items" [(value)]="saveItem.class_ids" [valueField]="'class_id'"
+                    [displayField]="'name'" [maxDisplayCount]="2"></tt-ng-select-multi-label>
+                </ng-template>
+              </ng-select>
+              <span *ngIf="submitted && f?.classUpdate?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                Lớp không được để trống
+              </span>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+              <label for="" class="col-form-label" style="float: left; margin-right: 1em;">Học kỳ:<span
+                  style="color: red;">*</span></label>
+              <ng-select [items]="ddlSemesterUpdateData" class="cusSemester" [tabIndex]="19" bindValue="id"
+                bindLabel="name" placeholder="Tất cả" notFoundText="Không có dữ liệu" [multiple]="true"
+                [closeOnSelect]="false" [(ngModel)]="saveItem.semester_ids" formControlName="semesterUpdate"
+                (change)="onSelectSemesterUpdate($event)">
+                <ng-template ng-header-tmp>
+                  <tt-ng-select-header-selectall [items]="ddlSemesterUpdateData" [(value)]="saveItem.semester_ids"
+                    [valueField]="'id'" (valueChange)="onSelectSemesterUpdate($event)">
+                  </tt-ng-select-header-selectall>
+                </ng-template>
+                <ng-template ng-multi-label-tmp let-items="items">
+                  <tt-ng-select-multi-label [items]="items" [(value)]="saveItem.semester_ids" [valueField]="'id'"
+                    [displayField]="'name'" [maxDisplayCount]="2"></tt-ng-select-multi-label>
+                </ng-template>
+
+              </ng-select>
+              <span *ngIf="submitted && f?.semesterUpdate?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                Học kỳ không được để trống
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="updateAssign()" tabindex="20">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="21"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- </form> -->

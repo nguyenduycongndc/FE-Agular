@@ -1,0 +1,34 @@
+<div *ngIf="data && data.length > 0" class="text-right" style="margin-top: 1em;">
+  <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+    <div class="row">
+      <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6">
+        <div>
+          <p *ngIf="dataFiltered && dataFiltered.length > 0">
+            Hiển thị
+            <span style="font-weight: bold;">
+              {{ rowNumberFrom }} - {{ rowNumberTo }} / {{ dataFiltered.length }}
+            </span>
+            bản ghi
+          </p>
+          <p *ngIf="!dataFiltered || dataFiltered.length == 0">
+            Không có bản ghi nào
+          </p>
+        </div>
+        <ng-content select="[content]"></ng-content>
+      </div>
+      <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6">
+        <ul>
+          <li *ngFor="let item of pagingButtons">
+            <span
+              [ngClass]="'paging-button ' + (item.selected ? 'selected' : '') + ' ' + (item.disabled ? 'disabled' : 'enabled')"
+              (click)="selectPage(item.value)">
+              <ng-container *ngIf="!item.isPrevious && !item.isNext"> {{ item.label }}</ng-container>
+              <ng-container *ngIf="item.isPrevious"><i class="fa fa-chevron-left"></i></ng-container>
+              <ng-container *ngIf="item.isNext"><i class="fa fa-chevron-right"></i></ng-container>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

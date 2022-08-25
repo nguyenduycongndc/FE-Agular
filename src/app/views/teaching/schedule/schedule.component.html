@@ -1,0 +1,460 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6 col-md-6 col-sm-6" style="margin-top: 6px; margin-bottom: 3px;">
+          <span class="fa-stack">
+            <i class="fa fa-calendar fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Thời khóa biểu</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6em 0.5em 1.5em 0.5em;">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="form-group row">
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+            <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+            <ng-select #selectYearSearch tabindex="1" [items]="ddlYearData" class="customYear" bindLabel="name"
+              bindValue="id" placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu"
+              [closeOnSelect]="true" [(ngModel)]="filterSaveItems.year">
+            </ng-select>
+          </div>
+        </div>
+      </div>
+      <hr style="margin: 1% 0 1% 0" />
+      <form [formGroup]="form">
+        <div class="form-group" style="margin-bottom: -0.8rem;">
+          <div class="form-group" style="margin-bottom: -0.8rem;">
+            <div class="row">
+              <div class="col-xl-3 col-lg-6 col-md-5 col-sm-5 col-6" style="padding-right: 3px;">
+                <div class="tab-content" #addDetailInformationTab id="myTabContent" style="height: auto;">
+                  <div class="tab-pane fade show active" id="addBasicInformation" role="tabpanel"
+                    aria-labelledby="basic-information-tab"
+                    style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;"
+                    class="active">
+                    <div class="col-lg-12">
+                      <span data-toggle="tooltip" data-placement="top" title="Thêm thời khóa biểu"
+                        style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                        <i class="fa fa-plus fa-1x" data-toggle="modal" (click)="create_schedule()"
+                          data-target="#createScheduleModal"></i>
+                      </span>
+                      <span data-toggle="tooltip" data-placement="top" title="Sửa thời khóa biểu"
+                        style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                        <i class="fa fa-pencil fa-1x" data-toggle="modal" (click)="edit_schedule()"></i>
+                      </span>
+                      <span data-toggle="tooltip" data-placement="top" title="Xóa thời khóa biểu"
+                        style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                        <i class="fa fa-trash-o fa-1x" (click)="delete_schedule()"></i>
+                      </span>
+                      <span data-toggle="tooltip" data-placement="top" title="Sao chép thời khóa biểu"
+                        style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2">
+                        <i class="fa fa-files-o fa-1x" (click)="copy_schedule()"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="spinner-border" role="status" style="margin-left: 45%; width: 1.5rem; height: 1.5rem;"
+                    *ngIf="loadingListSchedule == true; else loaded">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <ng-template #loaded>
+                    <div *ngFor="let item of scheduleTree; index as i">
+                      <input class="ac-input-{{i}}" id="ac-{{item[0][0] + '-' + i}}" name="ac-{{item[0][0] + '-' + i}}"
+                        type="checkbox" />
+                      <label class="ac-label-{{i}}" for="ac-{{item[0][0] + '-' + i}}">{{ item[0][0] }}</label>
+                      <article class="ac-text-{{i}}">
+                        <div class="ac-sub-{{i}}" *ngFor="let semester of item[0][1]; index as j">
+                          <input class="ac-input-{{i}}" id="ac-{{i + semester[0] + '-' + 1}}"
+                            name="ac-{{i + semester[0] + '-' + 1}}" type="checkbox" />
+                          <label class="ac-label-{{i}}" for="ac-{{i + semester[0] + '-' + 1}}">{{ semester[0] }}</label>
+                          <article class="ac-sub-text-{{i}}">
+                            <ul *ngFor="let studyProgram of semester[1]; index as k"
+                              style="padding-left: 0; margin-bottom: .1em;">
+                              <li>
+                                <label
+                                  style="padding-top: 0.8em; font-size: 1.1em; cursor: pointer; margin-bottom: .1em;">
+                                  <input type="radio" name="studyProgram"
+                                    (click)="setUpdateScheduleData(studyProgram.level, studyProgram.id, studyProgram.grade_id, studyProgram.semester_id, studyProgram.name, studyProgram.start_date, studyProgram.end_date, studyProgram.status)"
+                                    style="display: none;">
+                                  <span>{{ studyProgram.name }}</span><br>
+                                </label>
+                              </li>
+                            </ul>
+                          </article>
+                        </div>
+                      </article>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="col-xl-9 col-lg-6 col-md-7 col-sm-7 col-6" style="padding-left: 3px;">
+                <div class="tab-content" #addDetailInformationTab id="myTabContent" style="height: auto;">
+                  <div class="tab-pane fade show active" id="morAfschedule" role="tabpanel"
+                    aria-labelledby="subject-properties-tab" style="padding: 0rem;">
+                    <!-- [ngClass]="{ 'active':activeTab==='morning_schedule'}"> -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                      style="background-color: #1e656d; padding-top: .45rem; padding-bottom: .45rem; text-align: left;">
+                      <span data-toggle="tooltip" data-placement="top" title="Lưu"
+                        style="color: white; font-size: 1.1em; cursor: pointer;" tabIndex="2" (click)="save_schedule()">
+                        <i class="fa fa-floppy-o fa-1x">&nbsp; Lưu</i>
+                      </span>
+                      <span data-toggle="tooltip" data-placement="top" title="Nhập tệp"
+                        style="color: white; margin-left: 1em; font-size: 1.1em; cursor: pointer;" tabIndex="2"
+                        (click)="upload_schedule()">
+                        <i class="fa fa-upload fa-1x">&nbsp; Nhập tệp</i>
+                      </span>
+                    </div>
+
+                    <ul class="nav nav-tabs">
+                      <li class="nav-item" *ngFor="let tab of tabs" (click)="changeTab(tab.id)" tabindex="2">
+                        <a class="nav-link" [ngClass]="{active: tab.id == tabs_id ? true : false }">{{tab.name}}</a>
+                      </li>
+                    </ul>
+                    <div class="table-responsive">
+                      <table class="table table-responsive-sm table-bordered table-striped table-sm"
+                      style="text-align: center; margin-bottom: 0rem;">
+                        <thead *ngIf="headerSchedule === true">
+                          <tr>
+                            <ng-container *ngFor="let colData of headerData">
+                              <td *ngIf="colData.field == 'dow'" rowspan="2">{{colData.value}}</td>
+                              <td *ngIf="colData.field == 'lesson'" rowspan="2">{{colData.value}}</td>
+                              <td *ngIf="colData.field.startsWith('class_')" colSpan="2">{{colData.value}}</td>
+                            </ng-container>
+                          </tr>
+                          <tr>
+                            <ng-container *ngFor="let colData of headerDataUnder">
+                              <td>{{colData.value}}</td>
+                            </ng-container>
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="headerSchedule === true">
+                          <!-- 1 -->
+                          <ng-container *ngFor="let datum of dataSource">
+                            <!-- 2 -->
+                            <ng-container *ngFor="let value of headerBindding">
+                              <tr *ngIf="value.field == 'weekday'">
+                                <td rowspan="7">{{datum[value.field]['key'] != 8 ? datum[value.field]['key'] : 'CN'}}</td>
+                              </tr>
+                              <ng-container *ngIf="value.field == 'detail'">
+                                <!-- 3 information cha chứa lesson và information con-->
+                                <tr *ngFor="let item of datum['information']">
+                                  <td *ngIf="item['lesson']">{{item['lesson']}}</td>
+                                  <!-- information con -->
+                                  <ng-container *ngIf="item['information_detail']">
+                                    <td *ngFor="let itum of headerDataUnder">
+                                      <p *ngIf="datum['weekday']['value'] == 1 && itum['sub'] == 'subject'">{{item['information_detail'][itum.field]['subject_name'] ? item['information_detail'][itum.field]['subject_name'] : ''}}</p>
+                                      <p *ngIf="datum['weekday']['value'] == 1 && itum['sub'] == 'teacher'">{{item['information_detail'][itum.field]['teacher_name'] ? item['information_detail'][itum.field]['teacher_name'] : ''}}</p>
+                                      <p *ngIf="datum['weekday']['value'] == 0"></p>
+                                    </td>
+                                  </ng-container>
+                                </tr>
+                              </ng-container>
+                            </ng-container>
+                          </ng-container>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- thêm mới cây thư mục -->
+<form [formGroup]="form">
+  <div class="modal fade" id="createScheduleModal" data-keyboard="false" role="dialog"
+    aria-labelledby="createScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="scheduleModalLabel">Thêm thời khóa biểu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên thời khóa biểu: <span
+                    style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên thời khóa biểu" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên thời khóa biểu không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên thời khóa biểu không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label>Thời gian áp dụng</label>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="start_date" style="position: relative; padding-bottom: 0; top: 5px;">Ngày bắt đầu:<span
+                    style="color: red;">*</span></label>
+                <input (blur)="changeDate($event)" class="form-control" type="text" name="text-input"
+                  formControlName="start_date" onfocus="(this.type='date')" id="date" placeholder="mm/dd/yyyy"
+                  [ngClass]="{ 'is-invalid': submitted && f.start_date.errors || checkDate === false && submitted}"
+                  tabindex="9">
+                <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback">
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                    Ngày tháng năm bắt đầu không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                    Ngày tháng năm bắt đầu không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkDate === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập năm bao gồm
+                  4 chữ số</small>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="end_date" style="position: relative; padding-bottom: 0; top: 5px;">Ngày kết thúc:<span
+                    style="color: red;">*</span></label>
+                <input (blur)="changeDate2($event)" class="form-control" type="text" name="text-input"
+                  formControlName="end_date" onfocus="(this.type='date')" id="date" placeholder="dd/mm/yyyy"
+                  [ngClass]="{ 'is-invalid': submitted && f.end_date.errors || checkDate2 === false && submitted}"
+                  tabindex="10">
+                <div *ngIf="submitted && f.end_date.errors" class="invalid-feedback">
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 === undefined && valueBoolen2 === undefined && valueDate2 === undefined ">
+                    Ngày tháng năm kết thúc không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 === '' && valueBoolen2 === true && valueDate2 === ''">
+                    Ngày tháng năm kết thúc không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 !== '' && valueBoolen2 === false && valueDate2 === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkDate2 === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập năm bao
+                  gồm 4 chữ số</small>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="school_year">Khối:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="13" [items]="ddlGradeData" class="customGrade" bindLabel="name" bindValue="id"
+                  placeholder="Chọn khối" [(ngModel)]="saveItems.grade" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="grade_id" (change)="onSelectGrade($event)">
+                </ng-select>
+                <span *ngIf="submitted && f?.grade_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Khối không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="name">Học kỳ:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="14" [items]="ddlSemesterData" class="customSemester" bindLabel="name"
+                  bindValue="id" placeholder="Chọn học kỳ" [(ngModel)]="saveItems.semester"
+                  notFoundText="Không có dữ liệu" [closeOnSelect]="true" formControlName="semester_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.semester_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Học kỳ không được để trống
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="createSchedule()"><i
+              class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- cập nhật cây thư mục -->
+  <div class="modal fade" id="updateScheduleModal" data-keyboard="false" role="dialog"
+    aria-labelledby="updateScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="scheduleModalLabel">Sửa thời khóa biểu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên thời khóa biểu: <span
+                    style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên thời khóa biểu" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên thời khóa biểu không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên thời khóa biểu không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <label>Thời gian áp dụng</label>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="start_date" style="position: relative; padding-bottom: 0; top: 5px;">Ngày bắt đầu:<span
+                    style="color: red;">*</span></label>
+                <input (blur)="changeDate($event)" class="form-control" type="text" name="text-input"
+                  formControlName="start_date" onfocus="(this.type='date')" id="date" placeholder="dd/mm/yyyy"
+                  [ngClass]="{ 'is-invalid': submitted && f.start_date.errors || checkDate === false && submitted}"
+                  tabindex="9">
+                <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback">
+                  <!-- <div *ngIf="f.start_date.errors.required">Thời gian bắt đầu không được để trống</div> -->
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                    Ngày tháng năm bắt đầu không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                    Ngày tháng năm bắt đầu không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkDate === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập năm bao gồm
+                  4 chữ số</small>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="end_date" style="position: relative; padding-bottom: 0; top: 5px;">Ngày kết thúc:<span
+                    style="color: red;">*</span></label>
+                <input (blur)="changeDate2($event)" class="form-control" type="text" name="text-input"
+                  formControlName="end_date" onfocus="(this.type='date')" id="date" placeholder="dd/mm/yyyy"
+                  [ngClass]="{ 'is-invalid': submitted && f.end_date.errors || checkDate2 === false && submitted}"
+                  tabindex="10">
+                <div *ngIf="submitted && f.end_date.errors" class="invalid-feedback">
+                  <!-- <div *ngIf="f.end_date.errors.required">Thời gian kết thúc không được để trống</div> -->
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 === undefined && valueBoolen2 === undefined && valueDate2 === undefined ">
+                    Ngày tháng năm kết thúc không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 === '' && valueBoolen2 === true && valueDate2 === ''">
+                    Ngày tháng năm kết thúc không được để trống
+                  </div>
+                  <div style="color: rgb(220,53,69);"
+                    *ngIf="valueCheck2 !== '' && valueBoolen2 === false && valueDate2 === ''">
+                    Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                  </div>
+                </div>
+                <small *ngIf="checkDate2 === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập năm bao
+                  gồm 4 chữ số</small>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="school_year">Khối:<span style="color: red;">*</span></label>
+                <ng-select #grade tabIndex="13" [items]="ddlGradeData" class="customGrade" bindLabel="name"
+                  placeholder="Chọn khối" [(ngModel)]="selectedGrade" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="grade_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.grade_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Khối không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group">
+                <label for="name">Học kỳ:<span style="color: red;">*</span></label>
+                <ng-select tabIndex="14" [items]="ddlSemesterData" class="customSemester" bindLabel="name"
+                  placeholder="Chọn học kỳ" [(ngModel)]="selectedSemester" notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="true" formControlName="semester_id">
+                </ng-select>
+                <span *ngIf="submitted && f?.semester_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Học kỳ không được để trống
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+            <div class="form-group" *ngIf="disableStatus === true; else falseStatus">
+              <div class="form-check examTimeCheck" style="float: right; padding: 2% 0 0 0;">
+                <label class="container">
+                  <input type="checkbox" formControlName="checkStatus">
+                  <span tabindex="20" class="checkmark"></span>Hoạt động
+                </label>
+              </div>
+            </div>
+            <ng-template #falseStatus>
+              <div class="form-check examTimeCheck" style="float: right; padding: 2% 0 0 0;">
+                <label class="container">
+                  <input type="checkbox" formControlName="checkStatus">
+                  <span tabindex="20" class="checkmark"></span>Hoạt động
+                </label>
+              </div>
+            </ng-template>
+
+          </div>
+
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="saveSchedule()"><i class="fa fa-floppy-o"
+              aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sao chép tkb -->
+  <div class="modal fade" id="copyScheduleModal" data-keyboard="false" role="dialog"
+    aria-labelledby="copyScheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title" id="scheduleModalLabel">Sao chép thời khóa biểu</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group">
+                <label class="lable_padding">Tên khóa biểu: <span style="color: red; font-size: large;">*</span></label>
+                <input class="form-control" type="text" name="text-input" formControlName="name"
+                  placeholder="Nhập tên thời khóa biểu" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+                  tabIndex="12">
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <div *ngIf="f.name.errors.required">Tên thời khóa biểu không được bỏ trống</div>
+                  <div *ngIf="f.name.errors.maxlength">Tên thời khóa biểu không được quá 100 ký tự</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button tabindex="15" type="button" class="btn btn-success" (click)="copySchedule()"><i class="fa fa-floppy-o"
+              aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button tabindex="16" type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban"
+              aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

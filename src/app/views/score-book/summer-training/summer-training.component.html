@@ -1,0 +1,102 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-book fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Danh sách thi lại rèn luyện hè</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+          <ng-select #selectYearSearch tabindex="1" [items]="ddlYearData" class="customYear" bindLabel="name"
+            bindValue="id" placeholder="Chọn năm" [clearable]="false" notFoundText="Không có dữ liệu"
+            [closeOnSelect]="true" [(ngModel)]="filterSaveItems.year" (change)="onSelectYear($event)">
+          </ng-select>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+          <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+          <ng-select tabindex="2" [items]="ddlClassData" class="customClass" bindLabel="name" bindValue="id"
+            placeholder="Chọn kỳ lớp" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+            [(ngModel)]="filterSaveItems.class" (change)="onSelectClass($event)">
+          </ng-select>
+          <span *ngIf="submitted && filterSaveItems.showErrorClass" class="mess" style="font-size: 80%; color: #dc3545;">
+            Lớp không được để trống
+          </span>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 btnFilter">
+          <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+            [disabled]="loadingFilter" style="float: right" autocomplete="off" (click)="filter()" tabindex="3">
+            <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      <hr />
+      <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+        <table class="table table-responsive-sm table-bordered table-striped table-sm"
+          style="text-align: center; margin-bottom: 0rem;">
+          <thead *ngIf="header == true">
+            <th style="width: 5%;">STT</th>
+            <th style=" width: 8%; max-width: 60px">Mã học sinh</th>
+            <th style=" max-width: 60px">Học sinh</th>
+            <th style=" width: 8%; max-width: 60px">Ngày sinh</th>
+            <th style=" width: 8%; max-width: 60px">Môn</th>
+            <th style=" width: 12%; max-width: 60px">Kết quả trước khi TL</th>
+            <th style=" width: 5%;">Thi lại</th>
+            <th style=" max-width: 60px">Kết quả sau khi TL</th>
+          </thead>
+          <tbody *ngIf="dataSource">
+            <tr *ngFor="let item of dataPaged; index as i;" id="format-text-input">
+              <td> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+              <td>{{ item.code }}</td>
+              <td style=" text-align: left">{{ item.lastname }} {{ item.firstname }}</td>
+              <td style=" text-align: left">{{ item.dob | date:'dd/MM/yyyy' }}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.scores }}</td>
+              <td><input type="checkbox" [(ngModel)]="item.selected" [ngModelOptions]="{standalone: true}"
+                  (change)="isAllSelected(item)" [tabindex]="3" />
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="item['retest_score']" [disabled]="!item.selected"
+                  [ngModelOptions]="{standalone: true}" tabindex="4"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  min="0" max="10" maxlength="3" (keyup)="changeRetestScore(item)">
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="checkData == false">
+            <tr>
+              <td colspan="8"> Dữ liệu không tồn tại
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <tt-paginator [tableId]="'summer-training'" [(data)]="dataSource" [(dataPaged)]="dataPaged"
+          [pageSize]="countPage" [(currentPage)]="p">
+        </tt-paginator>
+      </div>
+    </div>
+    <div class="card-footer respon2">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="form-group row" style="margin-bottom: 0;">
+          <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+            <button class="btn btn-primary" type="button" style="margin-right: 0.3em; margin-bottom: 0.3em;"
+              (click)="save()" tabindex="5">
+              <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu
+            </button>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+            <tt-pagesize-selector tabindex="5" [(pageSize)]="countPage"></tt-pagesize-selector>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,1791 @@
+@media only screen and (max-device-width: 2560px){
+    #addressDetail{
+        position: relative;
+        top: 11px;
+    }
+    #inputIng{
+        left: 107px;
+        width: 95px;
+    }
+}
+
+@media only screen and (max-width:911px) and (min-width: 768px){
+
+  #proviceId{
+      position: relative;
+      top: 0 !important;
+  }
+  #districtId{
+      position: relative;
+      top: 0 !important;
+  }
+  #wardId{
+      position: relative;
+      top: 0 !important;
+  }
+  #rowDob{
+    position: relative;
+    top: -56px !important;
+  }
+  #addressDetail{
+    position: relative;
+    top: 0 !important;
+  }
+
+
+}
+
+@media only screen and (max-width:2560px) and (min-width: 992px){
+  #customImg{
+    float: right;
+  }
+}
+@media only screen and (max-device-width: 1980px){
+    #inputIng{
+        left: 62px;
+        width: 95px;
+    }
+}
+@media only screen and (max-device-width: 1440px){
+
+    #img_url{
+        position: relative;
+        left: 1px;
+    }
+    #img{
+        position: relative;
+        right: 1px;
+    }
+    #img1{
+        position: relative;
+        top: -4px;
+    }
+    #inputIng{
+        left: 18px;
+        width: 95px;
+    }
+    #rowGender{
+        position: relative;
+        top: -15px;
+    }
+    #rowDob{
+        position: relative;
+        top: -15px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -29px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 3px;
+    }
+    #customRowButton{
+        position: relative;
+        top: -20px;
+        margin-bottom: 0;
+    }
+
+}
+@media only screen and (max-device-width: 1366px){
+    #img_url{
+        position: relative;
+        right: 4px;
+    }
+    #img{
+        position: relative;
+        right: 1px;
+    }
+    #img1{
+        position: relative;
+
+    }
+    #inputIng{
+        left: 9px;
+        width: 95px;
+    }
+}
+@media only screen and (max-width:1365px) and (min-width: 1271px){
+    #inputIng{
+        left: 1px;
+        top: 5px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: -6px;
+    }
+    #img{
+        position: relative;
+        right: 3px;
+    }
+    #img1{
+        position: relative;
+
+    }
+    #addressDetail{
+        position: relative;
+    }
+}
+@media only screen and (max-width:1270px) and (min-width: 1221px){
+    #inputIng{
+        left: 1px;
+        top: 5px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: -12px;
+    }
+    #img{
+        position: relative;
+        right: 7px;
+    }
+    #img1{
+        position: relative;
+
+    }
+}
+@media only screen and (max-width:1220px) and (min-width: 1191px){
+    #inputIng{
+        left: 1px;
+        top: 5px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: -15px;
+    }
+    #img{
+        position: relative;
+        right: 9px;
+    }
+    #img1{
+        position: relative;
+
+    }
+}
+@media only screen and (max-width:1190px) and (min-width: 1114px){
+    #inputIng{
+        left: -4px;
+        top: 12px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: -18px;
+    }
+    #img{
+        position: relative;
+        right: 12px;
+    }
+    #img1{
+        position: relative;
+
+    }
+    #rowName{
+        position: relative;
+        top: 0px;
+    }
+    #rowGender{
+        position: relative;
+        top: -17px;
+    }
+    #rowDob{
+        position: relative;
+        top: -16px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -31px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 10px;
+    }
+    #customRowButton{
+        position: relative;
+    }
+}
+@media only screen and (max-width:1113px) and (min-width: 1096px){
+    #inputIng{
+        left: -5px;
+        top: 4px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: -23px;
+    }
+    #img{
+        position: relative;
+        right: 16px;
+    }
+    #img1{
+        position: relative;
+    }
+    #rowName{
+        position: relative;
+        top: 0px;
+    }
+    #rowGender{
+        position: relative;
+        top: -15px;
+    }
+    #rowDob{
+        position: relative;
+        top: -13px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -27px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 10px;
+    }
+    #customRowButton{
+        position: relative;
+    }
+}
+@media only screen and (max-width:1095px) and (min-width: 1025px){
+    #inputIng{
+        left: -4px;
+        width: 85px;
+        top: 1px;
+        height: 55px;
+    }
+    #img_url{
+        position: relative;
+        left: -23px;
+    }
+    #img{
+        position: relative;
+        right: 16px;
+    }
+    #img1{
+        position: relative;
+    }
+    #rowName{
+        position: relative;
+        top: 0px;
+    }
+    #rowGender{
+        position: relative;
+        top: -15px;
+    }
+    #rowDob{
+        position: relative;
+        top: -13px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -27px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 10px;
+    }
+    #customRowButton{
+        position: relative;
+    }
+}
+@media only screen and (max-device-width: 1024px){
+    #inputIng{
+        left: -4px;
+        width: 85px;
+        top: 1px;
+        height: 55px;
+    }
+    #img_url{
+        position: relative;
+        left: -20px;
+    }
+    #img{
+        position: relative;
+        right: 12px;
+    }
+    #img1{
+        position: relative;
+        left: 10px;
+    }
+    #rowName{
+        position: relative;
+        top: 0px;
+    }
+    #rowGender{
+        position: relative;
+        top: -14px;
+    }
+    #rowDob{
+        position: relative;
+        top: -14px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -29px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 5px;
+    }
+    #customRowButton{
+        position: relative;
+    }
+}
+
+@media only screen and (max-width:1023px) and (min-width: 992px){
+    #inputIng{
+        left: -4px;
+        width: 85px;
+        top: 1px;
+        height: 55px;
+    }
+    #img_url{
+        position: relative;
+        top: 9px;
+        left: -25px;
+    }
+    #img{
+        position: relative;
+        top: 2px;
+        left: -18px;;
+    }
+    #img1{
+        position: relative;
+        top: 7px;
+        left: 6px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 4px;
+    }
+    #wardId{
+        position: relative;
+        top: 4px;
+    }
+    #rowName{
+        position: relative;
+        top: 0px;
+    }
+    #rowGender{
+        position: relative;
+        top: -13px;
+    }
+    #rowDob{
+        position: relative;
+        top: -9px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -25px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 15px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width:991px) and (min-width: 975px){
+    #inputIng{
+        left: 337px;
+        width: 103px;
+        top: 1px;
+        height: 35px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 13px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 13px;
+    }
+    #img1{
+        position: relative;
+        top: -64px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -45px;
+    }
+    #rowGender{
+        position: relative;
+        top: -64px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -30px;
+    }
+}
+@media only screen and (max-width:974px) and (min-width: 943px){
+    #inputIng{
+        left: 334px;
+        width: 98px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 13px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 13px;
+    }
+    #img1{
+        position: relative;
+        top: -64px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -45px;
+    }
+    #rowGender{
+        position: relative;
+        top: -64px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -30px;
+    }
+}
+@media only screen and (max-width:942px) and (min-width: 912px){
+    #inputIng{
+        left: 319px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 13px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 13px;
+    }
+    #img1{
+        position: relative;
+        top: -64px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -45px;
+    }
+    #rowGender{
+        position: relative;
+        top: -64px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -30px;
+    }
+}
+@media only screen and (max-width:911px) and (min-width: 879px){
+    #inputIng{
+        left: 303px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 13px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 13px;
+    }
+    #img1{
+        position: relative;
+        top: -64px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -45px;
+    }
+    #rowGender{
+        position: relative;
+        top: -64px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -30px;
+    }
+}
+@media only screen and (max-width:878px) and (min-width: 856px){
+    #inputIng{
+        left: 289px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 13px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 13px;
+    }
+    #img1{
+        position: relative;
+        top: -64px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -45px;
+    }
+    #rowGender{
+        position: relative;
+        top: -64px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -30px;
+    }
+}
+@media only screen and (max-width:855px) and (min-width: 821px){
+    #inputIng{
+        left: 277px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 10px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 12px;
+    }
+    #img1{
+        position: relative;
+        bottom: 52px;
+        right: 0px;
+        left: 0px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        top: -21px;
+        position: relative;
+    }
+    #rowGender{
+        position: relative;
+        top: -55px;
+    }
+    #rowDob{
+        position: relative;
+        top: -66px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -87px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width:820px) and (min-width: 785px){
+    #inputIng{
+        left: 258px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 10px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 11px;
+    }
+    #img1{
+        position: relative;
+        bottom: 42px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -17px;
+    }
+    #rowGender{
+        position: relative;
+        top: -51px;
+    }
+    #rowDob{
+        position: relative;
+        top: -58px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -76px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width:784px) and (min-width: 769px){
+    #inputIng{
+        left: 242px;
+        width: 99px;
+        top: 1px;
+        height: 36px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 10px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 11px;
+    }
+    #img1{
+        position: relative;
+        bottom: 42px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowName{
+        position: relative;
+        top: -17px;
+    }
+    #rowGender{
+        position: relative;
+        top: -51px;
+    }
+    #rowDob{
+        position: relative;
+        top: -58px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -76px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-device-width: 768px){
+    #inputIng{
+        left: 249px;
+        width: 87px;
+        top: -1px;
+        height: 38px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 20px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 20px;
+    }
+    #img1{
+        position: relative;
+        top: -30px;
+        right: 14px;
+    }
+    #rowName{
+        position: relative;
+        top: -23px;
+    }
+    #rowGender{
+        position: relative;
+        top: -52px;
+    }
+    #rowDob{
+        position: relative;
+        top: -63px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -91px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+        top: -35px;
+    }
+
+}
+@media only screen and (max-width: 768px) and (min-width: 739px){
+    #inputIng{
+        left: 236px;
+        width: 100px;
+        top: -1px;
+        height: 38px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: -5px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        right: 4px;
+    }
+    #img1{
+        position: relative;
+        bottom: 28px;
+        right: 14px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -54px;
+    }
+    #rowDob{
+        position: relative;
+        top: -68px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -98px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 738px) and (min-width: 701px){
+    #inputIng{
+        left: 220px;
+        width: 100px;
+        top: -1px;
+        height: 38px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: -5px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        right: 4px;
+    }
+    #img1{
+        position: relative;
+        bottom: 28px;
+        right: 14px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -54px;
+    }
+    #rowDob{
+        position: relative;
+        top: -68px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -98px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 700px) and (min-width: 676px){
+    #inputIng{
+        left: 206px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 8px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 9px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -54px;
+    }
+    #rowDob{
+        position: relative;
+        top: -66px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -94px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 675px) and (min-width: 651px){
+    #inputIng{
+        left: 194px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 8px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 9px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -54px;
+    }
+    #rowDob{
+        position: relative;
+        top: -66px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -94px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 650px) and (min-width: 631px){
+    #inputIng{
+        left: 182px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 8px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 9px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -54px;
+    }
+    #rowDob{
+        position: relative;
+        top: -66px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -94px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 630px) and (min-width: 601px){
+    #inputIng{
+        left: 173px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 7px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 6px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -53px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -91px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 600px) and (min-width: 556px){
+    #inputIng{
+        left: 148px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 18px;
+        left: 5px;
+    }
+    #img{
+        position: relative;
+        top: 25px;
+        left: 5px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 0px;
+        left: -1px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #rowGender{
+        position: relative;
+        top: -51px;
+    }
+    #rowDob{
+        position: relative;
+        top: -63px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -87px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-width: 555px) and (min-width: 541px){
+    #inputIng{
+        left: 132px;
+        width: 95px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #img_url{
+        position: relative;
+        top: 8px;
+        left: -8px;
+    }
+    #img{
+        position: relative;
+        top: 8px;
+        left: -9px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        left: -14px;
+    }
+    #rowGender{
+        position: relative;
+        top: -52px;
+    }
+    #rowDob{
+        position: relative;
+        top: -62px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -89px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-device-width: 540px){
+    #inputIng{
+        left: 137px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 8px;
+        left: 15px;
+    }
+    #img{
+        position: relative;
+        top: 8px;
+        left: 15px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 14px;
+    }
+}
+@media only screen and (max-width: 539px) and (min-width: 500px){
+    #inputIng{
+        left: 110px;
+        width: 95px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 23px;
+    }
+    #wardId{
+        position: relative;
+        top: 41px;
+    }
+    #img_url{
+        position: relative;
+        top: 8px;
+        left: -10px;
+    }
+    #img{
+        position: relative;
+        top: 8px;
+        right: 9px;
+    }
+    #img1{
+        position: relative;
+        bottom: 19px;
+        right: 14px;
+    }
+    #rowGender{
+        position: relative;
+        top: -52px;
+    }
+    #rowDob{
+        position: relative;
+        top: -64px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -91px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 10px;
+    }
+}
+@media only screen and (max-device-width: 425px){
+    #inputIng{
+        left: 80px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        top: 3px;
+        left: 11px;
+    }
+    #img{
+        position: relative;
+        top: 7px;
+        left: 12px;
+    }
+    #img1{
+        position: relative;
+        top: -15px;
+        right: 0px;
+    }
+    #rowName{
+        position: relative;
+        top: -28px;
+    }
+    #rowGender{
+        position: relative;
+        top: -62px;
+    }
+    #rowDob{
+        position: relative;
+        top: -77px;
+    }
+    #rowAddress{
+        position: relative;
+        top: -106px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 45px;
+    }
+    #btnAdd{
+        left: 157px;
+        bottom: 66px;
+    }
+    #btnAddMany{
+        left: 3px;
+        bottom: 15px;
+    }
+    #btnNext{
+        position: relative;
+        bottom: -3px;
+        left: 2px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 12px;
+        top: -12px;
+    }
+}
+@media only screen and (max-device-width: 411px){
+    #inputIng{
+        left: 73px;
+        width: 95px;
+    }
+    #proviceId{
+        position: relative;
+        top: 4px;
+    }
+    #districtId{
+        position: relative;
+        top: 24px;
+    }
+    #wardId{
+        position: relative;
+        top: 45px;
+    }
+    #img_url{
+        position: relative;
+        top: 2px;
+        left: 12px;
+    }
+    #img{
+        position: relative;
+        top: 2px;
+        left: 12px;
+    }
+    #img1{
+        position: relative;
+        bottom: 23px;
+        right: 1px;
+    }
+    #rowName{
+        position: relative;
+        bottom: 9px;
+    }
+    #rowGender{
+        position: relative;
+        bottom: 30px;
+    }
+    #rowDob{
+        position: relative;
+        bottom: 35px;
+    }
+    #rowAddress{
+        position: relative;
+        bottom: 57px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 49px;
+    }
+    #btnAdd{
+        left: 156px;
+        bottom: 50px;
+    }
+    #btnAddMany{
+        left: 0px;
+        bottom: 6px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 12px;
+        top: -12px;
+    }
+}
+@media only screen and (max-device-width: 375px){
+    #inputIng{
+        left: 57px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: 10px;
+    }
+    #img{
+        position: relative;
+        left: 12px;
+    }
+    #img1{
+        position: relative;
+        bottom: 24px;
+        right: 1px;
+    }
+    #rowName{
+        position: relative;
+        bottom: 18px;
+    }
+    #rowGender{
+        position: relative;
+        bottom: 47px;
+    }
+    #rowDob{
+        position: relative;
+        bottom: 59px;
+    }
+    #rowAddress{
+        position: relative;
+        bottom: 85px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 49px;
+    }
+    #btnAdd{
+        left: 155px;
+        bottom: 53px;
+    }
+    #btnAddMany{
+        left: 1px;
+        bottom: 9px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 12px;
+        top: -6px;
+    }
+}
+@media only screen and (max-device-width: 360px){
+    #inputIng{
+        left: 57px;
+        width: 95px;
+    }
+    #img_url{
+        position: relative;
+        left: 10px;
+    }
+    #img{
+        position: relative;
+        left: 11px;
+    }
+    #img1{
+        position: relative;
+        bottom: 16px;
+        right: 1px;
+    }
+    #rowName{
+        position: relative;
+        bottom: 9px;
+    }
+    #rowGender{
+        position: relative;
+        bottom: 28px;
+    }
+    #rowDob{
+        position: relative;
+        bottom: 30px;
+    }
+    #rowAddress{
+        position: relative;
+        bottom: 45px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 49px;
+    }
+    #btnAdd{
+        left: 0px;
+        bottom: 54px
+    }
+    #btnAddMany{
+        left: 73px;
+        bottom: 45px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 12px;
+        top: -7px;
+    }
+}
+@media only screen and (max-device-width: 320px){
+  #inputIng{
+      left: 32px;
+      width: 95px;
+  }
+  #img{
+      position: relative;
+      left: 10px;
+      top: -6px;
+  }
+  #img_url{
+      position: relative;
+      left: 9px;
+      top: -4px;
+  }
+  #img1{
+      position: relative;
+      bottom: 14px;
+      right: 2px;
+  }
+  #rowName{
+      position: relative;
+      top: -8px;
+  }
+  #rowGender{
+      position: relative;
+      top: -45px;
+  }
+  #rowDob{
+      position: relative;
+      top: -63px;
+  }
+  #rowAddress{
+      position: relative;
+      top: -94px;
+  }
+  #addressDetail{
+      position: relative;
+      top: 49px;
+  }
+  #btnAdd{
+      left: 0px;
+      bottom: 28px;
+  }
+  #btnAddMany{
+      left: 0px;
+      bottom: 14px;
+  }
+  #customRowButton{
+      position: relative;
+      right: 12px;
+      top: -22px;
+  }
+}
+@media only screen and (max-device-width: 280px){
+    #inputIng{
+        left: 14px;
+        width: 95px;
+    }
+    #img{
+        position: relative;
+        left: 1px;
+    }
+    #img_url{
+        position: relative;
+        left: 0px;
+    }
+    #img1{
+        position: relative;
+        bottom: 7px;
+        left: 2px;
+    }
+    #rowName{
+        position: relative;
+        top: -8px;
+    }
+    #rowGender{
+        position: relative;
+        top: -43px;
+    }
+    #rowDob{
+        position: relative;
+        bottom: 15px;
+    }
+    #rowAddress{
+        position: relative;
+        bottom: 35px;
+    }
+    #addressDetail{
+        position: relative;
+        top: 49px;
+    }
+    #btnAdd{
+        left: 0px;
+        bottom: 36px;
+    }
+    #btnAddMany{
+        left: 0px;
+        bottom: 19px;
+    }
+    #customRowButton{
+        position: relative;
+        right: 12px;
+        top: -15px;
+    }
+
+}
+.btn_footer{
+    margin-right: 3px;
+}
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+    /* background-color: red; */
+    width: 0px;
+  }

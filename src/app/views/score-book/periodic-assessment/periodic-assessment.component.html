@@ -1,0 +1,483 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Đánh giá định kỳ môn học</strong>
+        </div>
+      </div>
+    </div>
+    <div class="card-body" style="padding: 0.6rem !important">
+      <div>
+        <!-- <pre>{{periodicAssessment.controls.periodicAssessmentDetails.value | json}}</pre> -->
+      </div>
+      <form [formGroup]="form">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Năm học:</label>
+              <ng-select [tabIndex]="1" [items]="ddlYearData" class="customYear" bindLabel="name" placeholder="Chọn năm"
+                [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="false" [(ngModel)]="selectedYear"
+                formControlName="year" (change)="onSelectYear($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Lớp:</label>
+              <ng-select [tabIndex]="2" [items]="ddlClassData" class="customClass" bindLabel="name"
+                placeholder="Chọn lớp" [clearable]="false" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+                [(ngModel)]="selectedClass" formControlName="class" (change)="onSelectClass($event)">
+              </ng-select>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Kỳ đánh giá:</label>
+              <ng-select [tabIndex]="3" [items]="ddlSemesterData" class="customSemester" bindLabel="name"
+                placeholder="Chọn kỳ đánh giá" [clearable]="false" notFoundText="Không có dữ liệu"
+                [closeOnSelect]="false" [(ngModel)]="selectedSemester" formControlName="semester"
+                (change)="onSelectSemester()">
+              </ng-select>
+            </div>
+            <div class="col-xl-2 col-lg-1 col-md-1 col-sm-1 col-12 btnFilter">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                [disabled]="loadingFilter" style="float: right" autocomplete="off" (click)="filter()" tabIndex="4">
+                <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr style="margin: 1% 0 1% 0" />
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="checkTable == true">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" *ngFor="let tab of listTab; let i = index">
+            <ng-template [ngIf]="tab == listTab[subjectIndex]" [ngIfElse]="notEqual">
+              <a class="nav-link active" id="subject-properties-tab" data-toggle="tab" href="#subjectProperties{{ i }}"
+                role="tab" aria-controls="subjectProperties" aria-selected="false" tabIndex="5"
+                (click)="changeTab(tab)">{{ tab.name }}</a>
+            </ng-template>
+            <ng-template #notEqual>
+              <a class="nav-link" id="subject-properties-tab" data-toggle="tab" href="#subjectProperties{{ i }}"
+                role="tab" aria-controls="subjectProperties" aria-selected="false" tabIndex="5"
+                (click)="changeTab(tab)">{{ tab.name }}</a>
+            </ng-template>
+          </li>
+        </ul>
+        <div class="tab-content" #addDetailInformationTab id="myTabContent" style="height: auto">
+          <form [formGroup]="periodicAssessment">
+            <div class="tab-pane fade show active" id="subjectProperties" role="tabpanel"
+              aria-labelledby="subject-properties-tab1" style="padding: 0rem">
+              <div *ngIf="headerPeriodicAssessment === true" class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"
+                style="
+                  background-color: #1e656d;
+                  padding-top: 0.45rem;
+                  padding-bottom: 0.45rem;
+                  text-align: left;
+                ">
+                <ng-template *ngIf="isChecked == true; else dis">
+                  <button data-toggle="tooltip" data-placement="top" title="Lưu" style="
+                      color: white;
+                      background-color: #1e656d;
+                      border: #1e656d;
+                      font-size: 1.1em;
+                      cursor: pointer;
+                    " tabIndex="6" (click)="save()">
+                    <i class="fa fa-floppy-o fa-1x"></i>&nbsp;Lưu</button>&nbsp;
+                  <button data-toggle="tooltip" data-target="#quichEntryModal" data-toggle="modal" data-placement="top"
+                    title="Nhập nhanh" style="
+                      color: white;
+                      background-color: #1e656d;
+                      border: #1e656d;
+                      font-size: 1.1em;
+                      cursor: pointer;
+                    " tabIndex="6" (click)="quickEntry()">
+                    <i class="fa fa-bolt fa-1x"></i>&nbsp;Nhập nhanh
+                  </button>&nbsp;
+                  <input style="position: relative;top: 2px;" type="radio" data-toggle="tooltip" title="Nhập dữ liệu theo hàng" tabIndex="6"
+                    (click)="enterR()" id="radio_row" value="radio1" name="customRadio">
+                    <button disabled style=" color: white;
+                    background-color: #1e656d;
+                    border: #1e656d;
+                    font-size: 1.1em;">Nhập dữ liệu theo hàng</button>
+                  <input style="position: relative;top: 2px;" type="radio" data-toggle="tooltip" title="Nhập dữ liệu theo cột" tabIndex="6"
+                    (click)="enterC()" id="radio_column" value="radio2" name="customRadio">
+                    <button disabled style=" color: white;
+                    background-color: #1e656d;
+                    border: #1e656d;
+                    font-size: 1.1em;">Nhập dữ liệu theo cột</button>
+                </ng-template>
+                <button data-toggle="tooltip" [disabled]="!isChecked" data-placement="top"
+                  title="Lưu" style="
+                    color: white;
+                    background-color: #1e656d;
+                    border: #1e656d;
+                    font-size: 1.1em;
+                    cursor: pointer;
+                  " tabIndex="6" (click)="save()">
+                  <i class="fa fa-floppy-o fa-1x"></i>&nbsp;Lưu</button>&nbsp;
+                <button data-toggle="tooltip" [disabled]="!isChecked" data-target="#quichEntryModal" data-toggle="modal"
+                  data-placement="top" title="Nhập nhanh" style="
+                    color: white;
+                    background-color: #1e656d;
+                    border: #1e656d;
+                    font-size: 1.1em;
+                    cursor: pointer;
+                  " tabIndex="6" (click)="quickEntry()">
+                  <i class="fa fa-bolt fa-1x"></i>&nbsp;Nhập nhanh
+                </button>&nbsp;
+                <input style="position: relative;top: 2px;" type="radio" data-toggle="tooltip" title="Nhập dữ liệu theo hàng" tabIndex="6" (click)="enterR()"
+                  id="radio_row" value="radio1" name="customRadio">
+                <button disabled style=" color: white;
+                background-color: #1e656d;
+                border: #1e656d;
+                font-size: 1.1em;">Nhập dữ liệu theo hàng</button>
+                <input style="position: relative;top: 2px;" type="radio" data-toggle="tooltip" title="Nhập dữ liệu theo cột" tabIndex="6" (click)="enterC()"
+                  id="radio_column" value="radio2" name="customRadio">
+                  <button disabled style=" color: white;
+                  background-color: #1e656d;
+                  border: #1e656d;
+                  font-size: 1.1em;">Nhập dữ liệu theo cột</button>
+                <ng-template #dis> </ng-template>
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" style="
+                  overflow: scroll;
+                  padding-right: inherit;
+                  padding-left: inherit;
+                " *ngIf="checkTable == true">
+                <table class="table table-bordered" id="customers" style="text-align: center">
+                  <thead *ngIf="headerPeriodicAssessment === true" style="font-weight: bold">
+                    <tr>
+                      <td rowspan="2" style="vertical-align: inherit">
+                        <input [tabIndex]="7" type="checkbox" formControl="idCheckAll" id="removeCheck"
+                          (change)="checkAllCheckBox($event)" />
+                      </td>
+                      <td rowspan="2" style="vertical-align: inherit; width: 5%">
+                        STT
+                      </td>
+                      <td rowspan="2" style="vertical-align: inherit">
+                        Mã học sinh
+                      </td>
+                      <td rowspan="2" style="vertical-align: inherit; cursor: pointer">
+                        Họ tên
+                      </td>
+                      <td rowspan="2" style="vertical-align: inherit; cursor: pointer">
+                        Ngày sinh
+                      </td>
+                      <ng-template [ngIf]="checkTab == 3" [ngIfElse]="noDis">
+                        <td colspan="3" style="vertical-align: inherit; width: 10%">
+                          Kiểm tra định kỳ
+                        </td>
+                      </ng-template>
+                      <ng-template #noDis>
+                        <ng-container *ngIf="checkTab === 1; else third">
+                          <td colspan="1" style="vertical-align: inherit; width: 11%">
+                            Kiểm tra định kỳ
+                          </td>
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #third> </ng-template>
+                      <td rowspan="2" style="vertical-align: inherit; cursor: pointer">
+                        Mức độ hoàn thành
+                      </td>
+                      <td rowspan="2" style="vertical-align: inherit; width: 27%">
+                        Nhận xét
+                      </td>
+                    </tr>
+
+                    <ng-template [ngIf]="checkTab == 3" [ngIfElse]="show">
+                      <tr style="vertical-align: inherit">
+                        <td rowspan="1">Đọc</td>
+                        <td rowspan="1">Viết</td>
+                        <td rowspan="1">Chung</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template #show>
+                    </ng-template>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="
+                        let item of periodicAssessment.get(
+                          'periodicAssessmentDetails'
+                        )?.controls;
+                        let index = index
+                      " id="format-text-input">
+                      <td style="vertical-align: inherit">
+                        <input [tabIndex]="7" type="checkbox" value="{{ item.get('student_id').value }}"
+                          [formControl]="item.get('idCheck')" (click)="getSelectedClassStudentValue(item, $event)"
+                          id="{{ item.id }}" />
+                      </td>
+                      <td style="vertical-align: inherit">
+                        {{ (p - 1) * countPage + index + 1 }}
+                      </td>
+
+                      <td style="vertical-align: inherit">
+                        {{ item.get("code").value }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                        <label for="" style="
+                            width: 130px;
+                            overflow: hidden;
+                            display: inline-block;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            margin-bottom: -0.5em;
+                          ">
+                          {{ item.get("student_name").value }}
+                        </label>
+                      </td>
+                      <td style="vertical-align: inherit">
+                        {{ item.get("dob").value | date: "dd/MM/yyyy" }}
+                      </td>
+                      <ng-template [ngIf]="checkTab == 3" [ngIfElse]="showTb">
+                        <ng-template *ngIf="isChecked == true">
+                          <td style="vertical-align: inherit; padding: 5px">
+                            <input tabIndex="8"
+                              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                              type="number" min="0" max="10" maxlength="3" style="text-align: center" [formControl]="item.get('read')"
+                              (keyup)="changeReadScore(item)" />
+                          </td>
+                          <td style="vertical-align: inherit; padding: 5px">
+                            <input tabIndex="8"
+                              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                              type="number" maxlength="3" style="text-align: center" [formControl]="item.get('write')"
+                              (keyup)="changeWriteScore(item)" />
+                          </td>
+                          <td style="vertical-align: inherit; padding: 5px">
+                            <input tabIndex="8" style="text-align: center" [formControl]="item.get('scores')" />
+                          </td>
+                        </ng-template>
+
+                        <td style="vertical-align: inherit; padding: 5px">
+                          <input tabIndex="8" disabled
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" min="0" max="10" maxlength="3" style="text-align: center" [formControl]="item.get('read')"
+                            (keyup)="changeReadScore(item)" />
+                        </td>
+                        <td style="vertical-align: inherit; padding: 5px">
+                          <input tabIndex="8" disabled
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" min="0" max="10" maxlength="3" style="text-align: center" [formControl]="item.get('write')"
+                            (keyup)="changeWriteScore(item)" />
+                        </td>
+                        <td style="vertical-align: inherit; padding: 5px">
+                          <input tabIndex="8" disabled
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" min="0" max="10" maxlength="3" style="text-align: center" [formControl]="item.get('scores')" />
+                        </td>
+                      </ng-template>
+                      <ng-template #showTb>
+                        <ng-container *ngIf="checkTab === 1; else noShowTb">
+                          <ng-template *ngIf="isChecked == true">
+                            <td style="vertical-align: inherit; padding: 5px">
+                              <input tabIndex="8" disabled
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                type="number" min="0" max="10" maxlength="3" style="width: 46%; text-align: center"
+                                [formControl]="item.get('scores')" (keyup)="changeScoreLine(item)" />
+                            </td>
+                          </ng-template>
+
+                          <td style="vertical-align: inherit; padding: 5px">
+                            <input tabIndex="8" disabled
+                              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                              type="number" min="0" max="10" maxlength="3" style="width: 46%; text-align: center"
+                              [formControl]="item.get('scores')" (keyup)="changeScoreLine(item)" />
+                          </td>
+                        </ng-container>
+                      </ng-template>
+                      <ng-template #noShowTb> </ng-template>
+                      <td style="vertical-align: inherit; text-align: left">
+                        <ng-template [ngIf]="checkTab == 3" [ngIfElse]="noShow">
+                          <label for="">
+                            {{ item.get("complete_level").value }}</label>
+                        </ng-template>
+                        <ng-template #noShow>
+                          <ng-template [ngIf]="checkTab == 1" [ngIfElse]="showCheck">
+                            <label for="">
+                              {{ item.get("complete_level").value }}</label>
+                          </ng-template>
+                        </ng-template>
+                        <ng-template #showCheck>
+                          <select tabIndex="8" disabled placeholder="Chọn mức độ hoàn thành"
+                            [formControl]="item.get('scores')" class="form-control" style="font-size: inherit">
+                            <option value="9">Hoàn thành tốt</option>
+                            <option value="8">Hoàn thành</option>
+                            <option value="4">Chưa hoàn thành</option>
+                          </select>
+                        </ng-template>
+                      </td>
+                      <td style="vertical-align: inherit">
+                        <ng-select style="text-align: left" #selectConment [items]="ddlContentComments"
+                          class="commentTypeAdd" tabindex="9" [addTag]="true" [clearable]="true" [searchable]="true"
+                          bindLabel="name" [multiple]="false" [closeOnSelect]="true" placeholder="Chọn nhận xét"
+                          notFoundText="Không có dữ liệu" [formControl]="item.get('comment')">
+                        </ng-select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <a *ngIf="checkTabTable == false" style="display: block; text-align: center" colspan="8">
+                  Dữ liệu không tồn tại</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <a *ngIf="checkTabTable1 == false" style="display: block; text-align: center" colspan="8">
+        Dữ liệu không tồn tại</a>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form">
+  <div class="modal fade" id="quichEntryModal" role="dialog" aria-labelledby="quichEntryModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%">
+          <h5 class="modal-title" id="quichEntryModalLabel">Nhập nhanh</h5>
+          <!-- <pre>{{form.value | json}}</pre> -->
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group" style="
+              margin-top: 0.5rem;
+              margin-bottom: 0.5rem;
+              padding-left: 0.9em;
+              padding-right: 0.9em;
+            ">
+            <ng-template [ngIf]="checkTab == 3" [ngIfElse]="noShow">
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Điểm đọc:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <input tabIndex="10"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    type="number" min="0" max="10" maxlength="3" class="form-control" name="text-input" style="
+                      font-family: Roboto, sans-serif !important;
+                      font-size: 12px !important;
+                    " formControlName="read_score" placeholder="Điểm đọc" [ngClass]="{
+                      'is-invalid': submitted && f.read_score.errors
+                    }" (keyup)="change_readScore()" [(ngModel)]="showReadScore"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Điểm viết:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <input tabIndex="11"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    type="number" min="0" max="10" maxlength="3" class="form-control" style="
+                      font-family: Roboto, sans-serif !important;
+                      font-size: 12px !important;
+                    " name="text-input" formControlName="write_score" placeholder="Điểm viết" [ngClass]="{
+                      'is-invalid': submitted && f.write_score.errors
+                    }" (keyup)="change_writeScore()" [(ngModel)]="showWriteScore"/>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Mức độ hoàn thành:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <input tabIndex="12" disabled type="text" class="form-control" name="text-input"
+                    formControlName="completeLevel" [(ngModel)]="showCompleteLevelAvg"
+                    placeholder="Mức độ hoàn thành" />
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Nhận xét môn học:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <ng-select tabIndex="13" [items]="ddlContentComments" class="commentTypeAdd" tabindex="6"
+                    [clearable]="true" [addTag]="true" bindLabel="name" [multiple]="false" [closeOnSelect]="true"
+                    placeholder="Chọn nhận xét" notFoundText="Không có dữ liệu" [(ngModel)]="selectedContentComments"
+                    formControlName="contentComments">
+                  </ng-select>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #noShow>
+              <ng-template [ngIf]="checkTab == 1" [ngIfElse]="showCheck">
+                <div class="form-group row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <label class="col-form-label">Điểm kiểm tra định kỳ:</label>
+                  </div>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                    <input tabIndex="14"
+                      oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                      type="number" min="0" max="10" maxlength="3" class="form-control" name="text-input" style="
+                        font-family: Roboto, sans-serif !important;
+                        font-size: 12px !important;
+                      " formControlName="periodic_score" placeholder="Điểm kiểm tra định kỳ" [ngClass]="{
+                        'is-invalid': submitted && f.periodic_score.errors
+                      }" (keyup)="changeScore()" [(ngModel)] = "showPeriodicScore"/>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <label class="col-form-label">Mức độ hoàn thành:</label>
+                  </div>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                    <input tabIndex="15" disabled type="text" class="form-control" name="text-input"
+                      formControlName="completeLevel" [(ngModel)]="showCompleteLevel" placeholder="Mức độ hoàn thành" />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <label class="col-form-label">Nhận xét môn học:</label>
+                  </div>
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                    <ng-select tabIndex="16" [items]="ddlContentComments" class="commentTypeAdd" tabindex="6"
+                      [clearable]="true" [addTag]="true" bindLabel="name" [multiple]="false" [closeOnSelect]="true"
+                      placeholder="Chọn nhận xét" notFoundText="Không có dữ liệu" [(ngModel)]="selectedContentComments"
+                      formControlName="contentComments">
+                    </ng-select>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-template>
+            <ng-template #showCheck>
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Mức độ hoàn thành:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <ng-select tabIndex="17" [items]="ddlCompleteLevel" class="completeLevelAdd" tabindex="6"
+                    [clearable]="true" bindLabel="name" [multiple]="false" [closeOnSelect]="true"
+                    placeholder="Chọn mức độ" notFoundText="Không có dữ liệu" [(ngModel)]="selectedCompleteLevel"
+                    formControlName="completeLevel">
+                  </ng-select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                  <label class="col-form-label">Nhận xét môn học:</label>
+                </div>
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                  <ng-select tabIndex="18" [items]="ddlContentComments" class="commentTypeAdd" tabindex="6"
+                    [clearable]="true" [addTag]="true" bindLabel="name" [multiple]="false" [closeOnSelect]="true"
+                    placeholder="Chọn nhận xét" notFoundText="Không có dữ liệu" [(ngModel)]="selectedContentComments"
+                    formControlName="contentComments">
+                  </ng-select>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%">
+          <button type="button" class="btn btn-success" (click)="saveQuichEntry()" tabIndex="19">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Lưu lại
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="20">
+            <i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

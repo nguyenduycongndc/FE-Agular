@@ -1,0 +1,92 @@
+<form [formGroup]="formAddAccount" (ngSubmit)="onSubmit()">
+    <!-- <span *ngIf="studentId">{{studentId}}</span> -->
+    <!-- <div class="form-group row">
+      <div class="col-xl-3">
+        <label for="">Tài khoản truy cập hệ thống</label>
+      </div>
+      <div class="col-xl-9"><hr></div>
+    </div> -->
+    <div *ngIf="display; then dis; else notDis"></div>
+    <ng-template #dis>
+    <div class="form-group row">
+      <div class="col-xl-4">
+        <div class="form-group row">
+          <label for="inputPassword" class="ttk col-xl-4 col-lg-3 col-md-3 col-sm-3 col-form-label " style="min-width: 120px!important;">Tên tài khoản:</label>
+          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-8">
+            <input type="text" class="form-control" [ngClass]="{'is-invalid': submitted && f.email.errors }" id="inputPassword" placeholder="Vui lòng nhập email!" formControlName="email" tabindex="1">
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email không được bỏ trống</div>
+                <div *ngIf="f.email.errors.email">Email không hợp lệ</div>
+                <div *ngIf="f.email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="form-group row">
+          <label for="inputPassword" class="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-form-label mk" style="min-width: 120px!important;">Mật khẩu:</label>
+          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-8">
+            <input type="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors}" id="inputPassword" placeholder="Mật khẩu" formControlName="password" tabindex="2">
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div *ngIf="f.password.errors.required">Mật khẩu không được để trống</div>
+              <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+              <div *ngIf="f.password.errors.pattern">Sử dụng 6 ký tự trở lên và kết hợp với chữ hoa, chữ thường và chữ số</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="form-group row">
+          <label for="inputPassword" class="col-xl-4 col-lg-3 col-md-3 col-sm-3 col-form-label mkxn" style="min-width: 120px!important;">Xác nhận MK:</label>
+          <div class="col-xl-8 col-lg-7 col-md-8 col-sm-8">
+            <input type="password" class="form-control" [ngClass]="{'is-invalid': submitted && f.passwordConfirm.errors}" id="inputPassword" placeholder="Mật khẩu xác nhận" formControlName="passwordConfirm" tabindex="3">
+            <div *ngIf="submitted && f.passwordConfirm.errors" class="invalid-feedback">
+              <div *ngIf="submitted && f.passwordConfirm.errors">
+                <div *ngIf="f.passwordConfirm.errors.required" >Xác nhận mật khẩu không được bỏ trống</div>
+                <div *ngIf="f.passwordConfirm.errors.mustMatch">Mật khẩu không trùng khớp</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row" id="activeInput">
+      <div class="col-xl-4">
+        <div class="form-group row">
+            <div class="col-xl-4 col-lg-3 col-md-3 col-sm-3"></div>
+            <div class="col-xl-8 col-lg-7 col-md-8 col-sm-8">
+            <div class="form-check" id="responCheckbox" style="float: left; padding: 2% 0 0 0;">
+                <label class="container">
+                <input type="checkbox" formControlName="checkStatus">
+                <span class="checkmark" tabindex="4"></span>Hoạt động
+                </label>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-xl-4">
+        <div class="form-group row">
+        </div>
+      </div>
+      <div class="col-xl-4">
+         <div class="form-group row">
+        </div>
+       </div>
+    </div>
+    <!-- <hr> -->
+    <div class="row justify-content-center mb-4" style="margin-bottom: 0em !important;">
+        <div class="col-12 text-right">
+          <button type="submit" class="btn btn-success" tabindex="5">
+            <i class="fa fa-floppy-o"></i>&nbsp;Cập nhật</button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #notDis>
+      <div class="form-group">
+      <label>Cập nhật TK: </label>
+        <a href="#" [routerLink]="['/user-management/user-account-management']" [queryParams]="{id:id_account}" target="_blank" title="Link tài khoản" tabindex="1">
+          Link tài khoản
+        </a>
+      </div>
+    </ng-template>
+  </form>

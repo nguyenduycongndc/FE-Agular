@@ -1,0 +1,916 @@
+<form [formGroup]="form">
+  <!-- <pre>{{form.value|json}}</pre> -->
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-passwd-reset fa-stack">
+              <i class="fa fa-id-badge" style="font-size: 25px;"></i>
+            </span>
+            <strong>&nbsp;Quản lý tài khoản người sử dụng</strong>
+          </div>
+          <div class="col-md-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" #searchByKeyWordInput
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Mã NSD / Tên đăng nhập / Họ tên" tabIndex="1">
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="card-body" style="padding: 0.6rem !important;">
+        <div class="form-group" style="max-width: 100%;
+      max-height: 50%;border:1px solid #80808069;border-radius: 3px; margin-bottom: 0% !important; padding-top: 1%;">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group row" style="margin-bottom: 0;">
+              <!-- dropdown Đối tượng -->
+              <div class="col-xl-4 col-lg-5 col-md-6 col-sm-6 col-12" style="padding: 0% 15px;">
+                  <label for="" class="col-form-label" style="float: left;">Quyền truy cập HT:</label>
+                  <ng-select [items]="ddlPermissionFilterData"
+                    class="permissionSearchExtraSmallDevices"
+                    tabIndex="2"
+                    bindLabel="name"
+                    placeholder="Tất cả"
+                    notFoundText="Không có dữ liệu"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [(ngModel)]="selectedPermissionFilter"
+                    formControlName="objectSearch">
+                    <ng-template ng-header-tmp>
+                      <div>
+                        <button class="btn btn-link" (click)="selectAllPermissionFilter(ddlPermissionFilterData)">Chọn tất cả</button>
+                        <button class="btn btn-link" (click)="deSelectAllPermissionFilter()">Bỏ chọn tất cả</button>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items">
+                      <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                        <span>{{item.name}}</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 2" >
+                        <span class="ng-value-label">+{{items.length - 2}}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+              </div>
+              <!-- dropdown Đối tượng -->
+              <!-- dropdown Nhóm -->
+              <div id="customSelectGroup" class="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12" style="padding: 0% 15px;">
+                  <label for="" class="col-form-label" style="float: left;">Nhóm NSD:</label>
+                  <ng-select [items]="ddlGroupFilterData"
+                    class="groupSearchExtraSmallDevices"
+                    tabIndex="3"
+                    bindLabel="name"
+                    placeholder="Tất cả"
+                    notFoundText="Không có dữ liệu"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [(ngModel)]="selectedGroupFilter"
+                    formControlName="groupSearch">
+                    <ng-template ng-header-tmp>
+                      <div>
+                        <button class="btn btn-link" (click)="selectAllGroupFilter(ddlGroupFilterData)">Chọn tất cả</button>
+                        <button class="btn btn-link" (click)="deSelectAllGroupFilter()">Bỏ chọn tất cả</button>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items">
+                      <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                        <span>{{item.name}}</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 1" >
+                        <span class="ng-value-label">+{{items.length - 1}}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+              </div>
+              <!-- dropdown Nhóm -->
+              <!-- Hoạt Động -->
+              <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12">
+                <div class="form-check" id="responCheckbox" style="float: right; padding: 2% 0 0 0;">
+                  <!-- <label class="container">
+                    <input type="checkbox" checked="checked" formControlName="statusFilter">
+                    <span class="checkmark" tabindex="4"></span>Hoạt động
+                  </label> -->
+                  <label class="customCheckbox" style="display: flex;margin-bottom: 0;">
+                    <input type="checkbox"tabindex="5" formControlName="statusFilter"  style="margin: .1em; width: 2em; height: 2em; position: relative; right: 3px;" onclick="return true;" checked>
+                  <a class="customCheckbox2">Hoạt động</a>
+                 </label>
+                </div>
+              </div>
+              <div class="form-group col-xl-1 col-lg-12 col-md-12 col-sm-12 col-12" style="max-width: 100%; padding: 0% 15px; margin-bottom: 0;">
+                <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false"
+                  style="float: right;" autocomplete="off" (click)="searchByInput()" tabIndex="5">
+
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+              </div>
+              <!-- Lọc dữ liệu -->
+            </div>
+          </div>
+          <hr style="margin: 1% 0 1% 0;">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm"
+                  style="text-align: center;" id="tblUserAccount">
+                  <thead *ngIf="headerUserAccount === true">
+                    <tr>
+                      <th onclick="w3.sortHTMLNumber('#tblUserAccount', '.item', 'td:nth-child(1)')" style="cursor: pointer;">STT</th>
+                      <th (click)="sortId()" style="cursor: pointer;">Mã NSD
+                        <i class="fa fa-sort" [ngStyle]="symbolUpDownCode()"></i>
+                        <i class="fa fa-sort-up" [ngStyle]="symbolUpCode()"></i>
+                        <i class="fa fa-sort-down" [ngStyle]="symbolDownCode()"></i>
+                      </th>
+                      <th (click)="sortEmail()" style="cursor: pointer;">Tên đăng nhập
+                        <i class="fa fa-sort" [ngStyle]="symbolUpDownEmail()"></i>
+                        <i class="fa fa-sort-up" [ngStyle]="symbolUpEmail()"></i>
+                        <i class="fa fa-sort-down" [ngStyle]="symbolDownEmail()"></i>
+                      </th>
+                      <th (click)="sortFullname()" style="cursor: pointer;">Họ tên NSD
+                        <i class="fa fa-sort" [ngStyle]="symbolUpDownName()"></i>
+                        <i class="fa fa-sort-up" [ngStyle]="symbolUpName()"></i>
+                        <i class="fa fa-sort-down" [ngStyle]="symbolDownName()"></i>
+                      </th>
+                      <th>Giới tính</th>
+                      <th>Số điện thoại</th>
+                      <th>Quyền</th>
+                      <th>Nhóm NSD</th>
+                      <th style="width: 10%;cursor: pointer;">Mã liên kết HS </th>
+                      <th>Trạng thái</th>
+                      <th style="width: 10%;">Hoạt động</th>
+                    </tr>
+
+                  </thead>
+                  <tbody *ngIf="userAccountData">
+                    <tr class="item1"
+                      *ngFor="let item of userAccountData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index" >
+                      <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                      <td style="vertical-align: inherit;">{{ item.id }}</td>
+
+                      <td style="vertical-align: inherit; text-align: left; padding-left: 1%;">{{ item.email }}</td>
+                      <td style="vertical-align: inherit; text-align: left; padding-left: 1%;">{{ item.fullname }}</td>
+                      <td style="vertical-align: inherit;" [hidden]="true">{{ item.lastname }}</td>
+                      <td style="vertical-align: inherit;">
+                        <ng-template [ngIf]="item.gender == 0" [ngIfElse]="gender">
+                          Nữ
+                        </ng-template>
+                        <ng-template #gender>
+                          <ng-template [ngIf]="item.gender == 1" [ngIfElse]="otherGender">
+                            Nam
+                          </ng-template>
+                          <ng-template #otherGender>
+                            Khác
+                          </ng-template>
+                        </ng-template>
+                      </td>
+                      <td style="vertical-align: inherit;">{{ item.phone }}</td>
+                      <td style="vertical-align: inherit;">{{ item.permission_name }}</td>
+                      <!-- <td style="vertical-align: inherit;">{{ item.group_user_configuration_id }}</td> -->
+                      <td style="vertical-align: inherit; text-align: left; padding-left: 1%;">
+                        <p style=" width: 100px;
+                         white-space: nowrap;
+                         overflow: hidden;
+                         text-overflow: ellipsis;
+                         display: inline-block;
+                         margin-top: auto;
+                         margin-bottom: auto;
+                         ;">{{ item.group_user_configuration_id}}</p>
+                      </td>
+                      <td style="vertical-align: inherit;">{{ item.code }}</td>
+                      <td style="vertical-align: middle;" (click)="active(item.id, item.status)">
+                        <ng-template [ngIf]="item.status == 0" [ngIfElse]="notEqual">
+                          <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" data-toggle="modal" data-target="#confirmModal"
+                          onclick="return false;">
+                          </ng-template>
+                          <ng-template #notEqual>
+                              <input ng-if="item.status == 1" type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" name="status" data-toggle="modal" data-target="#confirmModal" checked  />
+                          </ng-template>
+                      </td>
+                      <td style="vertical-align: middle;">
+                      <div class="row" style="padding: 3% 15px;" >
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                            data-target="#editUserAccountModal" (click)="getByIdUserAccount(item.id)" style="margin:1px;" tabIndex="8">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                          (click)="deleteUserAccount(item.id)" style="margin:1px;" tabIndex="8">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="checkUserAccountData === false">
+                    <tr>
+                      <td colspan="11"> Dữ liệu không tồn tại
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="text-right" *ngIf="userAccountData">
+                  <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div
+                          *ngFor="let item of userAccountData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                          <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                              {{(p-1)*countPage+i+1}}/{{userAccountData.length}}</span> bản ghi</p>
+                        </div>
+                      </div>
+                      <div class="col-md-6" *ngIf="headerUserAccount === true">
+                        <pagination-controls (pageChange)="p = $event" tabIndex="9"></pagination-controls>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+            <div class="modal fade" id="confirmModal" data-keyboard="false" role="dialog"
+              aria-labelledby="userGroupConfigModalLabel" aria-hidden="true" data-backdrop="static">
+              <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                  <div class="modal-body" style="padding: 14px;">
+                    <h6>Bạn muốn thay đổi trạng thái dữ liệu này?</h6>
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 17%;">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="exitSetStatus()">Hủy bỏ</button>
+                    <button type="button" class="btn btn-primary" (click)="setStatus()">Xác nhận</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="addUserAccountModal" data-keyboard="false" role="dialog"
+              aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding: 2%;">
+ <!--  -->
+                    <h5 class="modal-title" id="userGroupConfigModalLabel">Thêm mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="padding: 0">
+                    <div class="form-group col-md-12">
+                      <div class="col-md-3" id="customImg">
+                        <div id="ImageUpdate" class="form-group col-md-12" style="text-align: center;">
+                          <ng-template [ngIf]="imgURL" [ngIfElse]="imgURLNull">
+                            <img id="customUpdate" [src]="imgURL" *ngIf="imgURL" style="height: 93px; position:relative;margin-bottom: 2%;top: 11px;;">
+                          </ng-template>
+                          <ng-template #imgURLNull>
+                            <img id="customUpdate1" src="assets/img/avatars/avatar.png" alt="Avatar" style="height: 140px; position:relative;margin-bottom: 2%;top: 11px;">
+                          </ng-template>
+                          <div id="customChoose1" style="position:relative; margin-left: 5%;">
+                            <a class='btn btn-primary' href='javascript:;'tabIndex="13">
+                                Chọn ảnh
+                                <input id="inputCreate" type="file" #fileInput accept='image/*' (change)="preview(fileInput.files)" style='position:absolute;z-index:2;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;'
+                                name="file_source" size="40"  onchange='$("#upload-file-info").html($(this).val());'>
+                            </a>
+                            &nbsp;
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group col-md-9" style="margin-top: 1rem;">
+                          <div class="form-row">
+                            <div class="form-group col-md-12">
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label style="width: 50%;">Liên kết hồ sơ:<span style="color: red; font-size: large;"></span></label>
+                                  <ng-template [ngIf]="this.form.value.code === '' || this.form.value.code === null " [ngIfElse]="notEqual">
+                                      <a href="#" data-toggle="modal" title="Thêm liên kết hồ sơ"
+                                    data-target="#linkProfile" (click)="resetLinkProfileForm()" tabIndex="10">
+                                      Thêm liên kết
+                                    </a>
+                                  </ng-template>
+                                  <ng-template #notEqual>
+                                    <a href="#" title="Bỏ liên kết hồ sơ" style="color: red;"
+                                    data-toggle="modal" title="Bỏ liên kết hồ sơ"
+                                    data-target="#confirmUnlinkProfileModal" (click)="showModalUnlinkProfile()" tabIndex="10">
+                                      Bỏ liên kết
+                                    </a>
+                                  </ng-template>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="username">Tên đăng nhập: <span style="color: red; font-size: large;"></span></label>
+                                    <input class="form-control" type="text" name="text-input" value="{{ form.controls['email'].value }}" formControlName="username" disabled>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="fullname">Họ và tên: <span style="color: red; font-size: large;">*</span></label>
+                              <input class="form-control" type="text" name="text-input" formControlName="fullname"
+                                placeholder="Vui lòng nhập họ và tên" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" tabIndex="11">
+                              <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                                <div *ngIf="f.fullname.errors.required">Họ và tên không được để trống</div>
+                                <div *ngIf="f.fullname.errors.minlength">Họ và tên không được nhỏ hơn 6 ký tự</div>
+                                <div *ngIf="f.fullname.errors.maxlength">Họ và tên không được lớn hơn 100 ký tự</div>
+                                <div *ngIf="f.fullname.errors.pattern">Họ và tên không được chứa ký tự đặc biệt</div>
+                              </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="email">Email: <span style="color: red; font-size: large;">*</span></label>
+                              <input class="form-control" type="text" name="text-input" formControlName="email"
+                                placeholder="Vui lòng nhập Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" tabIndex="12">
+                              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email không được để trống</div>
+                                <div *ngIf="f.email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+                                <div *ngIf="f.email.errors.email">Email không hợp lệ</div>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="form-group col-md-12" style="margin-top: 1rem;">
+                        <div class="form-row">
+                          <div class="form-group col-md-3">
+                            <label for="">Quyền truy cập hệ thống: <span style="color: red; font-size: large;">*</span></label>
+                              <ng-select [items]="ddlPermissionData"
+                                class="customPermission"
+                                tabIndex="14"
+                                bindLabel="name"
+                                placeholder="Chọn quyền"
+                                notFoundText="Không có dữ liệu"
+                                formControlName="permission"
+                                [(ngModel)]="selectedPermission"
+                                [ngClass]="{ 'is-invalid': submitted && f.permission.errors }">
+                              </ng-select>
+                              <div *ngIf="submitted && f.permission.errors" class="invalid-feedback">
+                                <div *ngIf="f.permission.errors.required">Quyền truy cập không được để trống</div>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label for="group_user">Nhóm người sử dụng: <span style="color: red; font-size: large;"></span></label>
+                            <ng-select [items]="ddlGroupData"
+                              class="customGroup"
+                              tabIndex="15"
+                              bindLabel="name"
+                              placeholder="Tất cả"
+                              notFoundText="Không có dữ liệu"
+                              [multiple]="true"
+                              [closeOnSelect]="false"
+                              formControlName="group"
+                              [(ngModel)]="selectedGroup">
+                              <ng-template ng-header-tmp>
+                                <div>
+                                  <button class="btn btn-link" (click)="selectAllGroup(ddlGroupData)">Chọn tất cả</button>
+                                  <button class="btn btn-link" (click)="deSelectAllGroup()">Bỏ chọn tất cả</button>
+                                </div>
+                              </ng-template>
+                              <ng-template ng-multi-label-tmp let-items="items">
+                                <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                                  <span>{{item.name}}</span>
+                                </div>
+                                <div class="ng-value" *ngIf="items.length > 1" >
+                                  <span class="ng-value-label">+{{items.length - 1}}</span>
+                                </div>
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label for="password">Mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                            <input class="form-control" id="customPasssword" type="password" name="text-input" formControlName="password"
+                              placeholder="Vui lòng nhập Mật khẩu"
+                              [ngClass]="{ 'is-invalid': submitted && f.password.errors }" tabIndex="16">
+                            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                              <div *ngIf="f.password.errors.required">Mật khẩu không được để trống</div>
+                              <!-- <div *ngIf="f.password.errors.minlength">Mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                              <div *ngIf="f.password.errors.pattern">Sử dụng 6 ký tự trở lên và kết hợp chữ cái, chữ số</div>
+                              <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-3">
+                            <label for="confirm_password">Xác nhận mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                            <input class="form-control" id="customConfirm" type="password" name="text-input" formControlName="confirm_password"
+                              placeholder="Xác nhận mật khẩu"
+                              [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }" tabIndex="17">
+                            <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+                              <div *ngIf="f.confirm_password.errors.required">Xác nhận mật khẩu không được để trống</div>
+                              <!-- <div *ngIf="f.confirm_password.errors.minlength">Xác nhận mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                              <!-- <div *ngIf="f.confirm_password.errors.maxlength">Xác nhận mật khẩu không được lớn hơn 100 ký tự</div> -->
+                              <div *ngIf="f.confirm_password.errors.mustMatch">Mật khẩu không trùng khớp</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label for="dob">Ngày sinh: <span style="color: red; font-size: large;">*</span></label>
+                            <input  (blur)="changeDate($event)" class="form-control" id="date-input" type="text" name="date-input" data-date-format="dd/mm/yyyy" formControlName="dob" style="position: relative; top: -1px"
+                            onfocus="(this.type='date')" id="date" placeholder="dd/mm/yyyy" [ngClass]="{ 'is-invalid': submitted && f.dob.errors || checkCurrentDate === false && submitted}" tabIndex="18">
+                              <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                                <div style="color: rgb(220,53,69);" *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                                  Ngày tháng năm sinh không được để trống
+                                </div>
+                                <div style="color: rgb(220,53,69);" *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                                  Ngày tháng năm sinh không được để trống
+                                </div>
+                                <div style="color: rgb(220,53,69);" *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                                  Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                                </div>
+                              </div>
+                              <small *ngIf="checkCurrentDate === false && submitted" style="color: rgb(220,53,69);">Bạn không thể nhập ngày trong tương lai!</small>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="gender">Giới tính: <span style="color: red; font-size: large;">*</span></label>
+                          <ng-select [items]="ddlGender" style="top: -3px;"
+                            tabIndex="19"
+                            bindLabel="name"
+                            placeholder="Chọn giới tính"
+                            notFoundText="Không có dữ liệu"
+                            formControlName="gender"
+                            [(ngModel)]="selectedGender"
+                            [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                          </ng-select>
+                          <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                            <div *ngIf="f.gender.errors.required">Giới tính không được để trống</div>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-4" style="margin-top:0.7%;">
+                          <label>Số điện thoại:</label>
+                            <ngx-intl-tel-input tabIndex="20"
+                              [inputId]="'phone'"
+                              [cssClass]="'form-control'"
+                              [onlyCountries]="CountryISO.Vietnam"
+                              [enableAutoCountrySelect]="true"
+                              [enablePlaceholder]="true"
+                              [selectedCountryISO]="CountryISO.Vietnam"
+                              [maxLength]="15"
+                              [phoneValidation]="true"
+                              searchCountryPlaceholder='Tìm kiếm quốc gia'
+                              [separateDialCode]="separateDialCode"
+                              name="phone" formControlName="phone">
+                            </ngx-intl-tel-input>
+                        </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label for="province">Tỉnh/Thành phố: <span style="color: red; font-size: large;"></span></label>
+                            <ng-select [items]="ddlProvince"
+                              tabIndex="21"
+                              bindLabel="name"
+                              placeholder="Chọn Tỉnh/Thành phố"
+                              notFoundText="Không có dữ liệu"
+                              formControlName="province"
+                              [(ngModel)]="selectedProvince"
+                              (change)="selectProvince($event)">
+                            </ng-select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="dictrict">Quận/Huyện: <span style="color: red; font-size: large;"></span></label>
+                            <ng-select [items]="ddlDistrict"
+                            tabIndex="22"
+                            bindLabel="name"
+                            placeholder="Chọn Quận/Huyện"
+                            notFoundText="Không có dữ liệu"
+                            formControlName="district"
+                            [(ngModel)]="selectedDistrict"
+                            (change)="selectDistrict($event)">
+                          </ng-select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="ward">Phường/Xã <span style="color: red; font-size: large;"></span></label>
+                              <ng-select [items]="ddlWard"
+                              tabIndex="23"
+                              bindLabel="name"
+                              placeholder="Chọn Phường/Xã"
+                              notFoundText="Không có dữ liệu"
+                              formControlName="ward"
+                              [(ngModel)]="selectedWard">
+                            </ng-select>
+                          </div>
+                          <div class="form-group col-md-12">
+                              <label for="address">Địa chỉ: </label>
+                              <input class="form-control" type="text" name="text-input" formControlName="address" tabIndex="24">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 2%;">
+                    <button class="col-lg-12 col-md-12 col-sm-12 " class="btn btn-success" (click)="multiAdd()" tabIndex="25">
+                      <i class="fa fa-floppy-o"></i>&nbsp;Lưu lại & tiếp tục
+                    </button>
+                    &nbsp;
+                    <button type="button" class="btn btn-success" (click)="addUserAccount()" tabIndex="26"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="27"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Thêm mới -->
+            <!-- Cập nhật -->
+            <div class="modal fade" id="editUserAccountModal" [ngStyle]="{display: userAccountGetById ? 'block':'none'}"
+              role="dialog" aria-labelledby="userAccountModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding: 2%;">
+                    <h5 class="modal-title" id="userAccountModalLabel">Cập nhật</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="padding: 0%;">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-md-3" id="customUpdate">
+                      <div id="ImgUpdate1" class=" col-md-12" style="text-align: center;">
+                        <ng-template [ngIf]="imgURLUpdate" [ngIfElse]="imgURLNull">
+                          <img id="image_respon" [src]="imgURLUpdate" *ngIf="imgURLUpdate" style="height: 87px; position:relative;margin-bottom: 2%;top: 11px;">
+                        </ng-template>
+                        <ng-template #imgURLNull>
+                          <img id="image_respon1" src="assets/img/avatars/avatar.png" alt="Avatar" style="height: 140px; position:relative;margin-bottom: 2%;top: 11px;">
+                        </ng-template>
+                        <!-- <input #file type="file" accept='image/*' (change)="preview(file.files)" /> -->
+                        <div id="customChoose2" style="position:relative; margin-left: 5%;">
+                          <a class='btn btn-primary' href='javascript:;' tabindex="31">
+                              Chọn ảnh
+                              <input id="inputUpdate" type="file" #fileInputUpdate accept='image/*'s (change)="previewUpdate(fileInputUpdate.files)"
+                              style='position:absolute;z-index:2;filter: alpha(opacity=0);-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";opacity:0;background-color:transparent;color:transparent;' name="file_source" size="40"
+                              onchange='$("#upload-file-info").html($(this).val());'>
+                          </a>
+                          &nbsp;
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-9" style="margin-top: 1rem;">
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label for="username">Tài khoản đăng nhập: <span style="color: red; font-size: large;"></span></label>
+                            <input class="form-control" type="text" name="text-input" formControlName="username" [(ngModel)]="usernameData" disabled>
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label style="width: 50%;">Liên kết hồ sơ:<span style="color: red; font-size: large;"></span></label>
+                            <ng-template [ngIf]="this.form.value.code === '' || this.form.value.code === null " [ngIfElse]="notEqual">
+                                <a href="#" data-toggle="modal" title="Thêm liên kết hồ sơ"
+                              data-target="#linkProfile" (click)="resetLinkProfileForm()" tabindex="28">
+                                Thêm liên kết
+                              </a>
+                            </ng-template>
+                            <ng-template #notEqual>
+                              <a href="#" title="Bỏ liên kết hồ sơ" style="color: red;"
+                              data-toggle="modal" title="Bỏ liên kết hồ sơ"
+                              data-target="#confirmUnlinkProfileModal" (click)="showModalUnlinkProfile()" tabindex="28">
+                                Bỏ liên kết
+                              </a>
+                            </ng-template>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="">Quyền truy cập hệ thống: <span style="color: red; font-size: large;">*</span></label>
+                          <ng-select [items]="ddlPermissionData"
+                            tabIndex="29"
+                            bindLabel="name"
+                            placeholder="Chọn quyền"
+                            notFoundText="Không có dữ liệu"
+                            formControlName="permission"
+                            [(ngModel)]="selectedPermission"
+                            [ngClass]="{ 'is-invalid': submitted && f.permission.errors }">
+                          </ng-select>
+                          <div *ngIf="submitted && f.permission.errors" class="invalid-feedback">
+                            <div *ngIf="f.permission.errors.required">Quyền truy cập không được để trống</div>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="group_user">Nhóm người sử dụng: <span style="color: red; font-size: large;"></span></label>
+                          <ng-select [items]="ddlGroupData"
+                          class="customGroupUpdate"
+                          tabIndex="30"
+                          bindLabel="name"
+                          placeholder="Tất cả"
+                          notFoundText="Không có dữ liệu"
+                          [multiple]="true"
+                          [closeOnSelect]="false"
+                          formControlName="group"
+                          [(ngModel)]="selectedGroup">
+                          <ng-template ng-header-tmp>
+                            <div>
+                              <button class="btn btn-link" (click)="selectAllGroup(ddlGroupData)">Chọn tất cả</button>
+                              <button class="btn btn-link" (click)="deSelectAllGroup()">Bỏ chọn tất cả</button>
+                            </div>
+                          </ng-template>
+                          <ng-template ng-multi-label-tmp let-items="items">
+                            <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                              <span>{{item.name}}</span>
+                            </div>
+                            <div class="ng-value" *ngIf="items.length > 2" >
+                              <span class="ng-value-label">+{{items.length - 2}}</span>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                        </div>
+                      </div>
+                    </div>
+                     <div class="form-group col-md-12">
+                      <div class="form-row" style="width: 100%;">
+                        <div class="form-group col-md-4">
+                          <label for="fullname">Họ và tên: <span style="color: red; font-size: large;">*</span></label>
+                          <input class="form-control" type="text" name="text-input" formControlName="fullname"
+                            placeholder="Vui lòng nhập họ và tên" [ngClass]="{ 'is-invalid': submitted && f.fullname.errors }" tabIndex="32">
+                          <div *ngIf="submitted && f.fullname.errors" class="invalid-feedback">
+                            <div *ngIf="f.fullname.errors.required">Họ và tên không được để trống</div>
+                            <div *ngIf="f.fullname.errors.minlength">Họ và tên không được nhỏ hơn 2 ký tự</div>
+                            <div *ngIf="f.fullname.errors.maxlength">Họ và tên không được lớn hơn 100 ký tự</div>
+                            <div *ngIf="f.fullname.errors.pattern">Họ và tên không được chứa ký tự đặc biệt</div>
+                          </div>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="dob">Ngày sinh: <span style="color: red; font-size: large;">*</span></label>
+                            <input (blur)="changeDateUpdate($event)" class="form-control" id="date-input" type="date" name="date-input" data-date-format="dd/mm/yyyy" formControlName="dob"
+                             id="date" placeholder="dd/mm/yyyy" [ngClass]="{ 'is-invalid': submitted && f.dob.errors || checkCurrentDateUpdate === false && submitted}" tabIndex="33">
+                            <div *ngIf="submitted && f.dob.errors" class="invalid-feedback">
+                              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUpdate === undefined && valueBoolenUpdate === undefined && valueDateUpdate === undefined ">
+                                Ngày tháng năm sinh không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUpdate === '' && valueBoolenUpdate === true && valueDateUpdate === ''">
+                                Ngày tháng năm sinh không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUpdate !== '' && valueBoolenUpdate === false && valueDateUpdate === ''">
+                                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                              </div>
+                            </div>
+                            <small *ngIf="checkCurrentDateUpdate === false && submitted" style="color: rgb(220,53,69);">Bạn không thể nhập ngày trong tương lai!</small>
+                          </div>
+                        <div class="form-group col-md-2">
+                          <label for="gender">Giới tính: <span style="color: red; font-size: large;">*</span></label>
+                          <ng-select [items]="ddlGender"
+                          tabIndex="34"
+                          bindLabel="name"
+                          placeholder="Chọn giới tính"
+                          notFoundText="Không có dữ liệu"
+                          formControlName="gender"
+                          [(ngModel)]="selectedGender"
+                          [ngClass]="{ 'is-invalid': submitted && f.gender.errors }">
+                        </ng-select>
+                        <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                          <div *ngIf="f.gender.errors.required">Giới tính không được để trống</div>
+                        </div>
+                        </div>
+                        <div class="form-group col-md-3" style="margin-top: 5%;">
+                          <!-- <label class="container">
+                            <input type="checkbox" formControlName="status">
+                            <span class="checkmark" tabindex="36"></span>Hoạt động
+                          </label> -->
+                          <label class="customCheckboxUpdate" style="display: flex;margin-bottom: 0;">
+                            <input type="checkbox"tabindex="5" formControlName="status"style="margin: .1em; width: 2em; height: 2em; position: relative; right: 3px;" onclick="return true;" checked>
+                            <a class="customCheckboxUpdate2">Hoạt động</a>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                          <div class="form-group col-md-2">
+                            <label for="email">Email: <span style="color: red; font-size: large;">*</span></label>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <input class="form-control" type="text" name="text-input" formControlName="email"
+                            placeholder="Vui lòng nhập Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" tabIndex="37">
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                              <div *ngIf="f.email.errors.required">Email không được để trống</div>
+                              <div *ngIf="f.email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+                              <div *ngIf="f.email.errors.email">Email không hợp lệ</div>
+                              <div *ngIf="f.email.errors.pattern">Email không hợp lệ</div>
+                            </div>
+                          </div>
+                          <div class="form-group col-md-2">
+                            <label for="phone">Số điện thoại: <span style="color: red; font-size: large;"></span></label>
+                          </div>
+                          <div class="form-group col-md-4">
+                          <ngx-intl-tel-input tabIndex="38"
+                            [inputId]="'phone'"
+                            [(ngModel)]="showTelephoneNumber"
+                            [cssClass]="'form-control'"
+                            [onlyCountries]="CountryISO.Vietnam"
+                            NumberTextValue="NumberModel"
+                            [enableAutoCountrySelect]="true"
+                            [enablePlaceholder]="true"
+                            [selectedCountryISO]="CountryISO.Vietnam"
+                            [maxLength]="15"
+                            [phoneValidation]="true"
+                            searchCountryPlaceholder='Tìm kiếm quốc gia'
+                            [separateDialCode]="separateDialCode"
+                            name="phone" formControlName="phone">
+                          </ngx-intl-tel-input>
+                          </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-4">
+                          <label for="province">Tỉnh/Thành phố: <span style="color: red; font-size: large;"></span></label>
+                          <ng-select [items]="ddlProvince"
+                          tabIndex="39"
+                          bindLabel="name"
+                          placeholder="Chọn Tỉnh/Thành phố"
+                          notFoundText="Không có dữ liệu"
+                          [(ngModel)]="selectedProvince"
+                          (change)="selectProvince($event)"
+                          formControlName="province">
+                        </ng-select>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="dictrict">Quận/Huyện: <span style="color: red; font-size: large;"></span></label>
+                          <ng-select [items]="ddlDistrict"
+                          tabIndex="40"
+                          bindLabel="name"
+                          placeholder="Chọn Tỉnh/Thành phố"
+                          notFoundText="Không có dữ liệu"
+                          [(ngModel)]="selectedDistrict"
+                          (change)="selectDistrict($event)"
+                          formControlName="district">
+                        </ng-select>
+                        </div>
+                        <div class="form-group col-md-4">
+                          <label for="ward">Phường/Xã: <span style="color: red; font-size: large;"></span></label>
+                          <ng-select [items]="ddlWard"
+                          tabIndex="41"
+                          bindLabel="name"
+                          placeholder="Chọn Xã/Phường"
+                          notFoundText="Không có dữ liệu"
+                          [(ngModel)]="selectedWard"
+                          formControlName="ward">
+                        </ng-select>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-12">
+                          <label for="address">Địa chỉ: </label>
+                          <input class="form-control" type="text" name="text-input" formControlName="address" [(ngModel)]="address_detail" tabIndex="42">
+                        </div>
+                      </div>
+                      <div class="form-row">
+                       <div class="form-group col-md-12">
+                          <div class="form-check" (click)="toggle($event)" id="bt"  style="padding-left: 0.25rem;">
+                            <input class="form-check-input" type="checkbox" style="margin-left: 8.75rem !important;" hidden>
+                            <span class="form-check-label">
+                              Thiết lập lại mật khẩu
+                            </span>
+                            <ng-template [ngIf]="show" [ngIfElse]="notMarked" tabindex="43">
+                              <i class="fa fa-caret-up" aria-hidden="true" *ngIf="show"></i>
+                            </ng-template>
+                            <ng-template #notMarked tabindex="43">
+                              <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            </ng-template>
+                          </div>
+                        </div>
+                      <ng-container *ngIf="show">
+                        <div style="width:100%;">
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="password">Mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                                <input class="form-control" type="password" name="text-input" formControlName="password"
+                                  placeholder="Vui lòng nhập mật khẩu"
+                                  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" tabIndex="43">
+                                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                  <div *ngIf="f.password.errors.required">Mật khẩu không được để trống</div>
+                                  <!-- <div *ngIf="f.password.errors.minlength">Mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                                  <div *ngIf="f.password.errors.pattern">Sử dụng 6 ký tự trở lên và kết hợp với chữ hoa, chữ thường và chữ số</div>
+                                  <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="confirm_password">Xác nhận mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                                <input class="form-control" type="password" name="text-input" formControlName="confirm_password"
+                                  placeholder="Xác nhận mật khẩu"
+                                  [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }" tabIndex="44">
+                                <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+                                  <div *ngIf="f.confirm_password.errors.required">Xác nhận mật khẩu không được để trống</div>
+                                  <!-- <div *ngIf="f.confirm_password.errors.minlength">Xác nhận mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                                  <!-- <div *ngIf="f.confirm_password.errors.maxlength">Xác nhận mật khẩu không được lớn hơn 100 ký tự</div> -->
+                                  <div *ngIf="f.confirm_password.errors.mustMatch">Mật khẩu không trùng khớp</div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      </div>
+                      <div class="collapse hide" id="collapseChangePassword" style="width:100%;">
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                              <label for="password">Mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                              <input class="form-control" type="password" name="text-input" formControlName="password"
+                                placeholder="Vui lòng nhập mật khẩu"
+                                [ngClass]="{ 'is-invalid': submitted && f.password.errors }" tabIndex="45">
+                              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                <div *ngIf="f.password.errors.required">Mật khẩu không được để trống</div>
+                                <!-- <div *ngIf="f.password.errors.minlength">Mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                                <div *ngIf="f.password.errors.pattern">Sử dụng 6 ký tự trở lên và kết hợp với chữ hoa, chữ thường và chữ số</div>
+                                <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+                              </div>
+                          </div>
+                          <div class="form-group col-md-6">
+                              <label for="confirm_password">Xác nhận mật khẩu: <span style="color: red; font-size: large;">*</span></label>
+                              <input class="form-control" type="password" name="text-input" formControlName="confirm_password"
+                                placeholder="Xác nhận mật khẩu"
+                                [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }" tabIndex="46">
+                              <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+                                <!-- <div *ngIf="f.confirm_password.errors.required">Xác nhận mật khẩu không được để trống</div> -->
+                                <!-- <div *ngIf="f.confirm_password.errors.minlength">Xác nhận mật khẩu không được nhỏ hơn 6 ký tự</div> -->
+                                <!-- <div *ngIf="f.confirm_password.errors.maxlength">Xác nhận mật khẩu không được lớn hơn 100 ký tự</div> -->
+                                <div *ngIf="f.confirm_password.errors.mustMatch">Mật khẩu không trùng khớp</div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                     </div>
+                  </div>
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 2%;">
+                    <button type="button" class="btn btn-primary" (click)="updateUserAccount(userAccountGetById['users'][0].id)" tabIndex="47">
+                      <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="48"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="confirmUnlinkProfileModal" data-keyboard="false" role="dialog" tabindex="-1"
+              aria-labelledby="confirmUnlinkProfileModalModalLabel" aria-hidden="false" data-backdrop="static">
+              <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding: 2%;">
+                    <h5 class="modal-title" id="userGroupConfigModalLabel">Liên kết hồ sơ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="padding: 14px;">
+                    Bạn muốn chắc chắn muốn bỏ liên kết với hồ sơ này?
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 17%;">
+                    <button type="button" class="btn btn-primary" (click)="unLinkProfile()">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy bỏ</button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Cập nhật -->
+            <div class="modal fade" id="linkProfile" data-keyboard="false" role="dialog"
+              aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding: 2%;">
+                    <h5 class="modal-title" id="userAccountModalLabel">Liên kết hồ sơ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body" style="padding: 14px;">
+                    <div class="form-row">
+                      <div class="form-group col-md-8">
+                        <label for="ward">Thông tin liên kết hồ sơ <span style="color: red; font-size: large;"></span></label>
+                        <ng-select [items]="ddlLinkProfileData"
+                          tabIndex="49"
+                          bindLabel="name"
+                          placeholder="Chọn hồ sơ"
+                          notFoundText="Không có dữ liệu"
+                          [multiple]="false"
+                          [closeOnSelect]="true"
+                          formControlName="profile"
+                          [(ngModel)]="selectedProfile"
+                          (change)="onSelectLinkProfile($event)">
+                        </ng-select>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="codeProfile">Mã hồ sơ <span style="color: red; font-size: large;"></span></label>
+                        <input class="form-control" type="text" name="text-input" formControlName="codeProfile"
+                        placeholder="" [(ngModel)]="this.form.value.codeProfile" tabIndex="50">
+                      </div>
+                      <div class="form-group col-md-12">
+                        <label class="container">
+                          <input type="checkbox" formControlName="profileData">
+                          <span class="checkmark" tabindex="50"></span>Lấy dữ liệu hồ sơ mới
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 17%;">
+                    <button type="button" class="btn btn-primary" (click)="linkProfile()" tabindex="51">Xác nhận</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="52">Hủy bỏ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12" style="margin-bottom: 0rem;">
+                <button class="btn btn-success" id="btnUserAccount" type="button" data-toggle="modal" data-target="#addUserAccountModal"
+                    (click)="resetUserAccountForm()" style="float: left;" tabindex="53">
+                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                  </button>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="father_name" class="col-xl-6 col-lg-7 col-md-6 col-sm-6 col-6 col-form-label" style="margin: 0px 0px 0px 0;">Hiển thị:</label>
+                  <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 hienthiOption1" style="float: right;"
+                  (change)="perPageSelected($event.target.value)" tabindex="54">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                </div>
+            </div>
+          </form>
+        </div>
+     </div>
+    </div>
+  </div>
+</form>

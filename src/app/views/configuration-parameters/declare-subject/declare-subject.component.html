@@ -1,0 +1,606 @@
+<form [formGroup]="declareSubjectForm">
+  <!-- <pre>{{declareSubjectForm.value|json}}</pre> -->
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="card">
+      <!--Card Header-->
+      <div class="card-header">
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách môn học phân phối theo trường</strong>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;" tabindex="1">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" #searchByKeyWordInput formControlName='search'
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Mã / Tên môn học">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Card-body-->
+      <div class="card-body">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row" style="margin-bottom: -0.45rem;">
+            <div class="col-12 col-sm-5 col-md-4 col-lg-4 col-xl-3">
+              <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+              <ng-select #selectYearSearch [tabIndex]="2"
+                  [items]="ddlYearData"
+                  class="customYear"
+                  bindLabel="name"
+                  placeholder="Chọn năm"
+                  [clearable]="false"
+                  notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="false"
+                  [(ngModel)]="selectedYear"
+                  formControlName="year"
+                  (change)="onSelectYear($event)">
+                </ng-select>
+            </div>
+            <div class="col-12 col-sm-7 col-md-4 col-lg-5 col-xl-4">
+              <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Khối:</label>
+              <ng-select [items]="ddlGradeSearchData"
+                    class="customGrade"
+                    [tabIndex]="3"
+                    bindLabel="name"
+                    placeholder="Tất cả"
+                    notFoundText="Không có dữ liệu"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    formControlName="grade_id_search"
+                    [(ngModel)]="selectedGradeSearch">
+                    <ng-template ng-header-tmp>
+                      <div>
+                        <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                        <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+                      </div>
+                    </ng-template>
+                    <ng-template ng-multi-label-tmp let-items="items">
+                      <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                        <span>{{item.name}}</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 2" >
+                        <span class="ng-value-label">+{{items.length - 2}}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+            </div>
+            <div class="col-8 col-sm-6 col-md-3 col-lg-3 col-xl-3 ckbActive">
+              <!-- <label class="container">
+                <input type="checkbox" checked="checked" formControlName="statusActive">
+                <span class="checkmark" tabindex="4"></span>Hoạt động
+                </label> -->
+                <label class="customCheckbox" style="display: flex;">
+                  <input type="checkbox"tabindex="5" formControlName="statusActive" style="margin: .1em; width: 2em; height: 2em; position: relative; right: 3px;" onclick="return true;" checked>
+                <a class="customCheckbox2">Hoạt động</a>
+               </label>
+            </div>
+            <div class="col-4 col-sm-6 col-md-1 col-lg-12 col-xl-2 btnFilter">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" [disabled]="loadingFilter"
+                  style="float: right; margin-bottom: 2%;" autocomplete="off" (click)="filterSubject()" tabindex="5">
+                  <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-filter" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr style="margin: 1% 0 1% 0;">
+          <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="subjects">
+            <table class="table table-responsive-sm table-bordered table-striped table-sm"
+              style="text-align: center; margin-bottom: 1rem;" id="tblUserAccount">
+              <thead *ngIf="headerSubject === true">
+                <tr>
+                  <th>STT</th>
+                  <th (click)="sortSubjectCode()" style="cursor: pointer;">Mã môn học&nbsp;
+                    <i *ngIf="firstTimeCode == 1" class="fa fa-sort"></i>
+                    <i *ngIf="subjectCode == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="subjectCode == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th (click)="sortSubjectName()" style="cursor: pointer;">Tên môn học&nbsp;
+                    <i *ngIf="firstSubjectName == 1" class="fa fa-sort"></i>
+                    <i *ngIf="subjectName == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="subjectName == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th>Ký hiệu</th>
+                  <th (click)="sortGrade()" style="cursor: pointer;">Khối&nbsp;
+                    <i *ngIf="firstsortGrade == 1" class="fa fa-sort"></i>
+                    <i *ngIf="gradeTime == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="gradeTime == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <!-- <th (click)="sortSubjectKind()" style="cursor: pointer;">Loại môn&nbsp;
+                    <i *ngIf="firstSubjectKind == 1" class="fa fa-sort"></i>
+                    <i *ngIf="subjectKind == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="subjectKind == 2" class="fa fa-caret-down"></i>
+                  </th> -->
+                  <th (click)="sortSubjectType()" style="cursor: pointer;">Kiểu môn&nbsp;
+                    <i *ngIf="firstSubjectType == 1" class="fa fa-sort"></i>
+                    <i *ngIf="subject_type == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="subject_type == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th>Hiệu lực</th>
+                  <th>Số tiết</th>
+                  <th>Ghi chú</th>
+                  <th>Trạng thái</th>
+                  <th style="width: 10%;">Hoạt động</th>
+                </tr>
+
+              </thead>
+              <tbody *ngIf="subjects">
+                <tr class="item1"
+                  *ngFor="let item of subjects | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index" >
+                  <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                  <td style="vertical-align: inherit; padding-left: 1%; padding-right: 1%;">{{ item.code }}</td>
+                  <td style="vertical-align: inherit; text-align: left; padding-left: 1%;">{{ item.name }}</td>
+                  <td style="vertical-align: inherit;">{{ item.symbol }}</td>
+                  <td style="vertical-align: inherit; text-align: left; padding-left: 1%; padding-right: 1%;">{{ item.grade_name }}</td>
+
+                  <!-- <td style="vertical-align: inherit; text-align: left; padding-left: 1%;">
+                    <ng-template [ngIf]="item.subject_kind == 1" [ngIfElse]="otherObjectObligatory">
+                      Bắt buộc
+                    </ng-template>
+                    <ng-template #otherObjectObligatory>
+                      <ng-template [ngIf]="item.subject_kind == 4" [ngIfElse]="otherElective">
+                        Tự chọn
+                      </ng-template>
+                      <ng-template #otherElective>
+                        <ng-template [ngIf]="item.subject_kind == 2" [ngIfElse]="otherSubjectKind">
+                          Môn chuyên
+                        </ng-template>
+                        <ng-template #otherSubjectKind>
+                          Khác
+                        </ng-template>
+                      </ng-template>
+                    </ng-template>
+                  </td> -->
+
+                  <td style="vertical-align: inherit; text-align: left; padding-left: 1%; padding-right: 1%;">
+                    <!-- <ng-template [ngIf]="item.subject_type == 1" [ngIfElse]="subjectType">
+                      Tính điểm
+                    </ng-template>
+                    <ng-template #subjectType>
+                      Không tính điểm
+                    </ng-template> -->
+                    <ng-template [ngIf]="item.subject_type == 1">
+                      Tính điểm
+                    </ng-template>
+                    <ng-template [ngIf]="item.subject_type == 2">
+                      Không tính điểm
+                    </ng-template>
+                    <ng-template [ngIf]="item.subject_type == 3">
+                      Tính điểm đọc viết chung
+                    </ng-template>
+                  </td>
+                  <td style="vertical-align: inherit;">{{ item.school_time }}</td>
+                  <td style="vertical-align: inherit;">{{ item.lesson }}</td>
+                  <td style="max-width: 120px; text-align: left;padding-left: 1%; padding-right: 1%; vertical-align: inherit;">{{ item.description }}</td>
+                  <td style="vertical-align: middle;">
+                    <ng-template [ngIf]="item.status == 0" [ngIfElse]="notEqual">
+                      <input ng-if="item.status == 0" type="checkbox" name="status" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" />
+                      </ng-template>
+                      <ng-template #notEqual>
+                          <input ng-if="item.status == 1" type="checkbox" name="status" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" checked />
+                      </ng-template>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <div *ngIf="item.history === 2; then dis; else unDis" hidden></div>
+                    <div class="row" style="padding: 1% 15px;">
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                        <ng-template #dis>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                            data-target="#updateDeclareSubjectModal" (click)="getByIdSubject(item.id)" style="margin-top:3px; margin-right:3%" tabindex="6">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                          (click)="deleteDeclareSubject(item.id)" style="margin-top: 3px;" tabindex="6">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </ng-template>
+                        <ng-template #unDis>
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa" disabled
+                            data-target="#updateDeclareSubjectModal" (click)="getByIdSubject(item.id)" style="margin-top:3px; margin-right:3%" tabindex="6">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa" disabled
+                          (click)="deleteDeclareSubject(item.id)" style="margin-top: 3px;" tabindex="6">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </ng-template>
+                      </div>
+                    </div>
+                </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="checkSubjectData == true">
+                <tr>
+                  <td colspan="12"> Dữ liệu không tồn tại
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-right" *ngIf="subjects">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div
+                      *ngFor="let item of subjects | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                      <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                          {{(p-1)*countPage+i+1}}/{{ subjects.length }}</span> bản ghi</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6" *ngIf="headerSubject === true">
+                    <pagination-controls (pageChange)="p = $event" tabindex="7"></pagination-controls>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="form-group row col-xl-9 col-lg-9 col-md-8 col-sm-7 col-12" style="margin-bottom: 0rem;">
+                <!-- <div class="col-lg-8 col-md-8 col-sm-8" id="btnAddFormat"> -->
+                  <button class="btn btn-success btn-sm marginButton" id="btnUserAccount" type="button" data-toggle="modal" data-target="#createDeclareSubjectModal"
+                    (click)="resetDeclareSubjectForm()" style="float: right;" tabindex="30">
+                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                  </button>
+                <!-- </div> -->
+                <button class="btn btn-primary btn-sm marginButton" type="button" (click)="downloadTemplateFile();" tabindex="31" [disabled]="loadingDownload">
+                  <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-cloud-download"></i> Tải tệp mẫu
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="exportFile();" tabindex="32" [disabled]="loadingExport">
+                    <span *ngIf="loadingExport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-download"></i> Xuất ra tệp
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="importFile();" tabindex="33" [disabled]="loadingImport">
+                    <span *ngIf="loadingImport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-upload"></i> Nhập từ tệp
+                  </button>
+                  <div class="upload marginButton">
+                    <input type="button" class="uploadButton" value="Chọn tệp" tabindex="34" />
+                    <input type="file" name="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileUpload" #fileInput (change)="uploadFile(fileInput.files)"/>
+
+                    <ng-template [ngIf]="fileURL" [ngIfElse]="notChoosenFile">
+                      <span class="text" *ngIf="fileURL" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">{{ fileURL }}</span>
+                    </ng-template>
+                    <ng-template #notChoosenFile>
+                      <span class="text" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">Vui lòng chọn tệp</span>
+                    </ng-template>
+                  </div>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5 col-12" style="left: 36px;">
+                <div class="row">
+                   <div class="col-xl-4 col-lg-5 col-md-4 col-sm-4 col-3" style="max-width: 200%;padding: 1% 0 0 15px;">
+                    <span class="showRecord">Hiển thị:</span>
+                   </div>
+                   <div class="col-xl-7 col-lg-7 col-md-7 col-sm-8 col-3" style="margin-right: -50px !important;">
+                      <select id="showOption" class="form-control" (change)="perPageSelected($event.target.value)" tabindex="35">
+                         <option value="10">10</option>
+                         <option value="20">20</option>
+                         <option value="50">50</option>
+                         <option value="100">100</option>
+                      </select>
+                   </div>
+                </div>
+             </div>
+            </div>
+          </form>
+        </div>
+     </div>
+    </div>
+  </div>
+  <!-- Thêm mới -->
+  <div class="modal fade" id="createDeclareSubjectModal" data-keyboard="false" role="dialog"
+    aria-labelledby="declareSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title">Thêm mới</h5>
+          <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="12"> -->
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="8">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0">
+            <div class="form-group col-md-12">
+              <div class="form-group col-md-12" style="margin-top: .5rem; margin-bottom: .5rem; padding-left: 5px; padding-right: 5px;">
+
+                <div class="form-row">
+                  <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="name">Năm học: <span style="color: red; font-size: large;"></span></label>
+                    <!-- <input class="form-control" type="text" name="text-input" formControlName="year" value="{{selectedYear['name']}}" disabled> -->
+                    <ng-select [items]="yearDataInsert"
+                      class="custom"
+                      [tabIndex]="8"
+                      bindLabel="name"
+                      placeholder="--Chọn năm--"
+                      notFoundText="Không có dữ liệu"
+                      [closeOnSelect]="false"
+                      [(ngModel)]="selectedFormAdd"
+                      (change)= "onselectYearInsert($event)"
+                      formControlName="year_id">
+                    </ng-select>
+                    <span *ngIf="submitted && f?.year_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                      Năm học không được để trống
+                    </span>
+                  </div>
+                  <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="name">Tên môn học: <span style="color: red; font-size: large;">*</span></label>
+                    <input class="form-control" type="text" name="text-input" formControlName="name"
+                      placeholder="Nhập tên môn học" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" tabindex="9">
+                    <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                      <div *ngIf="f.name.errors.required">Tên môn học không được để trống</div>
+                      <div *ngIf="f.name.errors.minlength">Độ dài tên môn học không được nhỏ hơn 2 ký tự</div>
+                      <div *ngIf="f.name.errors.maxlength">Độ dài tên môn học không được lớn hơn 50 ký tự</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="symbol">Ký hiệu: <span style="color: red; font-size: large;"></span></label>
+                    <input class="form-control" type="text" name="text-input" formControlName="symbol"
+                      placeholder="Nhập ký hiệu"
+                      [ngClass]="{ 'is-invalid': submitted && f.symbol.errors }" tabindex="10">
+                    <div *ngIf="submitted && f.symbol.errors" class="invalid-feedback">
+                      <div *ngIf="f.symbol.errors.maxlength">Độ dài ký hiệu môn học không được lớn hơn 50 ký tự</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                    <label for="lesson">Số tiết: <span style="color: red; font-size: large;">*</span></label>
+                    <input class="form-control lesson" type="number" formControlName="lesson" maxlength="3" min="1" max="500"
+                    (keypress)="numberOnly($event)" placeholder="" [ngClass]="{ 'is-invalid': submitted && f.lesson.errors }" tabindex="11">
+                    <div *ngIf="submitted && f.lesson.errors" class="invalid-feedback">
+                      <div *ngIf="f.lesson.errors.required">Số tiết học không được để trống</div>
+                      <div *ngIf="f.lesson.errors.maxlength">Số tiết học không được lớn hơn 500 tiết</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                    <label for="">Khối: <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlGradeData"
+                      [tabIndex]="12"
+                      bindLabel="name"
+                      placeholder="Chọn khối"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="grade_id"
+                      [(ngModel)]="selectedGradeInsert"
+                      (change) = "onSelectGradeAdd($event)"
+                      [ngClass]="{ 'is-invalid': submitted && f.grade_id.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.grade_id.errors" class="invalid-feedback">
+                      <div *ngIf="f.grade_id.errors.required">Khối không được để trống</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                    <label for="name">Hiệu lực: <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlSchoolTimeData"
+                      [tabIndex]="13"
+                      bindLabel="name"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      placeholder="Chọn hiệu lực"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedSchoolTime"
+                      formControlName="school_time"
+                      (change) = "onSelectSchoolTimeAdd($event)"
+                      [ngClass]="{ 'is-invalid': submitted && f.school_time.errors }">
+                      <ng-template ng-header-tmp>
+                        <div>
+                          <button class="btn btn-link" (click)="onSelectAllSchoolTime(ddlSchoolTimeData)">Chọn tất cả</button>
+                          <button class="btn btn-link" (click)="deSelectAllSchoolTime()">Bỏ chọn tất cả</button>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items">
+                        <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                          <span>{{item.name}}</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 2" >
+                          <span class="ng-value-label">+{{items.length - 2}}</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+                    <div *ngIf="submitted && f.school_time.errors" class="invalid-feedback">
+                      <div *ngIf="f.school_time.errors.required">Vui lòng chọn hiệu lực</div>
+                    </div>
+                  </div>
+                 
+                  <!-- <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                    <label for="">Loại môn: <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlSubjectKindData"
+                      tabindex="14"
+                      bindLabel="name"
+                      placeholder="Chọn loại môn"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="subject_kind"
+                      [(ngModel)]="selectedSubjectKind"
+                      [ngClass]="{ 'is-invalid': submitted && f.subject_kind.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.subject_kind.errors" class="invalid-feedback">
+                      <div *ngIf="f.subject_kind.errors.required">Loại môn không được để trống</div>
+                    </div>
+                  </div> -->
+                  <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                    <label for="">Kiểu môn: <span style="color: red; font-size: large;">*</span></label>
+                    <ng-select [items]="ddlSubjectTypeData"
+                      [tabIndex]="15"
+                      bindLabel="name"
+                      placeholder="Chọn kiểu môn"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="subject_type"
+                      [(ngModel)]="selectedSubjectType"
+                      [ngClass]="{ 'is-invalid': submitted && f.subject_type.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.subject_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.subject_type.errors.required">Kiểu môn không được để trống</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 0rem;">
+                    <label for="grade">Ghi chú:</label>
+                    <textarea cols="10" rows="3" class="form-control" formControlName="description" (keyup)="onKeyUp($event)"
+                    placeholder="Nhập ghi chú" tabindex="16"></textarea>
+                    <span style="float: right; opacity: .6;">
+                      {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-success" (click)="createDeclareSubject()" tabindex="17"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="18"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cập nhật -->
+  <div class="modal fade" id="updateDeclareSubjectModal" role="dialog" aria-labelledby="declareSubjectModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title">Cập nhật</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="19">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0%;">
+          <div class="form-group col-md-12">
+            <div class="form-group col-md-12" style="margin-top: .5rem; margin-bottom: .5rem; padding-left: 5px; padding-right: 5px;">
+              <div class="form-row">
+                <!-- <div class="form-group col-lg-2 col-md-2 col-sm-2">
+                  <label for="name">Năm học: <span style="color: red; font-size: large;"></span></label>
+                  <input class="form-control" type="text" name="text-input" formControlName="year" value="{{selectedYear['name']}}" disabled>
+                </div> -->
+                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                  <label for="code">Mã môn học: <span style="color: red; font-size: large;"></span></label>
+                  <input class="form-control" type="text" name="text-input" formControlName="code" disabled tabindex="19">
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                  <label for="name">Tên môn học: <span style="color: red; font-size: large;">*</span></label>
+                  <input class="form-control" type="text" name="text-input" formControlName="name"
+                    placeholder="Nhập tên môn học" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" tabindex="20" disabled>
+                  <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Độ dài tên môn học không được để trống</div>
+                    <div *ngIf="f.name.errors.minlength">Độ dài tên môn học không được nhỏ hơn 2 ký tự</div>
+                    <div *ngIf="f.name.errors.maxlength">Độ dài tên môn học không được lớn hơn 50 ký tự</div>
+                  </div>
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                  <label for="symbol">Ký hiệu: <span style="color: red; font-size: large;"></span></label>
+                  <input class="form-control" type="text" name="text-input" formControlName="symbol"
+                    placeholder="Nhập ký hiệu"
+                    [ngClass]="{ 'is-invalid': submitted && f.symbol.errors }" tabindex="21">
+                  <div *ngIf="submitted && f.symbol.errors" class="invalid-feedback">
+                    <div *ngIf="f.symbol.errors.maxlength">Độ dài ký hiệu môn học không được lớn hơn 50 ký tự</div>
+                  </div>
+                </div>
+                <div class="form-group col-lg-3 col-md-3 col-sm-3">
+                  <label for="lesson">Số tiết: <span style="color: red; font-size: large;">*</span></label>
+                  <input class="form-control lesson" type="number" formControlName="lesson" maxlength="3" min="1" max="500"
+                  (keypress)="numberOnly($event)" placeholder="" [ngClass]="{ 'is-invalid': submitted && f.lesson.errors }" tabindex="22">
+                  <div *ngIf="submitted && f.lesson.errors" class="invalid-feedback">
+                    <div *ngIf="f.lesson.errors.required">Số tiết học không được để trống</div>
+                    <div *ngIf="f.lesson.errors.maxlength">Số tiết học không được lớn hơn 500 tiết</div>
+                  </div>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                  <label for="">Khối: <span style="color: red; font-size: large;">*</span></label>
+                  <ng-select [items]="gradeDataUpdate"
+                      [tabIndex]="23"
+                      bindLabel="name"
+                      [readonly] = 'true'
+                      placeholder="Chọn khối"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="grade_id"
+                      [(ngModel)]="selectedGrade"
+                      [ngClass]="{ 'is-invalid': submitted && f.grade_id.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.grade_id.errors" class="invalid-feedback">
+                      <div *ngIf="f.grade_id.errors.required">Khối không được để trống</div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                  <label for="name">Hiệu lực: <span style="color: red; font-size: large;">*</span></label>
+                  <ng-select [items]="ddlSchoolTimeDataUpdate"
+                      [tabIndex]="24"
+                      bindLabel="name"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      placeholder="Chọn hiệu lực"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedSchoolTime"
+                      formControlName="school_time"
+                      [ngClass]="{ 'is-invalid': submitted && f.school_time.errors }">
+                      <ng-template ng-header-tmp>
+                        <div>
+                          <button class="btn btn-link" (click)="onSelectAllSchoolTime(ddlSchoolTimeData)">Chọn tất cả</button>
+                          <button class="btn btn-link" (click)="deSelectAllSchoolTime()">Bỏ chọn tất cả</button>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items">
+                        <div class="ng-value" *ngFor="let item of (items ? items.slice(0,2): [])">
+                          <span>{{item.name}}</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 2" >
+                          <span class="ng-value-label">+{{items.length - 2}}</span>
+                        </div>
+                      </ng-template>
+                  </ng-select>
+                  <div *ngIf="submitted && f.school_time.errors" class="invalid-feedback">
+                    <div *ngIf="f.school_time.errors.required">Vui lòng chọn hiệu lực</div>
+                  </div>
+                </div>
+               
+                <!-- <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                  <label for="">Loại môn: <span style="color: red; font-size: large;">*</span></label>
+                  <ng-select [items]="ddlSubjectKindData"
+                      tabindex="25"
+                      bindLabel="name"
+                      placeholder="Chọn loại môn"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="subject_kind"
+                      [(ngModel)]="selectedSubjectKind"
+                      [ngClass]="{ 'is-invalid': submitted && f.subject_kind.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.subject_kind.errors" class="invalid-feedback">
+                      <div *ngIf="f.subject_kind.errors.required">Loại môn không được để trống</div>
+                    </div>
+                </div> -->
+                <div class="form-group col-lg-4 col-md-6 col-sm-6">
+                  <label for="">Kiểu môn: <span style="color: red; font-size: large;">*</span></label>
+                  <ng-select [items]="ddlSubjectTypeData"
+                      [tabIndex]="26"
+                      bindLabel="name"
+                      placeholder="Chọn kiểu môn"
+                      notFoundText="Không có dữ liệu"
+                      formControlName="subject_type"
+                      [(ngModel)]="selectedSubjectType"
+                      [ngClass]="{ 'is-invalid': submitted && f.subject_type.errors }">
+                    </ng-select>
+                    <div *ngIf="submitted && f.subject_type.errors" class="invalid-feedback">
+                      <div *ngIf="f.subject_type.errors.required">Kiểu môn không được để trống</div>
+                    </div>
+                </div>
+                <div class="form-group col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 0rem;">
+                  <label for="grade">Ghi chú:</label>
+                  <textarea cols="10" rows="3" class="form-control" formControlName="description" (keyup)="onKeyUp($event)"
+                  placeholder="Nhập ghi chú" tabindex="27"></textarea>
+                  <span style="float: right; opacity: .6;">
+                    {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-primary" (click)="updateDeclareSubject(id)" tabindex="28">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="29"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

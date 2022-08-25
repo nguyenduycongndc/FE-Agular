@@ -1,0 +1,61 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+  <!-- Card -->
+  <div class="card">
+    <!-- Card header -->
+    <div class="card-header">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px">
+          <span class="fa-stack">
+            <i class="fa fa-edit fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Thời gian học / ngày nghỉ lễ</strong>
+        </div>
+      </div>
+    </div>
+    <!-- End card header -->
+    <!-- Card body -->
+    <div class="card-body" style="padding: 0.6rem !important">
+      <form [formGroup] = "form">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row">
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label class="col-form-label" style="float: left; margin-right: 1em">Năm học:</label>
+              <ng-select
+                class="customNgSelect"
+                [tabIndex]="1"
+                [items]="dataYear"
+                [(ngModel)]="selectedYear"
+                bindLabel="name"
+                placeholder="Chọn năm"
+                notFoundText="Không có dữ liệu"
+                [clearable]="false"
+                formControlName="years"
+                (change)="onSelectYear()">
+              </ng-select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <hr style="margin: 1% 0 1% 0" />
+      <!-- <form> -->
+        <div class="table-responsive">
+          <ul class="nav nav-tabs">
+            <li class="nav-item" *ngFor="let tab of tabs" (click)="selectTabs(tab.id)" tabindex="2">
+              <a class="nav-link" [ngClass]="{active: tab.id == tabs_id ? true : false }">{{tab.name}}</a>
+            </li>
+          </ul>
+          <!-- Thời gian học -->
+          <weekdays-app #weekdayChild *ngIf="tabs_id == 1" [header]="weekdayHeader" [sourceData]="weekday" (emitData)="changeDataWeekday($event)" [years]="year_for_child"></weekdays-app>
+          <!-- End -->
+          <!-- Ngày lễ -->
+          <holiday-app #holidayChild *ngIf="tabs_id == 2" [header]="holidayHeader" [sourceData]="holiday" (emitData)="changeDataHoliday($event)" [years]="year_for_child" ></holiday-app>
+          <!-- End -->
+        </div>
+      <!-- </form> -->
+    </div>
+    <!-- End card body -->
+  </div>
+  <!-- End Card -->
+</div>
+
+

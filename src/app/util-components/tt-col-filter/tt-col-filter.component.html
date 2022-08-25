@@ -1,0 +1,4 @@
+<div class="component-wrapper">
+  <input type="text" placeholder="Tìm kiếm" [value]="filterString" (input)="onValueChange($event.target.value)" />
+  <span *ngIf="filterString" class="clearButton" (click)="clearValue()"><i class="fa fa-times"></i></span>
+</div>

@@ -1,0 +1,66 @@
+<div class="app-body">
+  <main class="main d-flex align-items-center">
+    <div class="container" style="width: 46em; height: initial; margin: auto;">
+      <div class="row">
+        <div class="col-md-10 mx-auto">
+          <div class="card-group" style="margin-top: 5em;">
+            <div class="card p-1">
+              <div class="card-body">
+                <form id="form" name="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <img src="assets/img/logo/lythuongkiet-logo.png" width="180" height="180" alt="Trường học Logo"
+                    style="margin: auto; display: block;padding:2%">
+                  <h1 class="text-align" style="text-align: center; font-size: 1.5em;font-weight: bold; ">Trường THCS Lý
+                    Thường Kiệt</h1>
+                  <h1 class="text-align" style="text-align: center;font-size: 1.3em; padding-bottom: 2%;">Đăng Nhập</h1>
+                  <div class="input-group mb-3" style="width:initial; margin: auto;">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" id="email" placeholder="Email" formControlName="email" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                      <div *ngIf="f.email.errors.required">Email không được để trống</div>
+                      <div *ngIf="f.email.errors.email">Email không hợp lệ</div>
+                      <div *ngIf="f.email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3" style="width:initial; margin: auto;">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" id="password" placeholder="Mật khẩu" formControlName="password"
+                      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Mật khẩu không được để trống</div>
+                      <div *ngIf="f.password.errors.minlength">Mật khẩu không được nhỏ hơn 6 ký tự</div>
+                      <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col-6 text-left" style="margin: auto;">
+                      <input type="checkbox" class="form-remember_me" name="remember_me" formControlName="remember_me"
+                        id="remember_me" style="display:inline-block; cursor: pointer; vertical-align: middle; margin-right: 3px;" />
+                      <label for="remember_me" style="display:inline-block; cursor: pointer; vertical-align: middle; margin-bottom: -1px;">
+                        Nhớ đăng nhập
+                      </label>
+                    </div>
+                    <div class="col-6 text-right" style="margin: auto;">
+                      <button type="button" class="btn btn-link" [routerLink]="['/forgot-password']"
+                        routerLinkActive="router-link-active">Quên mật khẩu?</button>
+                    </div>
+                  </div>
+                  <div class="col-12 mb-3" style="text-align: center;">
+                    <button [disabled]="loading" class="btn btn-ghost-primary active" aria-pressed="true">
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                      Đăng Nhập
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

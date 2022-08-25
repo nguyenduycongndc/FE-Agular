@@ -1,0 +1,162 @@
+<table class="table table-bordered">
+  <thead>
+    <tr style="text-align: center; cursor: pointer;">
+      <th *ngFor="let datum of header" style="vertical-align: middle;">{{datum.name}}</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="holidayData.length > 0">
+    <!-- <ng-template> -->
+      <tr *ngFor="let datum of holidayData; let index = index">
+        <td *ngFor="let header of header" [ngSwitch]="header.fields" class="td_center">
+          <p *ngSwitchCase = "'stt'">{{index + 1}}</p>
+          <p *ngSwitchCase = "'name'" style="text-align: left;">{{datum[header.fields]}}</p>
+          <p *ngSwitchCase = "'start_date'">{{datum[header.fields] | date:'dd/MM/yyyy'}}</p>
+          <p *ngSwitchCase = "'end_date'">{{datum[header.fields] | date:'dd/MM/yyyy'}}</p>
+          <p *ngSwitchCase = "'repeat'" style="text-align: left;">{{datum[header.fields] == 1 ? 'Hàng năm' : 'Không lặp lại'}}</p>
+          <input *ngSwitchCase="'status'"
+              type="checkbox"
+              [(ngModel)]="datum[header.fields]"
+              [ngModelOptions]="{standalone: true}"
+              style="width: 1.4em; height: 1.4em;"
+              (change)="active(datum['id'],$event)"
+          >
+          <button class="btn btn-primary btn-sm action" *ngSwitchCase="'action'" data-toggle="modal" data-target=".bd-example-modal-lg" (click)="getId(datum['id'])">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="btn btn-danger btn-sm action" *ngSwitchCase="'action'" (click)="getIdDel(datum['id'])" data-toggle="modal" data-target="#mt-confirm"><i class="fa fa-trash"></i></button>
+        </td>
+      </tr>
+  </tbody>
+    <!-- </ng-template> -->
+    <tbody *ngIf="holidayData.length == 0">
+      <tr class="td_center">
+        <td colspan="7">Không tồn tại dữ liệu</td>
+      </tr>
+    </tbody>
+</table>
+<!-- Footer -->
+<div class="card-footer text-muted">
+  <div class="form-group row" style="margin-bottom: 0;">
+    <div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-6">
+      <button
+        type="submit"
+        class="btn btn-success"
+        (click)="formModalDir.resetForm({repeat:repeatData[0]},modalPopupData['statusUpdate']=true)"
+        data-toggle="modal" data-target=".bd-example-modal-lg"
+        >
+        <i class="fa fa-plus"></i> Thêm mới
+      </button>
+    </div>
+  </div>
+</div>
+<!-- End-footer -->
+<!-- Modal popup -->
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="idModalPopup">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <!-- Header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Thêm mới</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <!-- End header -->
+    <!-- Body -->
+      <div class="modal-body">
+        <form autocomplete="nope" #formModalDir="ngForm" [formGroup]="formModal">
+          <div class="form-group row">
+            <!-- Name -->
+            <div class="form-group col-md-12 col-lg-12" >
+              <div style="display: flex; align-items: center;">
+                <label for="" class="mr-2 col-form-label-sm" id="holiday_name">Tên ngày lễ: </label>
+                <input type="text" class="form-control" autocomplete="off" placeholder="Tên ngày lễ ..."
+                  [(ngModel)]="modalPopupData.name"
+                  formControlName="name" id = "name" required
+                >
+              </div>
+              <!-- Message errors -->
+              <div *ngIf="name.invalid == true && (name.touched == true || name.dirty == true)" style="color:#dc3545" class="row">
+                <div class="mr-4" id="holiday_name"></div>
+                <div class="" *ngIf="name.errors?.required == true">Tên ngày lễ không được bỏ trống</div>
+              </div>
+              <!-- End -->
+            </div>
+            <!-- End -->
+            <!-- Start_date -->
+            <div class="form-group col-md-12 col-lg-6">
+              <div style="display: flex; align-items: center;">
+                <label for="" class="mr-2 col-form-label-sm" id="holiday_name">Từ ngày: </label>
+                <input type="date" class="form-control" autocomplete="off"
+                [(ngModel)]="modalPopupData.start_date"
+                formControlName="start_date"
+                >
+              </div>
+              <div *ngIf="start_date.invalid == true && (start_date.touched == true || start_date.dirty == true)" style="color:#dc3545" class="row">
+                <div class="mr-4" id="holiday_name"></div>
+                <div class="" *ngIf="start_date.errors?.required == true">Ngày bắt đầu không được bỏ trống</div>
+              </div>
+            </div>
+            <!-- End -->
+            <!-- End_date -->
+            <div class="form-group col-md-12 col-lg-6">
+              <div style="display: flex; align-items: center;">
+                <label for="" class="mr-2 col-form-label-sm" id="holiday_name">Đến ngày: </label>
+                <input type="date" class="form-control" autocomplete="off"
+                  [(ngModel)]="modalPopupData.end_date"
+                  formControlName="end_date"
+                >
+              </div>
+              <div *ngIf="end_date.invalid == true && (end_date.touched == true || end_date.dirty == true)" style="color:#dc3545" class="row">
+                <div class="mr-4" id="holiday_name"></div>
+                <div class="" *ngIf="end_date.errors?.required == true">Ngày kết thúc không được bỏ trống</div>
+              </div>
+            </div>
+            <!-- End -->
+            <!-- Repeat -->
+            <div class="form-group col-md-12 col-lg-6">
+              <div style="display: flex; align-items: center;">
+                <label for="" class="mr-2 col-form-label-sm" id="holiday_name">Lặp lại: </label>
+                <ng-select
+                  [items]="repeatData"
+                  [(ngModel)]="modalPopupData.repeat"
+                  bindLabel="name"
+                  placeholder="Chọn trạng thái"
+                  notFoundText="Không có dữ liệu"
+                  [clearable]="false"
+                  formControlName="repeat"
+                  >
+                </ng-select>
+              </div>
+            </div>
+            <!-- End -->
+            <!-- Status -->
+            <div class="form-group col-md-12 col-lg-6" [hidden]="modalPopupData['statusUpdate']">
+              <div style="display: flex;">
+                <label for="" class="mr-2 col-form-label-sm" id="holiday_name">Trạng thái: </label>
+                <input type="checkbox" class="form-control" autocomplete="off" placeholder="Tên ngày lễ ..."
+                  [(ngModel)]="modalPopupData.status"
+                  formControlName="status" id = "status"
+                  style="width: 1.4em; height: 1.4em;"
+                >
+              </div>
+            </div>
+            <!-- End -->
+          </div>
+        </form>
+      </div>
+    <!-- End body -->
+    <!-- Footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="saveCreate()" [disabled]="formModal.invalid" [hidden]="!modalPopupData['statusUpdate']">Lưu lại</button>
+        <button type="button" class="btn btn-success" (click)="updateCreate()" [disabled]="formModal.invalid" [hidden]="modalPopupData['statusUpdate']">Lưu lại</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" #closeModal>Hủy</button>
+      </div>
+    <!-- End footer -->
+    </div>
+  </div>
+</div>
+<!-- End modal popup -->
+<!-- Confirm -->
+<app-mt-confirm (emitData)="deleteId($event)"></app-mt-confirm>
+<!-- End confirm -->

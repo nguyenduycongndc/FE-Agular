@@ -1,0 +1,33 @@
+<div class="component-wrapper">
+  <input type="text" class="form-control my-readonly-input" readonly [placeholder]="placeholder" (focus)="onFocusIn()"
+    (focusout)="onFocusOut()" (keyup)="onKeyUp($event)" [value]="displayValue || ''" />
+  <span *ngIf="value" class="clearButton" (click)="clearValue()"><i class="fa fa-times"></i></span>
+  <div class="dropdown-table-wrapper">
+    <div *ngIf="isShowTable">
+      <input #filterInput type="text" placeholder="Tìm kiếm" (focus)="onFocusIn()" (focusout)="onFocusOut()"
+        (keyup)="onFilterKeyUp($event)" [value]="filterString" (input)="filterString = $event.target.value" />
+      <table class="dropdown-table" (click)="onClickToTable()">
+        <thead>
+          <tr>
+            <th *ngFor="let col of cols">{{col.header}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataFiltered" (click)="selectItem(item)"
+            [ngClass]="(item._rowId == selectedRowId ? 'selected': '') + ' ' + (item._rowIndex == selectingRowIndex ? 'selecting': '')">
+            <td *ngFor="let col of cols" (click)="selectItem(item)">
+              <ng-container [ngSwitch]="col.dataType">
+                <div *ngSwitchCase="'date'">{{ item[col.field] | date: 'dd/MM/yyyy' }}</div>
+                <div *ngSwitchCase="'number'">{{ item[col.field] | number }}</div>
+                <div *ngSwitchDefault>{{ item[col.field] }}</div>
+              </ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="emptyMessage" *ngIf="!dataFiltered || dataFiltered.length == 0">
+        <span>Không có dữ liệu.</span>
+      </div>
+    </div>
+  </div>
+</div>

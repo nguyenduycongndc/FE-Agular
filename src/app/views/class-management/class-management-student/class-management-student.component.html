@@ -1,0 +1,334 @@
+<form [formGroup]="studentForm">
+  <!-- <pre>{{studentForm.value|json}}</pre> -->
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách học sinh theo lớp</strong>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;" tabindex="1">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" formControlName='search'
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Mã / Tên học sinh">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+          <div class="form-group row" style="margin-bottom: -0.45rem;">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+              <label for="father_name" class="col-form-label" style="float: left;">Năm học:</label>
+                <ng-select #selectYearSearch tabindex="2"
+                  [items]="ddlYearSearchData"
+                  class="customYear"
+                  bindLabel="name"
+                  [clearable]="false"
+                  placeholder="Chọn năm"
+                  notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="false"
+                  [(ngModel)]="selectedYearSearch"
+                  formControlName="year"
+                  (change)="onSelectYear($event)"
+                  >
+                </ng-select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                  <label for="father_name" id="custom_semester" class="col-form-label" style="float: left;">Học kỳ:</label>
+                <ng-select #selectSemesterSearch tabindex="3"
+                [items]="ddlSemesterSearchData"
+                class="customSemester"
+                bindLabel="name"
+                placeholder="Chọn học kỳ"
+                notFoundText="Không có dữ liệu"
+                [closeOnSelect]="false"
+                [(ngModel)]="selectedSemesterSearch"
+                formControlName="semester"
+                >
+              </ng-select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-5 col-xl-3">
+                  <label for="father_name" class="col-form-label" style="float: left;">Khối:</label>
+                <ng-select #selectGradeSearch tabindex="4"
+                  [items]="ddlGradeSearchData"
+                  class="customGrade"
+                  bindLabel="name"
+                  [multiple]="true"
+                  [(ngModel)]="selectedGradeSearch"
+                  placeholder="Chọn khối"
+                  notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="false"
+                  formControlName="grade"
+                  (change)="onSelectGrade($event)">
+                  <ng-template ng-header-tmp>
+                    <div>
+                      <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                      <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-multi-label-tmp let-items="items">
+                    <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                      <span>{{item.name}}</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1" >
+                      <span class="ng-value-label">+{{items.length - 1}}</span>
+                    </div>
+                  </ng-template>
+                </ng-select>
+
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                  <label for="father_name" class="col-form-label" style="float: left;">Lớp:</label>
+
+                  <ng-select #selectClassSearch tabindex="5"
+                  [items]="ddlClassSearchData"
+                  class="customClass"
+                  bindLabel="name"
+                  [multiple]="true"
+                  [(ngModel)]="selectedClassSearch"
+                  placeholder="Chọn lớp"
+                  notFoundText="Không có dữ liệu"
+                  [closeOnSelect]="false"
+                  formControlName="class_id_search">
+                  <ng-template ng-header-tmp>
+                    <div>
+                      <button class="btn btn-link" (click)="selectAllClassSearch(ddlClassSearchData)">Chọn tất cả</button>
+                      <button class="btn btn-link" (click)="deSelectAllClassSearch()">Bỏ chọn tất cả</button>
+                    </div>
+                  </ng-template>
+                  <ng-template ng-multi-label-tmp let-items="items">
+                    <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                      <span>{{item.name}}</span>
+                    </div>
+                    <div class="ng-value" *ngIf="items.length > 1" >
+                      <span class="ng-value-label">+{{items.length - 1}}</span>
+                    </div>
+                  </ng-template>
+                </ng-select>
+            </div>
+
+            <div class="col-xl-1 col-lg-3 col-md-12 col-sm-12 col-12">
+              <div class="form-group row" style="float: right; margin-right: 0em;">
+                <button type="button" class="btn btn-primary filter_search" data-toggle="button" aria-pressed="false" (click)="searchByInput()" [disabled]="loadingFilter"
+                autocomplete="off" tabindex="6">
+                    <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-filter" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- <hr style="margin: 1% 0 1% 0;"> -->
+        <hr style="margin: 0 0 0.5% 0;">
+          <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="students">
+            <!-- Table -->
+            <!-- <hr style="margin: 1% 0 1% 0;"> -->
+            <table class="table table-responsive-sm table-bordered table-striped table-sm"
+              style="text-align: center; margin-bottom: 0rem;" id="tblUserAccount">
+              <thead *ngIf="headerStudent === true">
+                <tr>
+                  <th></th>
+                  <!-- <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th> -->
+                  <th style="cursor: pointer;">STT</th>
+                  <th>Lớp học</th>
+                  <th (click)="sortFistCode()" style="cursor: pointer; vertical-align: inherit; width: auto">Mã học sinh
+                      <i *ngIf="firstTimeCode == 1" class="fa fa-sort"></i>
+                      <i *ngIf="timesCode == 1" class="fa fa-caret-up"></i>
+                      <i *ngIf="timesCode == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th (click)="sortFistName()" style="cursor: pointer; vertical-align: inherit; width: auto">Họ tên
+                      <i *ngIf="firstTimeName == 1" class="fa fa-sort"></i>
+                      <i *ngIf="timesName == 1" class="fa fa-caret-up"></i>
+                      <i *ngIf="timesName == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th>Giới tính</th>
+                  <th>Ngày sinh</th>
+                  <th>Chỗ ở hiện nay</th>
+                  <th>Hộ khẩu thường trú</th>
+                </tr>
+
+              </thead>
+              <tbody *ngIf="students">
+                <tr class="item1"
+                  *ngFor="let item of students | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index" >
+                  <!-- <td style="vertical-align: inherit;"><input type="checkbox" #selectedItem id="{{item.id}}" value="{{item.id}}" (click)="selectID(item.id,$event)"></td> -->
+                  <td style="vertical-align: inherit;">
+                    <div *ngIf="item.cs_history === 2; then dis; else unDis" hidden></div>
+                    <ng-template #dis>
+                     <input type="checkbox" value="{{item.id}}" (click)="getSelectedClassStudentValue($event)" id="{{item.id}}" >
+                     </ng-template>
+                    <ng-template #unDis>
+                     <!-- <input type="checkbox" value="{{item.id}}" (click)="getSelectedClassStudentValue($event)" id="{{item.id}}" disabled > -->
+                     </ng-template>
+                  </td>
+                  <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                  <td style="vertical-align: inherit;">{{ item.class_name }}</td>
+                  <td style="vertical-align: inherit;">{{ item.student_code }}</td>
+                  <td style="vertical-align: inherit; text-align: left">{{ item.student_name }}</td>
+                  <td style="vertical-align: inherit;">{{ item.gender === 0 ? 'Nữ' : 'Nam' }}</td>
+                  <td style="vertical-align: inherit;">{{ item.dob | date: 'dd/MM/yyyy' }}</td>
+                  <td style="vertical-align: inherit; max-width: 120px; text-align: left">{{ item.add1 }}</td>
+                  <td style="vertical-align: inherit; max-width: 120px; text-align: left">{{ item.add2 | slice:1}}</td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="checkStudentData === false">
+                <tr>
+                  <td colspan="11"> Dữ liệu không tồn tại
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="text-right" style="margin-top: 1em;" *ngIf="students">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div
+                      *ngFor="let item of students | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                      <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                          {{(p-1)*countPage+i+1}}/{{ students.length }}</span> bản ghi</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6" *ngIf="headerStudent === true">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xl-10 col-lg-8 col-md-8 col-sm-8 col-12" style="margin-bottom: 0rem;">
+
+                <button  class="btn btn-success btn-sm" type="button" data-toggle="modal" data-target="#createClassStudentModal"
+                (click)="resetStudentForm()" style="float: right;" tabindex="7" style="margin-left: 3px;">
+                  <i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
+                </button>
+
+                <button class="btn btn-danger btn-sm marginButton" type="button" (click)="deleteStudent();" tabindex="8">
+                  <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-times-circle"></i> Loại bỏ học sinh
+                  </button>
+
+                <button class="btn btn-primary btn-sm marginButton" type="button" (click)="downloadTemplateFile();" tabindex="9" [disabled]="loadingDownload">
+                  <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-cloud-download"></i> Tải tệp mẫu
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="exportFile();" tabindex="10" [disabled]="loadingExport">
+                    <span *ngIf="loadingExport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-download"></i> Xuất ra tệp
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="importFile();" tabindex="11" [disabled]="loadingImport">
+                    <span *ngIf="loadingImport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-upload"></i> Nhập từ tệp
+                  </button>
+                  <div class="upload marginButton">
+                    <input type="button" class="uploadButton" value="Chọn tệp" tabindex="12" />
+                    <input type="file" name="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileUpload" #fileInput (change)="uploadFile(fileInput.files)"/>
+
+                    <ng-template [ngIf]="fileURL" [ngIfElse]="notChoosenFile">
+                      <span class="text" *ngIf="fileURL" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">{{ fileURL }}</span>
+                    </ng-template>
+                    <ng-template #notChoosenFile>
+                      <span class="text" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">Vui lòng chọn tệp</span>
+                    </ng-template>
+                  </div>
+              </div>
+
+              <div class="col-xl-2 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="father_name" class="col-xl-6 col-lg-7 col-md-6 col-sm-6 col-6 col-form-label" style="margin: 0px 0px 0px 0;">Hiển thị:</label>
+                  <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 hienthiOption1" style="float: right;" (change)="perPageSelected($event.target.value)" tabindex="13">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                </div>
+
+            </div>
+          </form>
+        </div>
+     </div>
+    </div>
+  </div>
+  <!-- Thêm mới -->
+  <div class="modal fade" id="createClassStudentModal" data-keyboard="false" role="dialog"
+    aria-labelledby="declareSubjectModalLabel" aria-hidden="true" tabindex="14">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title">Thêm mới</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0">
+            <div class="form-group col-md-12">
+              <div class="form-group col-md-12" style="margin-top: .5rem; margin-bottom: .5rem; padding-left: 5px; padding-right: 5px;">
+
+                <div class="form-row">
+                  <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label for="">Lớp:<span style="color: red; font-size: large;">*</span></label>
+                    <ng-select #selectGrade tabindex="15"
+                      [items]="ddlClassInsertData"
+                      bindLabel="name"
+                      placeholder="--Chọn lớp--"
+                      [clearable]="false"
+                      [closeOnSelect]="true"
+                      notFoundText="Không có dữ liệu"
+                      [closeOnSelect]="false"
+                      [(ngModel)]="selectedClassInsert"
+                      formControlName="class_id"
+                      >
+                    </ng-select>
+                    <span *ngIf="submitted && f?.class_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                      Lớp không được để trống
+                    </span>
+                  </div>
+                  <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                    <label for="">Học sinh:<span style="color: red; font-size: large;">*</span></label>
+                    <ng-select #selectSubjectKind tabindex="16"
+                    [items]="ddlStudentInsertData"
+                    bindLabel="name"
+                    [multiple]="true"
+                    placeholder="--Danh sách học sinh--"
+                    notFoundText="Không có dữ liệu"
+                    [closeOnSelect]="false"
+                    formControlName="student_id"
+                    >
+                    <ng-template ng-multi-label-tmp let-items="items">
+                      <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                        <span>{{item.name}}</span>
+                      </div>
+                      <div class="ng-value" *ngIf="items.length > 1" >
+                        <span class="ng-value-label">+{{items.length - 1}}</span>
+                      </div>
+                    </ng-template>
+                  </ng-select>
+                    <span *ngIf="submitted && f?.student_id?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                     Học sinh không được để trống
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-success" (click)="createStudent()" tabindex="17"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="18"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

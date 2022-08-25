@@ -1,0 +1,220 @@
+.customYear{
+  float: left;
+  width: 60%;
+  max-width: 60%;
+}
+.customGrade{
+  float: left;
+  max-width: 70.333333%;
+  width:50%;
+}
+.container {
+  margin-top: 0.3em;
+}
+
+@media only screen and (min-width: 2560px){
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+  .vd_semester{
+    top: 75%;
+    right: 50%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+
+  .vd_grade{
+    top: 75%;
+    right: 50%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+  .ckbActive{
+    margin-top: .4em;
+    margin-bottom: .2em;
+  }
+}
+@media only screen and (max-width: 2559px){
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+  .ckbActive{
+    margin-top: .4em;
+    margin-bottom: .2em;
+  }
+}
+@media only screen and (max-width: 2500px) and (min-width: 1567px){
+  .vd_semester{
+    top: 75%;
+    right: 50%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+  .vd_grade{
+    top: 75%;
+    right: 50%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+@media only screen and (max-width: 1566px) and (min-width: 1500px){
+  .vd_semester{
+    top: 1%;
+    left: 20%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 1566px) and (min-width: 1531px){
+  .vd_grade{
+    top: 75%;
+    right: 50%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+
+
+@media only screen and (max-width: 1530px) and (min-width:1500px ){
+  .vd_grade{
+    left:22%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 1499px) and (min-width: 1390px){
+  .vd_semester{
+    top: 1%;
+    left: 23%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+  .vd_grade{
+    top: 1%;
+    left: 25%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 1389px) and (min-width: 1200px){
+  .vd_semester{
+    top: 1%;
+    left: 25%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+  .vd_grade{
+    top: 1%;
+    left: 29%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+
+
+@media only screen and (max-width: 1198px) and (min-width: 600px){
+  .customGrade {
+    float: left;
+    margin-top: 4px;
+    margin-left: 10px;
+    max-width: 70.333333%;
+    width: 50%;
+  }
+
+}
+
+
+@media only screen and (max-width: 1198px) and (min-width: 1118px){
+  .filter_search{
+    margin-top:20%;
+  }
+  .vd_semester{
+    top: 84%;
+    right: 50%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+  .vd_grade{
+    top: 84%;
+    right: 50%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 1116px) and (min-width: 992px){
+  .filter_search{
+    margin-top:20%;
+  }
+  .vd_semester{
+    left:21%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+  .vd_grade{
+    left:21%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 990px) and (min-width: 742px){
+  .vd_semester{
+    top: 100%;
+    right: 50%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+  .vd_grade{
+    top: 100%;
+    right: 50%;
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+}
+
+@media only screen and (max-width: 725px) and (min-width: 635px){
+  .vd_semester{
+    top: 1%;
+    left: 23%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+  .vd_grade{
+    top: 1%;
+    left: 23%;
+    font-size: 80%; color: #dc3545;position: relative;display: inline-table;
+  }
+}
+@media only screen and (max-width: 576px){
+  .vd_semester{
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+  .vd_grade{
+    font-size: 80%;
+    color: #dc3545;
+    position: relative;
+    display: inline-table;
+  }
+  .filter_search{
+    margin-top:12%;
+  }
+  .customYear{
+    max-width: 100%;
+    width: 100%;
+  }
+  .customGrade {
+    float: left;
+    max-width: 100%;
+    width: 100%;
+  }
+
+}

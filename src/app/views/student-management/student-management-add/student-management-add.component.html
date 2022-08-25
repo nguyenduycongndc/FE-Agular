@@ -1,0 +1,48 @@
+<div class="col-md-12">
+  <div class="card">
+    <!--Card Header-->
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 6px; margin-bottom: 3px;">
+          <span class="fa-stack">
+            <i class="fa fa-address-book-o fa-stack-2x"></i>
+          </span>
+          <strong>&emsp;Tạo mới học sinh</strong>
+        </div>
+      </div>
+  </div>
+    <div class="card-body" style="padding: 0.6rem !important;">
+      <!-- <span *ngIf="basicInfoData">{{basicInfoData[0]['studentId']}}</span> -->
+      <!-- <div class="col-lg-12 col-md-12 col-sm-12"> -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist" >
+          <li class="nav-item">
+            <a class="nav-link active" id="basic-information-tab" [ngClass]="{ 'active':activeTab==='addBasicInformation'}" data-toggle="tab" href="#addBasicInformation" role="tab" aria-controls="addBasicInformation" aria-selected="true">Thông tin cơ bản</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="detail-information-tab" [ngClass]="{ 'active':activeTab==='addDetailInformation'}" data-toggle="tab" href="#addDetailInformation" role="tab" aria-controls="addDetailInformation" aria-selected="false">Thông tin chi tiết</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" id="parent-information-tab" [ngClass]="{ 'active':activeTab==='addParentInformation'}" data-toggle="tab" href="#addParentInformation" role="tab" aria-controls="addParentInformation" aria-selected="false">Thông tin phụ huynh</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="account-information-tab" [ngClass]="{ 'active':activeTab==='addAccountInformation'}" data-toggle="tab" href="#addAccountInformation" role="tab" aria-controls="addAccountInformation" aria-selected="false">Thông tin tài khoản</a>
+          </li>
+        </ul>
+        <div class="tab-content" #addDetailInformationTab id="myTabContent">
+          <div class="tab-pane fade show active" id="addBasicInformation" role="tabpanel" aria-labelledby="basic-information-tab" style="padding-top: .75rem; padding-bottom: .15rem;" [ngClass]="{ 'active':activeTab==='addBasicInformation'}">
+            <student-management-add-basic-information (basicInforDataEvent)="receiveBasicInformationData($event)" [basicInfoData]="basicInfoData" *ngIf="this.addBasicInformationLoaded === true"></student-management-add-basic-information>
+          </div>
+          <div class="tab-pane fade show" id="addDetailInformation" role="tabpanel" aria-labelledby="detail-information-tab" style="padding: 1.5rem;" [ngClass]="{ 'active':activeTab==='addDetailInformation'}">
+            <student-management-add-detail-information (basicInforDataEvent)="receiveBasicInformationData($event)" [basicInfoData]="basicInfoData" *ngIf="this.addDetailInformationLoaded === true"></student-management-add-detail-information>
+          </div>
+          <div class="tab-pane fade show" id="addParentInformation" role="tabpanel" aria-labelledby="parent-information-tab" style="padding: 1.5rem;" [ngClass]="{ 'active':activeTab==='addParentInformation'}">
+            <student-management-add-parent-information (basicInforDataEvent)="receiveBasicInformationData($event)" [basicInfoData]="basicInfoData" *ngIf="this.addParentInformationLoaded === true"></student-management-add-parent-information>
+          </div>
+          <div class="tab-pane fade show" id="addAccountInformation" role="tabpanel" aria-labelledby="account-information-tab" style="padding: 1.5rem;" [ngClass]="{ 'active':activeTab==='addAccountInformation'}">
+            <student-management-add-account-information (basicInforDataEvent)="receiveBasicInformationData($event)" [basicInfoData]="basicInfoData"  *ngIf="this.addAccountInformationLoaded === true"></student-management-add-account-information>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </div>
+</div>

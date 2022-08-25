@@ -1,0 +1,321 @@
+<form [formGroup]="form">
+  <!-- <pre>{{form.value|json}}</pre> -->
+  <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách học sinh </strong>
+          </div>
+          <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;" tabindex="50">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input type="text" class="form-control" #searchByKeyWordInput formControlName='search'
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Mã học sinh/Họ và tên">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 0.6rem !important;">
+        <div class="form-group"
+          style="max-width: 100%; max-height: 50%; border:1px solid #80808069; border-radius: 3px; margin-bottom: 0% !important; padding-top: 1.2%;">
+
+          <!-- <hr style="margin: 1% 0 1% 0;"> -->
+          <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-6"> -->
+            <div class="form-group row">
+              <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
+                <label class="lable_padding" style="position: relative;float: left; top:8px">Năm học:</label>
+                <ng-select [items]="ddlYearSearchData" class="customYear" [clearable]="false" bindLabel="name"
+                  placeholder="Năm học" notFoundText="không có dữ liệu" tabindex="51" [(ngModel)]="selectedYearSearch"
+                  formControlName="searchYear" (change)="onSelectYear($event)">
+                </ng-select>
+              </div>
+            </div>
+            <!-- </div> -->
+            <hr style="margin: 1% 0 1% 0;">
+            <!-- Table -->
+            <table class="table table-responsive-sm table-bordered table-striped table-sm" style="text-align: center;"
+              id="tblSemesterConfiguration">
+              <!-- <thead *ngIf="headerStudent === true" id="tblStudentList"> -->
+              <thead>
+                <tr>
+                  <th style="width: 5%; vertical-align: inherit;">STT</th>
+                  <th tt-col-header [tableId]="'student-management-list'" [field]="'code'" [fieldType]="'string'"
+                    [header]="'Mã học sinh'" [(data)]="studentData" class="column-header"></th>
+                  <th tt-col-header [tableId]="'student-management-list'" [field]="'fullname'"
+                    [sortFields]="['reserveFullname']" [fieldType]="'string'" [header]="'Họ và tên'"
+                    [(data)]="studentData" class="column-header"></th>
+                  <!-- <th (click)="sortFistCode()" style="cursor: pointer; vertical-align: inherit; width: auto">Mã học
+                    sinh&nbsp;
+                    <i *ngIf="firstTimeCode == 1" class="fa fa-sort"></i>
+                    <i *ngIf="timesCode == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="timesCode == 2" class="fa fa-caret-down"></i>
+                  </th>
+                  <th (click)="sortFistName()" style="cursor: pointer; vertical-align: inherit; width: auto">Họ và
+                    tên&nbsp;
+                    <i *ngIf="firstTimeName == 1" class="fa fa-sort"></i>
+                    <i *ngIf="timesName == 1" class="fa fa-caret-up"></i>
+                    <i *ngIf="timesName == 2" class="fa fa-caret-down"></i>
+                  </th> -->
+                  <th style="vertical-align: inherit;">Ngày sinh</th>
+                  <th style="vertical-align: inherit;">Giới tính</th>
+                  <th tt-col-header [tableId]="'student-management-list'" [field]="'add1'" [fieldType]="'string'"
+                    [header]="'Nơi ở hiện nay'" [(data)]="studentData" class="column-header"></th>
+                  <th tt-col-header [tableId]="'student-management-list'" [field]="'add2'" [fieldType]="'string'"
+                    [header]="'Hộ khẩu thường trú'" [(data)]="studentData" class="column-header"></th>
+                  <!-- <th style="vertical-align: inherit;">Nơi ở hiện nay</th> -->
+                  <!-- <th style="vertical-align: inherit;">Hộ khẩu thường trú</th> -->
+                  <th style="vertical-align: inherit;">Hoạt động</th>
+                </tr>
+                <tr class="table-filter-row">
+                  <td></td>
+                  <td>
+                    <tt-col-filter [tableId]="'student-management-list'" [field]="'code'"></tt-col-filter>
+                  </td>
+                  <td>
+                    <tt-col-filter [tableId]="'student-management-list'" [field]="'fullname'"></tt-col-filter>
+                  </td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <tt-col-filter [tableId]="'student-management-list'" [field]="'add1'"></tt-col-filter>
+                  </td>
+                  <td>
+                    <tt-col-filter [tableId]="'student-management-list'" [field]="'add2'"></tt-col-filter>
+                  </td>
+                  <td></td>
+                </tr>
+              </thead>
+              <tbody *ngIf="studentData">
+                <!-- <tr
+                  *ngFor="let item of studentData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index"> -->
+                <tr *ngFor="let item of dataPaged; index as i;">
+                  <td style="vertical-align: inherit;"> {{ (p - 1) * countPage + i + 1 }} </td>
+                  <td style="vertical-align: inherit;">{{ item.code }}</td>
+                  <td style="vertical-align: inherit; text-align: left">{{ item.fullname }}</td>
+                  <td style="vertical-align: inherit;">{{ item.dob | date: 'dd/MM/yyyy' }}</td>
+                  <td style="vertical-align: inherit;">
+                    <!-- {{ item.gender }} -->
+                    <ng-template [ngIf]="item.gender == 0">
+                      Nữ
+                    </ng-template>
+                    <ng-template [ngIf]="item.gender == 1">
+                      Nam
+                    </ng-template>
+                    <ng-template [ngIf]="item.gender == 2">
+                      Khác
+                    </ng-template>
+                  </td>
+                  <td style="vertical-align: inherit; max-width: 120px; text-align: left">{{ item.add1}}</td>
+                  <div hidden *ngIf="item.add2.indexOf('-') === 1; then dis ;else undis"></div>
+                  <ng-template #dis>
+                    <td style="vertical-align: inherit; max-width: 120px; text-align: left">{{ item.add2 | slice:2:100}}
+                    </td>
+                  </ng-template>
+                  <ng-template #undis>
+                    <td style="vertical-align: inherit; max-width: 120px; text-align: left">{{ item.add2 | slice:1:100}}
+                    </td>
+                  </ng-template>
+
+                  <!-- <td style="vertical-align: middle;" (click)="active(item.id, item.status)"> -->
+                  <!-- <td style="vertical-align: middle;">
+                                <ng-template [ngIf]="item.status == 0" [ngIfElse]="notEqual">
+                                  <input ng-if="item.status == 0" type="checkbox" name="status" disabled/>
+                                  </ng-template>
+                                  <ng-template #notEqual>
+                                    <label class="checkboxTable">
+                                      <input ng-if="item.status == 1" type="checkbox" name="status" checked disabled />
+                                      <span class="checkmarkGrid"></span>
+                                    </label>
+                                  </ng-template>
+                              </td> -->
+                  <td style="vertical-align: inherit">
+                    <div class="row" style="padding: 3% 15px;">
+                      <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+                        <ng-template [ngIf]="item.status !== 0">
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                            data-target="#editStudentModal" (click)="getByIdStudent(item.id)"
+                            style="margin-top:1px; margin-right: 3%;" tabindex="52">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                        </ng-template>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                          (click)="deleteStudent(item.id)" style="margin-top: 1px;" tabindex="52">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="checkStudentData === false">
+                <tr>
+                  <td colspan="8"> Dữ liệu không tồn tại
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <tt-paginator [tableId]="'student-management-list'" [(data)]="studentData" [(dataPaged)]="dataPaged"
+              [pageSize]="countPage" [(currentPage)]="p">
+            </tt-paginator>
+            <!-- <div class="text-right" *ngIf="studentData">
+                        <div class="col-xl-12 col-md-12 col-lg-12 col-sm-12">
+                          <div class="row">
+                            <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6">
+                              <div *ngFor="let item of studentData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                                <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                                  {{(p-1)*countPage+i+1}}/{{studentData.length}}</span> bản ghi</p>
+                              </div>
+                            </div> -->
+            <!-- <div class="col-md-6" *ngIf="headerStudent === true"> -->
+            <!-- <div class="col-xl-6 col-md-6 col-lg-6 col-sm-6" >
+                              <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+            <!-- Table -->
+          </div>
+          <div class="card-footer respon2" *ngIf="exportData === true">
+            <div class="row">
+              <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+                <button class="btn btn-primary btn-sm marginButton" id="download" style="margin-right: 1%;"
+                  type="button" (click)="downloadSampleFile();" tabindex="53" [disabled]="loadingDownload">
+                  <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-cloud-download"></i> Tải tệp mẫu
+                </button>
+                <button class="btn btn-primary btn-sm marginButton" id="export" style="margin-right: 1%;" type="button"
+                  (click)="exportFile();" tabindex="54" [disabled]="loadingExport">
+                  <span *ngIf="loadingExport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-download"></i> Xuất ra tệp
+                </button>
+                <button class="btn btn-primary btn-sm marginButton" id="import" style="margin-right: 1%;" type="button"
+                  (click)="importFile();" tabindex="55" [disabled]="loadingImport">
+                  <span *ngIf="loadingImport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-upload"></i> Nhập từ tệp
+                </button>
+                <div class="upload marginButton">
+                  <input type="button" class="uploadButton" value="Chọn tệp" tabindex="56" />
+                  <input type="file" name="upload"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                    id="fileUpload" #fileInput (change)="uploadFile(fileInput.files)" />
+
+                  <ng-template [ngIf]="fileURL" [ngIfElse]="notChoosenFile">
+                    <span class="text" *ngIf="fileURL"
+                      style="overflow: hidden;max-width: 75ch;vertical-align: middle;">{{ fileURL }}</span>
+                  </ng-template>
+                  <ng-template #notChoosenFile>
+                    <span class="text" id="textImport"
+                      style="overflow: hidden;max-width: 75ch; vertical-align: middle; position: relative;">
+                      Vui lòng chọn tệp
+                    </span>
+                  </ng-template>
+                </div>
+              </div>
+              <!-- Hiển thị -->
+              <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+                <tt-pagesize-selector [(pageSize)]="countPage"></tt-pagesize-selector>
+                <!-- <label id="nameShow" for="father_name" class="col-form-label" style="margin-left: 2em;">Hiển
+                  thị:</label>
+                <select id="dropShow" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6"
+                  style="float: right;" (change)="perPageSelected($event.target.value)" tabindex="57">
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select> -->
+              </div>
+              <!-- Hiển thị -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="modal fade" id="editStudentModal" data-keyboard="false" role="dialog"
+  aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="padding: 2%;">
+        <h5 class="modal-title" id="userGroupConfigModalLabel">Cập nhật thông tin học sinh</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="basic-information-tab"
+              [ngClass]="{ 'active':activeTab==='updateBasicInformation'}"
+              (click)="updateBasicInformation('updateBasicInformation')" data-toggle="tab"
+              href="#updateBasicInformation" role="tab" aria-controls="updateBasicInformation"
+              aria-selected="true">Thông tin cơ bản</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="detail-information-tab"
+              [ngClass]="{ 'active':activeTab==='updateDetailInformation'}"
+              (click)="updateDetailInformation('updateDetailInformation')" data-toggle="tab"
+              href="#updateDetailInformation" role="tab" aria-controls="updateDetailInformation"
+              aria-selected="false">Thông tin chi tiết</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" id="parent-information-tab"
+              [ngClass]="{ 'active':activeTab==='updateParentInformation'}"
+              (click)="updateParentInformation('updateParentInformation')" data-toggle="tab"
+              href="#updateParentInformation" role="tab" aria-controls="updateParentInformation"
+              aria-selected="false">Thông tin phụ huynh</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="account-information-tab"
+              [ngClass]="{ 'active':activeTab==='updateAccountInformation'}"
+              (click)="updateAccountInformation('updateAccountInformation')" data-toggle="tab"
+              href="#updateAccountInformation" role="tab" aria-controls="updateAccountInformation"
+              aria-selected="false">Thông tin tài khoản</a>
+          </li>
+        </ul>
+        <div class="tab-content" #updateDetailInformationTab id="myTabContent">
+          <div class="tab-pane fade show active" id="updateBasicInformation" role="tabpanel"
+            aria-labelledby="basic-information-tab" style="padding: .15rem;"
+            [ngClass]="{ 'active':activeTab==='updateBasicInformation'}">
+            <student-management-update-basic-information (basicInforDataEvent)="receiveBasicInformationData($event)"
+              [basicInfoData]="basicInfoData" [studentId]="studentId"
+              *ngIf="this.updateBasicInformationLoaded === true"></student-management-update-basic-information>
+          </div>
+          <div class="tab-pane fade show" id="updateDetailInformation" role="tabpanel"
+            aria-labelledby="detail-information-tab" style="padding: 1.5rem;"
+            [ngClass]="{ 'active':activeTab==='updateDetailInformation'}">
+            <student-management-update-detail (basicInforDataEvent)="receiveBasicInformationData($event)"
+              [basicInfoData]="basicInfoData" [studentId]="studentId"
+              *ngIf="this.updateDetailInformationLoaded === true"></student-management-update-detail>
+          </div>
+          <div class="tab-pane fade show" id="updateParentInformation" role="tabpanel"
+            aria-labelledby="parent-information-tab" style="padding: 1.5rem;"
+            [ngClass]="{ 'active':activeTab==='updateParentInformation'}">
+            <student-management-update-parent-information (basicInforDataEvent)="receiveBasicInformationData($event)"
+              [basicInfoData]="basicInfoData" [studentId]="studentId"
+              *ngIf="this.updateParentInformationLoaded === true"></student-management-update-parent-information>
+          </div>
+          <div class="tab-pane fade show" id="updateAccountInformation" role="tabpanel"
+            aria-labelledby="account-information-tab" style="padding: 1.5rem;"
+            [ngClass]="{ 'active':activeTab==='updateAccountInformation'}">
+            <student-management-update-account-information (basicInforDataEvent)="receiveBasicInformationData($event)"
+              [basicInfoData]="basicInfoData" [studentId]="studentId"
+              *ngIf="this.updateAccountInformationLoaded === true"></student-management-update-account-information>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button> -->
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="resetBasicInforData()"><i
+            class="fa fa-ban" aria-hidden="true"></i>&nbsp;Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

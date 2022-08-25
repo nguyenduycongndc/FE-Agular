@@ -1,0 +1,9 @@
+<div class="component-wrapper" (click)="sort()">
+  {{header}}&nbsp;
+  <ng-containter [ngSwitch]="sortDirection">
+    <i *ngSwitchCase="-1" class="fa fa-caret-up"></i>
+    <i *ngSwitchCase="1" class="fa fa-caret-down"></i>
+    <i *ngSwitchDefault class="fa fa-sort"></i>
+  </ng-containter>
+  <ng-content select="[content]"></ng-content>
+</div>

@@ -1,0 +1,463 @@
+<!-- <form  enctype="multipart/form-data"> -->
+<form [formGroup]="form" enctype="multipart/form-data">
+ <div id="detail_infor" class="container-fluid" style="padding:0px;padding: 0px;position: relative;top: -18px;"><br>
+   <div class="">
+       <div class="form-group row">
+        <!-- <pre>{{form.value | json}}</pre> -->
+           <label class="col-md-2 col-form-label">Quốc tịch:</label>
+
+             <div class="col-md-2">
+                <ng-select #selectCountry 
+                [items] = "ddlCountryData"
+                bindLabel = "name"
+                placeholder = "Quốc tịch"
+                notFoundText = "không có dữ liệu"
+                tabindex="1"
+                [(ngModel)]="selectedCountry"
+                formControlName = "nationality" 
+                (change) = "onSelectCountry($event)"
+                >                 
+                </ng-select>
+             </div>
+
+           <label class="col-md-1 col-form-label">Dân tộc:</label>
+               <div class="col-md-3">
+                <ng-select #selectEthnic 
+                [items] = "ddlEthnicData"
+                bindLabel = "name"
+                placeholder = "Dân tộc"
+                notFoundText = "không có dữ liệu"
+                tabindex="2"
+                [(ngModel)]="selectedEthnic"
+                formControlName = "ethnic_id" 
+                (change) = "onSelectEthnic($event)"
+                >                 
+                </ng-select>
+             </div>
+           <label class="col-md-1 col-form-label">Tôn giáo:</label>
+
+           <div class="col-md-3">
+            <ng-select #selectReligion 
+            [items] = "ddlReligionData"
+            bindLabel = "name"
+            placeholder = "Tôn giáo"
+            notFoundText = "không có dữ liệu"
+            tabindex="3"
+            [(ngModel)]="selectedReligion"
+            formControlName = "religion_id" 
+            (change) = "onSelectReligion($event)"
+            >                 
+            </ng-select>
+         </div>
+
+       </div>
+
+       <div class="form-group row">
+           <label class="col-md-2 col-form-label">H.K thường trú:</label>
+           <div class="col-md-4 address_respon">
+            <ng-select #selectProvince 
+            [items] = "ddlProvinceData"
+            bindLabel = "name"
+            placeholder = "Tỉnh/Thành phố"
+            notFoundText = "không có dữ liệu"
+            tabindex="4"
+            [(ngModel)]="selectedProvince"
+            formControlName = "province_id2" 
+            (change) = "onSelectProvince($event)"
+            >                 
+            </ng-select>
+
+           </div>
+           <div class="col-md-3 address_respon">
+            <ng-select #selectDistrict 
+            [items] = "ddlDistrictData"
+            bindLabel = "name"
+            placeholder = "Quận/Huyện"
+            notFoundText = "không có dữ liệu"
+            tabindex="5"
+            [(ngModel)]="selectedDistrict"
+            formControlName = "district_id2" 
+            (change) = "onSelectDistrict($event)"
+            >                 
+            </ng-select>
+            <span *ngIf="submitted && f?.district_id2?.errors?.required" style="font-size: 80%; color: #dc3545;">
+              Vui lòng chọn quận/huyện
+            </span>
+           </div>
+           <div class="col-md-3 padding_ward">
+            <ng-select #selectWard 
+            [items] = "ddlWardData"
+            bindLabel = "name"
+            placeholder = "Phường/Xã"
+            notFoundText = "không có dữ liệu"
+            tabindex="6"
+            [(ngModel)]="selectedWard"
+            formControlName = "ward_id2" 
+            (change) = "onSelectWard($event)"
+            >                 
+            </ng-select>
+            <span *ngIf="submitted && f?.ward_id2?.errors?.required" style="font-size: 80%; color: #dc3545;">
+              Vui lòng chọn phường/xã
+              </span>
+           </div>
+       </div>
+     <!--Hộ khẩu thường trú-->
+     <div class="form-group row">
+       <div class="offset-md-2 col-md-8">
+         <input tabindex="7" class="form-control input-full" [(ngModel)]="address_detail2" formControlName="address_detail2" type="text"
+         placeholder="Số nhà/Thôn/Xóm/Phố" [ngClass]="{ 'is-invalid': submitted && f.address_detail2.errors }">
+         <div *ngIf="submitted && f.address_detail2.errors" class="invalid-feedback">
+          <div *ngIf="f.address_detail2.errors.maxlength">Trường này không được vượt quá 150 ký tự</div>
+        </div>
+       </div>
+
+         <div class="col-md-2 checkbox_center">
+           <label class="form-check-label">
+            <input tabindex="8" type="checkbox" style="margin-right:3px;" value="" #asAddress (click)="getAsAddress()"/>
+             <span class="form-check-sign">Giống nơi ở hiện nay</span>
+           </label>
+         </div>
+     </div>
+     
+     <!--Nguyên Quán-->
+     <div class="form-group row">
+       <label class="col-md-2 col-form-label">Nguyên quán:</label>
+       <div class="col-md-4 address_respon">
+          <ng-select #selectProvince_Origin 
+          [items] = "ddlProvinceData_Origin"
+          bindLabel = "name"
+          placeholder = "Tỉnh/Thành phố"
+          notFoundText = "không có dữ liệu"
+          tabindex="9"
+          [(ngModel)]="selectedProvince_Origin"
+          formControlName = "province_id3" 
+          (change) = "onSelectProvince_Origin($event)"
+          >                 
+          </ng-select>
+          
+       </div>
+       <div class="col-md-3 address_respon">
+        <ng-select #selectDistrict_Origin 
+        [items] = "ddlDistrictData_Origin"
+        bindLabel = "name"
+        placeholder = "Quận/Huyện"
+        notFoundText = "không có dữ liệu"
+        tabindex="10"
+        [(ngModel)]="selectedDistrict_Origin"
+        formControlName = "district_id3" 
+        (change) = "onSelectDistrict_Origin($event)"
+        >                 
+        </ng-select>
+        <span *ngIf="submitted && f?.district_id3?.errors?.required" style="font-size: 80%; color: #dc3545;">
+          Vui lòng chọn quận/huyện
+        </span>
+       </div>
+       <div class="col-md-3 padding_ward">
+          <ng-select #selectWard_Origin 
+          [items] = "ddlWardData_Origin"
+          bindLabel = "name"
+          placeholder = "Phường/Xã"
+          notFoundText = "không có dữ liệu"
+          tabindex="11"
+          [(ngModel)]="selectedWard_Origin"
+          formControlName = "ward_id3" 
+          (change) = "onSelectWard_Origin($event)"
+          >                 
+          </ng-select>
+          <span *ngIf="submitted && f?.ward_id3?.errors?.required" style="font-size: 80%; color: #dc3545;">
+            Vui lòng chọn phường/xã
+            </span>
+       </div>
+
+   </div>
+
+       <div class="form-group row">
+         <div class="offset-md-2 col-md-8">
+           <input tabindex="12" class="form-control input-full" [(ngModel)]="address_detail3" formControlName="address_detail3" type="text"
+           placeholder="Số nhà/Thôn/Xóm/Phố" [ngClass]="{ 'is-invalid': submitted && f.address_detail3.errors }">
+           <div *ngIf="submitted && f.address_detail3.errors" class="invalid-feedback">
+            <div *ngIf="f.address_detail3.errors.maxlength">Trường này không được vượt quá 150 ký tự</div>
+          </div>
+         </div>
+
+           <div class="col-md-2 checkbox_center">
+             <label class="form-check-label">
+              <input tabindex="13" type="checkbox" style="margin-right:3px;" value="" #asAddressOrigin (click)="getAsAddress_Origin()"/>
+               <span class="form-check-sign">Giống nơi ở hiện nay</span>
+             </label>
+           </div>
+       </div>
+       <!--Nơi sinh-->
+       <div class="form-group row">
+         <label class="col-md-2 col-form-label">Nơi sinh:</label>
+         <div class="col-md-3 address_respon">
+            <ng-select #selectProvince_Birthplace 
+            [items] = "ddlProvinceData_Birthplace"
+            bindLabel = "name"
+            placeholder = "Tỉnh/Thành phố"
+            notFoundText = "không có dữ liệu"
+            tabindex="14"
+            [(ngModel)]="selectedProvince_Birthplace"
+            formControlName = "province_id4" 
+            (change) = "onSelectProvince_Birthplace($event)"
+            >                 
+            </ng-select>
+         
+         </div>
+         <div class="col-md-3 address_respon">
+            <ng-select #selectDistrict_Birthplace 
+            [items] = "ddlDistrictData_Birthplace"
+            bindLabel = "name"
+            placeholder = "Quận/Huyện"
+            notFoundText = "không có dữ liệu"
+            tabindex="15"
+            [(ngModel)]="selectedDistrict_Birthplace"
+            formControlName = "district_id4" 
+            (change) = "onSelectDistrict_Birthplace($event)"
+            >                 
+            </ng-select>
+            <span *ngIf="submitted && f?.district_id4?.errors?.required" style="font-size: 80%; color: #dc3545;">
+              Vui lòng chọn quận/huyện
+            </span>
+         </div>
+         <div class="col-md-2">
+            <ng-select #selectWard_Birthplace 
+            [items] = "ddlWardData_Birthplace"
+            bindLabel = "name"
+            placeholder = "Phường/Xã"
+            notFoundText = "không có dữ liệu"
+            tabindex="16"
+            [(ngModel)]="selectedWard_Birthplace"
+            formControlName = "ward_id4" 
+            (change) = "onSelectWard_Birthplace($event)"
+            >                 
+            </ng-select>
+            <span *ngIf="submitted && f?.ward_id4?.errors?.required" style="font-size: 80%; color: #dc3545;">
+              Vui lòng chọn phường/xã
+              </span>
+         </div>
+         <div class="col-md-2 checkbox_center">
+           <label class="form-check-label">
+            <input tabindex="17" type="checkbox" style="margin-right:3px;" value="" #asAddressBirthplace (click)="getAsAddress_Birthplace()"/>
+             <span class="form-check-sign">Giống nơi ở hiện nay</span>
+           </label>
+         </div>
+     </div>
+   
+   </div>
+   <div class="">
+       <div class="form-group row">
+           <label class="col-md-2 col-form-label">Khuyết tật:</label>
+             <div class="col-md-2">
+                <ng-select #selectDisability 
+                [items] = "ddlDisabilityData"
+                bindLabel = "name"
+                placeholder = "Lựa chọn"
+                notFoundText = "không có dữ liệu"
+                tabindex="18"
+                [(ngModel)]="selectedDisability"
+                formControlName = "disability" 
+                (change) = "onDeSelectDisability()"
+                >                 
+                </ng-select>
+           
+           </div>
+           <label class="col-md-2 col-form-label">Diện chính sách:</label>
+             <div class="col-md-2 float-left">
+                <ng-select #selectPolicy 
+                [items] = "ddlPolicyData"
+                bindLabel = "name"
+                placeholder = "Lựa chọn"
+                notFoundText = "không có dữ liệu"
+                tabindex="19"
+                [(ngModel)]="selectedPolicy"
+                formControlName = "is_policy" 
+                (change) = "onDeSelectPolicy()"
+                >                 
+                </ng-select>
+             
+           </div>
+           <label class="col-md-2 col-form-label">Diện ưu tiên:</label>
+             <div class="col-md-2">
+                <ng-select #selectPreference 
+                [items] = "ddlPreferenceData"
+                bindLabel = "name"
+                placeholder = "Lựa chọn"
+                notFoundText = "không có dữ liệu"
+                tabindex="20"
+                [(ngModel)]="selectedPreference"
+                formControlName = "is_preference" 
+                (change) = "onDeSelectPreference()"
+                >                 
+                </ng-select>
+           
+             </div>
+       </div>
+
+       <!-- <pre>{{form.value | json}}</pre> -->
+
+       <div class="form-group row">
+         <label class="col-md-2 col-form-label">Diện miễn giảm:</label>
+         <div class="col-md-2">
+            <ng-select #selectExemption 
+            [items] = "ddlExemptionData"
+            bindLabel = "name"
+            placeholder = "Lựa chọn"
+            notFoundText = "không có dữ liệu"
+            tabindex="21"
+            [(ngModel)]="selectedExemption"
+            formControlName = "is_exemption" 
+            (change) = "onDeSelectExemption()"
+            >                 
+            </ng-select>
+
+       </div>
+       <!--Trạng thái-->
+           <label class="col-md-2 col-form-label">Trạng thái:</label>
+           <div class="col-md-2">
+              <ng-select #selectStatus 
+              [items] = "ddlStatusData"
+              bindLabel = "name"
+              placeholder = "Lựa chọn"
+              notFoundText = "không có dữ liệu"
+              tabindex="22"
+              [(ngModel)]="selectedStatus"
+              formControlName = "status" 
+              (change) = "onDeSelectStatus()"
+              >                 
+              </ng-select>
+ 
+         </div>
+         <!--Lưu trú-->
+           <label class="col-md-2 col-form-label">Loại hình học tập:</label>
+           <div class="col-md-2">
+              <ng-select #selectBoarding 
+              [items] = "ddlBoardingData"
+              bindLabel = "name"
+              placeholder = "Lựa chọn"
+              notFoundText = "không có dữ liệu"
+              tabindex="23"
+              [(ngModel)]="selectedBoarding"
+              formControlName = "boarding" 
+              (change) = "onDeSelectBoarding()"
+              >                 
+              </ng-select>
+      
+         </div>
+       </div>
+       <!--Diện tuyển-->
+       <div class="form-group row">
+           <label class="col-md-2 col-form-label">Hình thức trúng tuyển:</label>
+           <div class="col-md-3">
+            <ng-select #selectAdmission 
+            [items] = "ddlAdmissionData"
+            bindLabel = "name"
+            placeholder = "Lựa chọn"
+            notFoundText = "không có dữ liệu"
+            tabindex="24"
+            [(ngModel)]="selectedAdmission"
+            formControlName = "is_admission" 
+            (change) = "onDeSelectAdmission()"
+            >                 
+            </ng-select>
+          
+         </div>
+       </div>
+     
+       <div class="form-group row">
+        <div class="col-md-2" style="margin:auto;">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input tabindex="25" type="checkbox" class="form-check-input"
+                    formControlName="is_pioneer" name="pioneer_youth_union"
+                    id="changePioneerUpdate" (change)="checkPionner($event)"
+                    [(ngModel)]="checkPionnerAt"
+                    >
+                    <span class="form-check-sign">Đội viên</span>
+                </label>
+            </div>
+        </div>
+        <label class="col-md-2 col-form-label">Ngày vào đội:</label>
+        <div class="col-md-2 input_date">
+            <div hidden *ngIf="checkPionnerAt === true; then dis; else undis"></div>
+            <ng-template #dis>
+              <input tabindex="26" (blur)="changeDate($event)" class="form-control pioneer_update" formControlName="pioneer_at"
+              [(ngModel)]="modelPioneerAt" type="date" placeholder="Ngày vào đội"
+              [ngClass]="{ 'is-invalid': submitted && f.pioneer_at.errors && checkPionnerAt === true || checkCurrentDate === false && submitted && checkPionnerAt === true}"
+              >
+              <div *ngIf="submitted && f.pioneer_at.errors && checkPionnerAt === true " class="invalid-feedback">
+                <div style="color: rgb(220,53,69);" *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined && checkPionnerAt === true">
+                  Ngày tháng năm không được để trống
+                </div>
+                <div style="color: rgb(220,53,69);" *ngIf="valueCheck === '' && valueBoolen === true && valueDate === '' && checkPionnerAt === true">
+                  Ngày tháng năm không được để trống
+                </div>
+                <!-- <div *ngIf="f.pioneer_at.errors.required">Trường này không được bỏ trống</div> -->
+                <div style="color: rgb(220,53,69);" *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === '' && checkPionnerAt === true">
+                  Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                </div>
+              </div>
+              <small *ngIf="checkCurrentDate === false && submitted" style="color: rgb(220,53,69);">Không được nhập ngày trong tương lai</small>
+            </ng-template>
+            <ng-template #undis>
+              <input tabindex="26" class="form-control pioneer_update" type="date" placeholder="Ngày vào đội" disabled>
+            </ng-template>
+
+        </div>
+        <div class="col-md-2 check_doivien" style="margin:auto;">
+          <div class="form-check">
+              <label class="form-check-label">
+                  <input tabindex="27" type="checkbox" class="form-check-input" formControlName="is_union"
+                  (change)="checkUnion($event)"
+                  [(ngModel)]="checkUnionAt"
+                  id="changeUnionUpdate">
+                  <!-- <ng-template [ngIf]="is_union == 0" [ngIfElse]="notEqual">
+                    <input ng-if="is_union == 0" type="checkbox" name="is_union" id="changeUnion" />
+                  </ng-template>
+                  <ng-template #notEqual>
+                    <input ng-if="is_union == 1" type="checkbox" name="is_union" [(ngModel)]="is_union" checked />
+                  </ng-template> -->
+                  <span class="form-check-sign">Đoàn viên</span>
+              </label>
+          </div>
+      </div>
+        <label class="col-md-2 col-form-label">Ngày vào đoàn:</label>
+        <div class="col-md-2 input_date1">
+          <div hidden *ngIf="checkUnionAt === true; then displ; else undispl"></div>
+          <ng-template #displ>
+            <input tabindex="26" (blur)="changeDateUnion($event)" class="form-control" formControlName="union_at" [(ngModel)]="modelUnionAt" type="date" placeholder="Ngày vào đội"
+            [ngClass]="{ 'is-invalid': submitted && f.union_at.errors && checkUnionAt === true || checkCurrentDateUnion === false && submitted && checkUnionAt === true}"
+            >
+            <div *ngIf="submitted && f.union_at.errors && checkUnionAt === true " class="invalid-feedback">
+              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUnion === undefined && valueBoolenUnion === undefined && valueDateUnion === undefined && checkUnionAt === true">
+                Ngày tháng năm không được để trống
+              </div>
+              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUnion === '' && valueBoolenUnion === true && valueDateUnion === '' && checkUnionAt === true">
+                Ngày tháng năm không được để trống
+              </div>
+              <!-- <div *ngIf="f.pioneer_at.errors.required">Trường này không được bỏ trống</div> -->
+              <div style="color: rgb(220,53,69);" *ngIf="valueCheckUnion !== '' && valueBoolenUnion === false && valueDateUnion === '' && checkUnionAt === true">
+                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+              </div>
+            </div>
+            <small *ngIf="checkCurrentDateUnion === false && submitted" style="color: rgb(220,53,69);">Không được nhập ngày trong tương lai</small>
+          </ng-template>
+          <ng-template #undispl>
+            <input tabindex="26" class="form-control pioneer_update" type="date" placeholder="Ngày vào đội" disabled>
+          </ng-template>
+        </div>
+    </div>
+   </div>
+
+   <div class="form-group" style=" text-align: right;position: relative;top:22px;">
+     <button tabindex="29" type="submit" class="btn btn-success updateBtn" (click)="updateBtn()" style="margin-right:0.7%;">
+       <i class="fa fa-floppy-o"></i> Cập nhật</button>
+     <button tabindex="30" type="submit" class="btn btn-primary updateBtn" (click)="updateContinueBtn()">
+       <i class="fa fa-arrow-circle-right"></i> Tiếp</button>
+   </div>
+
+ </div>
+
+
+ </form>
+ <!-- <pre>{{form.value | json}}</pre> -->

@@ -1,0 +1,39 @@
+<table class="table table-bordered">
+  <thead>
+    <tr style="text-align: center; cursor: pointer; vertical-align: middle;">
+      <th *ngFor="let datum of header">{{datum.name}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let datum of weekdayData; let index = index">
+      <!-- <ng-template > -->
+        <td *ngFor="let header of header" class="td_center">
+          <p *ngIf="header.fields == 'stt'">{{index + 1}}</p>
+          <p *ngIf="header.fields == 'level'" style="text-align: left;">{{datum[header.fields] == 1 ? 'Trường tiểu học' : (datum[header.fields] == 2 ? 'Trường trung học cơ sở' : 'Trường trung học phổ thông') }}</p>
+          <input *ngIf="header.fields != 'stt' && header.fields != 'level'"
+            type="checkbox"
+            [(ngModel)]="datum[header.fields]"
+            [ngModelOptions]="{standalone: true}"
+            (change)="emitData.next(weekdayData)"
+            style="width: 1.4em; height: 1.4em;"
+          >
+        </td>
+      <!-- </ng-template> -->
+    </tr>
+  </tbody>
+</table>
+<div class="card-footer text-muted">
+  <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> -->
+    <div class="form-group row" style="margin-bottom: 0;">
+      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-6 col-6">
+        <button
+          type="submit"
+          class="btn btn-success"
+          (click)="luulai()">
+          <i class="fa fa-save"></i> Lưu lại
+        </button>
+      </div>
+
+    </div>
+  <!-- </div> -->
+</div>

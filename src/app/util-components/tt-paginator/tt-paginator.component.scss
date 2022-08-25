@@ -1,0 +1,60 @@
+::ng-deep tt-paginator {
+  ul {
+    text-decoration: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    li {
+      text-decoration: none;
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      display: inline-block;
+      padding: 1px;
+    }
+  }
+
+  li:first-child,
+  li:last-child {
+    .paging-button {
+      padding: 6px 15px;
+    }
+  }
+
+  .paging-button {
+    cursor: pointer;
+    padding: 6px 12px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 14px;
+    border: solid 1px white;
+    border-radius: 3px;
+  }
+  .paging-button.enabled:hover {
+    background-color: lightgray;
+    color: black;
+  }
+  .paging-button.enabled:active {
+    border: solid 1px black;
+  }
+  .selected {
+    cursor: default;
+    background-color: #0062cc;
+    color: white;
+    border: solid 1px #0062cc;
+  }
+  .selected:hover {
+    background-color: #0062cc;
+    color: white;
+    border: solid 1px #0062cc;
+  }
+  .disabled {
+    cursor: default;
+    color: lightgray;
+  }
+}

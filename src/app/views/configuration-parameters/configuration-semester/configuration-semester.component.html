@@ -1,0 +1,530 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="col-md-12 col-md-12 col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6 col-md-6 col-sm-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách học kỳ </strong>
+          </div>
+          <div class="col-md-6 col-md-6 col-sm-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;">
+              <span class="fa fa-search form-control-feedback"></span>
+              <input tabindex="1" type="text" class="form-control" #searchByKeyWordInput
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Tên học kỳ">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 0.6em 0.5em 1.5em 0.5em;">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row" style="margin-bottom: -0.45rem;">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3" style="margin-bottom: 1em;">
+              <label for="year" class="col-form-label" style="float: left; margin-right: 1em;">Năm học:</label>
+              <ng-select [items]="yearData" [clearable]="false" class="yearSearch" tabindex="2" bindLabel="name"
+                [multiple]="false" placeholder="Chọn năm" notFoundText="Không có dữ liệu" [closeOnSelect]="true"
+                [(ngModel)]="selectedYearSearch" formControlName="listYear" (change)="onSelectYearSearch($event)">
+              </ng-select>
+            </div>
+            <hr style="margin: 1% 0 1% 0;">
+            <div class="col-md-12 col-md-12 col-sm-12">
+              <!-- <div class="row" id="rowCustom">
+                        <div class="col-md-6 col-md-6 col-sm-6" style="padding-bottom: 1px;">
+                          <div class="row">
+                            <div class="col-md-2" style="max-width: 200%; padding: 1% 0 0 15px;margin-top: auto; margin-bottom: auto;">
+                              <span class="hienthi">Hiển thị:</span>
+                            </div>
+                            <div class="col-md-3 col-sm-3" style="margin-right: -50px !important; ">
+                              <select id="hienthiOption" class="form-control" (change)="perPageSelected($event.target.value)" tabindex="3">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-md-6 col-sm-6" style="padding-bottom: 1px;">
+                          <button class="btn btn-success" id="btnSemesterConfiguration" type="button" data-toggle="modal" data-target="#addSemesterConfigurationModal"
+                            (click)="resetSemesterConfigurationForm()" style="float: right;" tabindex="4">
+                            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                          </button>
+                        </div>
+                    </div>
+                    <hr style="margin: 1% 0 1% 0;"> -->
+              <!-- Table -->
+              <table class="table table-responsive-sm table-bordered table-striped table-sm" style="text-align: center;"
+                id="tblSemesterConfiguration">
+                <thead *ngIf="headerSemesterConfiguration === true" id="tblSemester">
+                  <!-- <thead > -->
+                  <tr>
+                    <th style="width: 5%;">STT</th>
+                    <th>Cấp học</th>
+                    <th (click)="sortSchoolYear()" style="cursor: pointer; width: 10%">Năm học&nbsp;
+                      <i *ngIf="firstYear == 1" class="fa fa-sort"></i>
+                      <i *ngIf="timesYear == 1" class="fa fa-caret-up"></i>
+                      <i *ngIf="timesYear == 2" class="fa fa-caret-down"></i>
+                    </th>
+                    <!-- <th (click)="sortSemesterCode()" style="cursor: pointer; width: auto">Mã học kỳ&nbsp;
+                              <i *ngIf="firstSemesterCode == 1" class="fa fa-sort"></i>
+                              <i *ngIf="timesCode == 1" class="fa fa-caret-up"></i>
+                              <i *ngIf="timesCode == 2" class="fa fa-caret-down"></i>
+                            </th> -->
+                    <th (click)="sortSemesterName()" style="cursor: pointer; width: auto">Tên học kỳ&nbsp;
+                      <i *ngIf="firstSemesterName == 1" class="fa fa-sort"></i>
+                      <i *ngIf="timesName == 1" class="fa fa-caret-up"></i>
+                      <i *ngIf="timesName == 2" class="fa fa-caret-down"></i>
+                    </th>
+                    <th>Thời gian bắt đầu</th>
+                    <th>Thời gian kết thúc</th>
+                    <th style="width: 8%;">Trạng thái</th>
+                    <th>Đánh giá giữa kỳ, cuối kỳ</th>
+                    <th style="width: 11%;">Hoạt động</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="semesterConfigurationData">
+                  <tr
+                    *ngFor="let item of semesterConfigurationData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index">
+                    <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                    <td style="vertical-align: inherit;">
+                      <!-- {{ item.level }} -->
+                      <ng-template [ngIf]="item.level == 1">
+                        Tiểu học
+                      </ng-template>
+                      <ng-template [ngIf]="item.level == 2">
+                        Trung học cơ sở
+                      </ng-template>
+                      <ng-template [ngIf]="item.level == 3">
+                        Trung học phổ thông
+                      </ng-template>
+                    </td>
+                    <td style="vertical-align: inherit;">{{ item.school_year }}</td>
+                    <!-- <td style="vertical-align: inherit;">{{ item.code }}</td> -->
+                    <td style="vertical-align: inherit;">{{ item.name }}</td>
+                    <td style="vertical-align: inherit;">{{ item.start_date | date: 'dd/MM/yyyy' }}</td>
+                    <td style="vertical-align: inherit;">{{ item.end_date  | date: 'dd/MM/yyyy'}}</td>
+                    <td style="vertical-align: middle;">
+                      <div *ngIf="item.status === 1; then active; else inactive" hidden></div>
+                      <ng-template #active>
+                        <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;"
+                          onclick="return false;" checked>
+                      </ng-template>
+                      <ng-template #inactive>
+                        <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;"
+                          onclick="return false;">
+                      </ng-template>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <div *ngIf="item.exam_time === 1; then active; else inactive" hidden></div>
+                      <ng-template #active>
+                        <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;"
+                          onclick="return false;" checked>
+                      </ng-template>
+                      <ng-template #inactive>
+                        <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;"
+                          onclick="return false;">
+                      </ng-template>
+                    </td>
+                    <td>
+                      <div *ngIf="item.sm_history === 2; then dis; else unDis" hidden></div>
+                      <div class="row" style="padding: 1% 15px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                          <ng-template #dis>
+                            <ng-template [ngIf]="item.status !== 0">
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                                data-target="#editSemesterConfigurationModal"
+                                (click)="getByIdSemesterConfiguration(item.id)"
+                                style="margin-top:3px;margin-right: 3%;width: 29px;" tabindex="3">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                            <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                              title="Xóa" (click)="deleteSemesterConfiguration(item.id)" style="margin-top: 3px;"
+                              tabindex="3">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template #unDis>
+                            <ng-template [ngIf]="item.status !== 0">
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                                disabled data-target="#editSemesterConfigurationModal"
+                                (click)="getByIdSemesterConfiguration(item.id)"
+                                style="margin-top:3px;margin-right: 3%;width: 29px;" tabindex="3">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                              </button>
+                            </ng-template>
+                            <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip"
+                              title="Xóa" disabled (click)="deleteSemesterConfiguration(item.id)"
+                              style="margin-top: 3px;" tabindex="3">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="checkSemesterConfigurationData === false">
+                  <tr>
+                    <td colspan="10"> Dữ liệu không tồn tại
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="text-right" *ngIf="semesterConfigurationData">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div
+                        *ngFor="let item of semesterConfigurationData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                        <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                            {{(p-1)*countPage+i+1}}/{{semesterConfigurationData.length}}</span> bản ghi</p>
+                      </div>
+                    </div>
+                    <div class="col-md-6" *ngIf="headerSemesterConfiguration === true">
+                      <!-- <div class="col-md-6" > -->
+                      <pagination-controls (pageChange)="p = $event" tabindex="4"></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Table -->
+              <!-- modal status -->
+              <div class="modal fade" id="confirmModal" data-keyboard="false" role="dialog"
+                aria-labelledby="semesterConfigurationModalLabel" aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog modal-sm" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body" style="padding: 14px;">
+                      <h6>Bạn muốn thay đổi trạng thái dữ liệu này?</h6>
+                    </div>
+                    <div class="modal-footer" style="padding: 1% 17%;">
+                      <button type="button" class="btn btn-primary">Xác nhận</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy bỏ</button>
+                      <!-- <button type="button" class="btn btn-primary" (click)="setStatusSemester()">Xác nhận</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="exitSetStatusSemester()">Hủy bỏ</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- modal status -->
+              <!-- Thêm mới -->
+              <div class="modal fade semesterModal" id="addSemesterConfigurationModal" data-keyboard="false"
+                role="dialog" aria-labelledby="semesterConfigurationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header" style="padding: 2%;">
+                      <h5 class="modal-title" id="semesterConfigurationModalLabel">Thêm mới</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="5">
+                        <!-- tabindex="5"> -->
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="school_year">Năm học:<span style="color: red;">*</span></label>
+                            <ng-select [items]="yearDataInsert" class="custom" tabindex="6" bindLabel="name"
+                              placeholder="--Chọn năm--" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+                              [(ngModel)]="selectedFormAdd" formControlName="year_id"
+                              (change)="onItemSelectYear($event)">
+                            </ng-select>
+                            <span *ngIf="submitted && f?.year_id?.errors?.required"
+                              style="font-size: 80%; color: #dc3545;">
+                              Năm học không được để trống
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="name">Tên học kỳ:<span style="color: red;">*</span></label>
+                            <input class="form-control" type="text" name="text-input" formControlName="name"
+                              placeholder="Vui lòng nhập tên học kỳ"
+                              [ngClass]="{ 'is-invalid': submitted && f.name.errors }" tabindex="7">
+                            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                              <div *ngIf="f.name.errors.required">Tên học kỳ không được để trống</div>
+                              <div *ngIf="f.name.errors.minlength">Tên học kỳ không được nhỏ hơn 3 ký tự</div>
+                              <div *ngIf="f.name.errors.maxlength">Tên học kỳ không được lớn hơn 100 ký tự</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="start_date">Thời gian bắt đầu:<span style="color: red;">*</span></label>
+                            <input (blur)="changeDate($event)" class="form-control" type="text" [min]="minDate"
+                              [max]="maxDate" name="text-input" formControlName="start_date" placeholder="dd/mm/yyyy"
+                              [ngClass]="{ 'is-invalid': submitted && f.start_date.errors || checkDate === false && submitted}"
+                              tabindex="8" onfocus="(this.type='date')">
+                            <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback">
+                              <!-- <div *ngIf="f.start_date.errors.required">Thời gian bắt đầu không được để trống</div> -->
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck === undefined && valueBoolen === undefined && valueDate === undefined ">
+                                Ngày tháng năm bắt đầu học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck === '' && valueBoolen === true && valueDate === ''">
+                                Ngày tháng năm bắt đầu học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck !== '' && valueBoolen === false && valueDate === ''">
+                                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                              </div>
+                            </div>
+                            <small *ngIf="checkDate === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập
+                              năm bao gồm 4 chữ số</small>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="end_date">Thời gian kết thúc:<span style="color: red;">*</span></label>
+                            <input (blur)="changeDate2($event)" class="form-control" type="text" name="text-input"
+                              formControlName="end_date" [min]="minDate" [max]="maxDate" placeholder="dd/mm/yyyy"
+                              [ngClass]="{ 'is-invalid': submitted && f.end_date.errors || checkDate2 === false && submitted}"
+                              tabindex="9" onfocus="(this.type='date')">
+                            <div *ngIf="submitted && f.end_date.errors" class="invalid-feedback">
+                              <!-- <div *ngIf="f.end_date.errors.required">Thời gian kết thúc không được để trống</div> -->
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck2 === undefined && valueBoolen2 === undefined && valueDate2 === undefined ">
+                                Ngày tháng năm kết thúc học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck2 === '' && valueBoolen2 === true && valueDate2 === ''">
+                                Ngày tháng năm kết thúc học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheck2 !== '' && valueBoolen2 === false && valueDate2 === ''">
+                                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                              </div>
+                            </div>
+                            <small *ngIf="checkDate2 === false && submitted" style="color: rgb(220,53,69);">Vui lòng
+                              nhập năm bao gồm 4 chữ số</small>
+
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label class="col-form-label" style="float: left; margin-right: 1em;">Cấp học:<span
+                                style="color: red;">*</span></label>
+                            <ng-select [tabIndex]="10" [items]="ddlLevel" class="levelSearch" [clearable]="false"
+                              bindLabel="name" [multiple]="false" [closeOnSelect]="false"
+                              placeholder="Chọn loại cấp học" notFoundText="Không có dữ liệu"
+                              [(ngModel)]="selectedLevel" formControlName="level">
+                            </ng-select>
+                            <span *ngIf="submitted && f?.level?.errors?.required"
+                              style="font-size: 80%; color: #dc3545;">
+                              Cấp học không được để trống
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ">
+                          <div class="form-group">
+                            <div class="form-check" id="examTimeCheck" style="float: right; padding: 2% 0 0 0;">
+                              <label class="container">
+                                <input type="checkbox" checked="checked" formControlName="addExamTime"
+                                  [(ngModel)]="addExam_time" value="{{addExam_time}}">
+                                <span tabindex="11" class="checkmark"></span>Đánh giá giữa kỳ, cuối kỳ
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer" style="padding: 1% 2%;">
+                      <button type="button" class="btn btn-success" (click)="addSemesterConfiguration()"
+                        tabindex="12"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="13"><i
+                          class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Thêm mới -->
+              <!-- Sửa -->
+              <div class="modal fade" id="editSemesterConfigurationModal"
+                [ngStyle]="{display: semesterConfigurationGetById ? 'block':'none'}" role="dialog"
+                aria-labelledby="semesterConfigurationModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="semesterConfigurationModalLabel">Cập nhật</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="14">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="school_year">Năm học:<span style="color: red;">*</span></label>
+                            <ng-select [tabIndex]="15" [readonly]="true" [items]="yearDataUpdate" bindLabel="name"
+                              placeholder="Chọn năm" notFoundText="Không có dữ liệu" [closeOnSelect]="false"
+                              [(ngModel)]="selectedFormAdd" formControlName="year_id">
+                            </ng-select>
+                            <span *ngIf="submitted && f?.year_id?.errors?.required"
+                              style="font-size: 80%; color: #dc3545;">
+                              Năm học không được để trống
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="name">Tên học kỳ:<span style="color: red;">*</span></label>
+                            <input [(ngModel)]="semestersName" value="{{semestersName}}" class="form-control"
+                              type="text" name="text-input" formControlName="name"
+                              placeholder="Vui lòng nhập tên học kỳ"
+                              [ngClass]="{ 'is-invalid': submitted && f.name.errors }" tabindex="16">
+                            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                              <div *ngIf="f.name.errors.required">Tên học kỳ không được để trống</div>
+                              <div *ngIf="f.name.errors.minlength">Tên học kỳ không được nhỏ hơn 3 ký tự</div>
+                              <div *ngIf="f.name.errors.maxlength">Tên học kỳ không được lớn hơn 100 ký tự</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="start_date">Thời gian bắt đầu:<span style="color: red;">*</span></label>
+                            <input (blur)="changeDateUpdate($event)" class="form-control"
+                              [(ngModel)]="semestersStartDate" [min]="minDate" [max]="maxDate"
+                              value="{{semestersStartDate}}" type="date" name="text-input" formControlName="start_date"
+                              placeholder="Vui lòng nhập thời gian bắt đầu học kỳ"
+                              [ngClass]="{ 'is-invalid': submitted && f.start_date.errors || checkDateUpdate === false && submitted}"
+                              tabindex="17">
+                            <div *ngIf="submitted && f.start_date.errors" class="invalid-feedback">
+                              <!-- <div *ngIf="f.start_date.errors.required">Thời gian bắt đầu không được để trống</div> -->
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate === undefined && valueBoolenUpdate === undefined && valueDateUpdate === undefined ">
+                                Ngày tháng năm bắt đầu học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate === '' && valueBoolenUpdate === true && valueDateUpdate === ''">
+                                Ngày tháng năm bắt đầu học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate !== '' && valueBoolenUpdate === false && valueDateUpdate === ''">
+                                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                              </div>
+                            </div>
+                            <small *ngIf="checkDate === false && submitted" style="color: rgb(220,53,69);">Vui lòng nhập
+                              năm bao gồm 4 chữ số</small>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                          <div class="form-group">
+                            <label for="end_date">Thời gian kết thúc:<span style="color: red;">*</span></label>
+                            <input (blur)="changeDateUpdate2($event)" class="form-control"
+                              [(ngModel)]="semestersEndDate" [min]="minDate" [max]="maxDate"
+                              value="{{semestersEndDate}}" type="date" name="text-input" formControlName="end_date"
+                              placeholder="Vui lòng nhập thời gian kết thúc học kỳ"
+                              [ngClass]="{ 'is-invalid': submitted && f.end_date.errors || checkDateUpdate2 === false && submitted}"
+                              tabindex="18">
+                            <div *ngIf="submitted && f.end_date.errors" class="invalid-feedback">
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate2 === undefined && valueBoolenUpdate2 === undefined && valueDateUpdate2 === undefined ">
+                                Ngày tháng năm kết thúc học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate2 === '' && valueBoolenUpdate2 === true && valueDateUpdate2 === ''">
+                                Ngày tháng năm kết thúc học kỳ không được để trống
+                              </div>
+                              <div style="color: rgb(220,53,69);"
+                                *ngIf="valueCheckUpdate2 !== '' && valueBoolenUpdate2 === false && valueDateUpdate2 === ''">
+                                Vui lòng nhập một giá trị hợp lệ. Trường không hoàn chỉnh hoặc có giá trị không hợp lệ.
+                              </div>
+                            </div>
+                            <small *ngIf="checkDateUpdate2 === false && submitted" style="color: rgb(220,53,69);">Vui
+                              lòng nhập năm bao gồm 4 chữ số</small>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                          <div class="form-group">
+                            <label class="col-form-label" style="float: left; margin-right: 1em;">Cấp học:<span
+                                style="color: red;">*</span></label>
+                            <ng-select [tabIndex]="19" [items]="ddlLevel" class="levelSearchUpdate" [clearable]="false"
+                              [readonly]="true" bindLabel="name" [multiple]="false" [closeOnSelect]="false"
+                              placeholder="Chọn loại cấp học" notFoundText="Không có dữ liệu"
+                              [(ngModel)]="selectedLevelUpdate" formControlName="levelUpdate">
+                            </ng-select>
+                            <span *ngIf="submitted && f?.levelUpdate?.errors?.required"
+                              style="font-size: 80%; color: #dc3545;">
+                              Cấp học không được để trống
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 ">
+                          <div class="form-group" *ngIf="disableStatus === true">
+                            <div class="form-check" id="examTimeCheck" style="float: right; padding: 2% 0 0 0;">
+                              <label class="container">
+                                <input type="checkbox" formControlName="checkStatus">
+                                <span tabindex="20" class="checkmark"></span>Hoạt động
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 ">
+                          <div class="form-group">
+                            <div class="form-check" id="examTimeCheck" style="float: right; padding: 2% 0 0 0;">
+                              <label class="container">
+                                <input type="checkbox" formControlName="updateExamTime" [(ngModel)]="exam_times"
+                                  value="{{exam_times}}" />
+                                <span class="checkmark" tabindex="21"></span>Đánh giá giữa kỳ, cuối kỳ
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- {{form.value|json}} -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary"
+                        (click)="updateSemesterConfiguration(semesterConfigurationGetById.id)" tabindex="22"><i
+                          class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="23"><i
+                          class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Sửa -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12" style="margin-bottom: 0rem;">
+                <button class="btn btn-success" id="btnSemesterConfiguration" type="button" data-toggle="modal"
+                  data-target="#addSemesterConfigurationModal" (click)="resetSemesterConfigurationForm()"
+                  style="float: left;" tabindex="24">
+                  <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                </button>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="father_name" class="col-xl-6 col-lg-7 col-md-6 col-sm-6 col-6 col-form-label"
+                  style="margin: 0px 0px 0px 0;">Hiển thị:</label>
+                <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 hienthiOption1"
+                  style="float: right;" (change)="perPageSelected($event.target.value)" tabindex="25">
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

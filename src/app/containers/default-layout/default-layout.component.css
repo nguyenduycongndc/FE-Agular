@@ -1,0 +1,55 @@
+@media only screen and (min-device-width: 200px) and (max-device-width: 313px){
+  #logo_school {
+      position: relative;
+      left: -50px;
+  }
+  #dropdownInfor {
+    margin-top:-52px;
+    }
+}
+@media only screen and (min-device-width: 314px) and (max-device-width: 320px){
+  #logo_school {
+      position: relative;
+      left: 5%;
+  }
+
+}
+
+@media only screen and (min-device-width: 321px) and (max-device-width: 354px){
+  #logo_school {
+      position: relative;
+      left: -22%;
+  }
+  #dropdownInfor {
+    margin-top:-52px;
+    }
+}
+
+@media only screen and (min-device-width: 355px) and (max-device-width: 510px){
+  #logo_school {
+      position: relative;
+      left: 8%;
+  }
+}
+@media only screen and (min-device-width: 376px) and (max-device-width: 410px){
+  #name_school {
+      visibility: hidden;
+  }
+  #dropdownInfor {
+    margin-top:-52px;
+    }
+}
+
+
+@media only screen and (min-device-width: 321px) and (max-device-width: 2560px){
+  #selectedY {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+}
+@media only screen and (min-width: 200px) and (max-width: 991.98px){
+  .app-body {
+    margin-top: 0px;
+  }
+}
+

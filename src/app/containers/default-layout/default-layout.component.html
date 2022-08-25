@@ -1,0 +1,614 @@
+<app-header
+[navbarBrandRouterLink]="['/dashboard']"
+[fixed]="true"
+
+[sidebarToggler]="'lg'"
+[asideMenuToggler]="'lg'">
+  <img [src]="urlLogo" class="img-avatar"  id="logo_school" style="height:50px;">
+  <ul class="nav navbar-nav d-md-down">
+
+    <li class="nav-item px-3">
+      <a class="nav-link" id="name_school" href="#" style="font-size: 20px; color: navy; margin-left: 50px;">
+         <!-- Trường THCS Tân Mai -->
+         {{ schoolName }}
+         <!-- <span style="color: green;">{{env | json}}</span> -->
+      </a>
+   </li>
+   <!-- <li class="nav-item px-3">
+      <a class="nav-link" href="#">Users</a>
+      </li>
+      <li class="nav-item px-3">
+      <a class="nav-link" href="#">Settings</a>
+      </li> -->
+</ul>
+<ul class="nav navbar-nav ml-auto" id="dropdownInfor">
+   <li class="nav-item d-md-down-none">
+      <!-- <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a> -->
+   </li>
+   <!-- <li class="nav-item d-md-down-none">
+      <a class="nav-link" href="#"><i class="icon-list"></i></a>
+      </li>
+      <li class="nav-item d-md-down-none">
+      <a class="nav-link" href="#"><i class="icon-location-pin"></i></a>
+      </li> -->
+      <span id="selectedY"><strong>{{selectedYear}}</strong></span>
+   <li class="nav-item dropdown" dropdown placement="bottom right" style="text-align: right;">
+      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+        <ng-template [ngIf]="srcData" [ngIfElse]="imgURLNull">
+          <img [src]="srcData" class="img-avatar" alt="admin@bootstrapmaster.com" style="border-radius: 50% !important;height: 35px !important;width: 35px !important;">
+        </ng-template>
+        <ng-template #imgURLNull>
+          <img src="assets/img/avatars/userAvatar.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" >
+        </ng-template>
+      <!-- <img src="assets/img/avatars/userAvatar.jpg" class="img-avatar" alt="admin@bootstrapmaster.com"/> -->
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown" style="padding: 0em;">
+         <div class="dropdown-header text-center"><strong>Tài khoản</strong></div>
+         <a class="dropdown-item" href="#" data-toggle="modal" data-target="#accountInfomationModal" (click)="getAccountInformation()"><i class="fa fa-user"></i>Thông tin tài khoản</a>
+         <a class="dropdown-item" routerLink="/account/change-pass" routerLinkActive="active"><i class="fa fa-lock"></i>Đổi mật khẩu</a>
+         <!-- <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></a>
+            <a class="dropdown-item" href="#"><i class="fa fa-envelope-o"></i> Messages<span class="badge badge-success">42</span></a>
+            <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i> Tasks<span class="badge badge-danger">42</span></a>
+            <a class="dropdown-item" href="#"><i class="fa fa-comments"></i> Comment<span class="badge badge-warning">42</span></a>
+            <div class="dropdown-header text-center"><strong>Settings</strong></div>
+            <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-wrench"></i> Setting</a>
+            <a class="dropdown-item" href="#"><i class="fa fa-usd"></i> Payments<span class="badge badge-dark">42</span></a>
+            <a class="dropdown-item" href="#"><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></a>
+            <div class="divider"></div>
+            <a class="dropdown-item" href="#"><i class="fa fa-shield"></i> Lock account</a> -->
+         <a class="dropdown-item" href="#" (click)="logout()"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+      </div>
+   </li>
+</ul>
+</app-header>
+<div class="app-body">
+   <app-sidebar #appSidebar [fixed]="true" [display]="'lg'" [minimized]="sidebarMinimized" (minimizedChange)="toggleMinimize($event)">
+   <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="appSidebar.minimized"></app-sidebar-nav>
+   <app-sidebar-minimizer></app-sidebar-minimizer>
+   </app-sidebar>
+   <!-- Main content -->
+   <main class="main" style="padding:0 !important">
+      <!-- Breadcrumb -->
+      <!-- breaking change 'cui-breadcrumb' -->
+      <cui-breadcrumb >
+         <!-- Breadcrumb Menu-->
+         <li class="breadcrumb-menu d-md-down-none" style="margin-bottom:0px !important">
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+               <!-- <a class="btn" href="#"><i class="icon-speech"></i></a> -->
+               <!-- <a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a> -->
+               <!-- <a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a> -->
+            </div>
+         </li>
+      </cui-breadcrumb>
+      <!-- deprecation warning for 'app-breadcrumb' -->
+      <!--<ol class="breadcrumb">-->
+      <!--<app-breadcrumb></app-breadcrumb>-->
+      <!--&lt;!&ndash; Breadcrumb Menu&ndash;&gt;-->
+      <!--<li class="breadcrumb-menu d-md-down-none">-->
+      <!--<div class="btn-group" role="group" aria-label="Button group with nested dropdown">-->
+      <!--<a class="btn" href="#"><i class="icon-speech"></i></a>-->
+      <!--<a class="btn" [routerLink]="['/dashboard']"><i class="icon-graph"></i> &nbsp;Dashboard</a>-->
+      <!--<a class="btn" href="#"><i class="icon-settings"></i> &nbsp;Settings</a>-->
+      <!--</div>-->
+      <!--</li>-->
+      <!--</ol>-->
+      <div class="container-fluid" style="width: 100%;
+         padding-right: 0px;
+         padding-left: 0px;
+         margin-right: auto;
+         margin-left: auto;">
+         <router-outlet></router-outlet>
+      </div>
+      <!-- /.container-fluid -->
+   </main>
+   <!-- <app-aside [fixed]="true" [display]="false" [ngClass]="'test'">
+      <tabset>
+        <tab>
+          <ng-template tabHeading><i class="icon-list"></i></ng-template>
+          <div class="list-group list-group-accent">
+            <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</div>
+            <div class="list-group-item list-group-item-accent-warning list-group-item-divider">
+              <div class="avatar float-right">
+                <img class="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com">
+              </div>
+              <div>Meeting with
+                <strong>Lucas</strong>
+              </div>
+              <small class="text-muted mr-3">
+                <i class="icon-calendar"></i>  1 - 3pm</small>
+              <small class="text-muted">
+                <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+            </div>
+            <div class="list-group-item list-group-item-accent-info">
+              <div class="avatar float-right">
+                <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
+              </div>
+              <div>Skype with
+                <strong>Megan</strong>
+              </div>
+              <small class="text-muted mr-3">
+                <i class="icon-calendar"></i>  4 - 5pm</small>
+              <small class="text-muted">
+                <i class="icon-social-skype"></i>  On-line</small>
+            </div>
+            <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</div>
+            <div class="list-group-item list-group-item-accent-danger list-group-item-divider">
+              <div>New UI Project -
+                <strong>deadline</strong>
+              </div>
+              <small class="text-muted mr-3">
+                <i class="icon-calendar"></i>  10 - 11pm</small>
+              <small class="text-muted">
+                <i class="icon-home"></i>  creativeLabs HQ</small>
+              <div class="avatars-stack mt-2">
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/2.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/3.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/5.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/6.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+              </div>
+            </div>
+            <div class="list-group-item list-group-item-accent-success list-group-item-divider">
+              <div>
+                <strong>#10 Startups.Garden</strong> Meetup</div>
+              <small class="text-muted mr-3">
+                <i class="icon-calendar"></i>  1 - 3pm</small>
+              <small class="text-muted">
+                <i class="icon-location-pin"></i>  Palo Alto, CA</small>
+            </div>
+            <div class="list-group-item list-group-item-accent-primary list-group-item-divider">
+              <div>
+                <strong>Team meeting</strong>
+              </div>
+              <small class="text-muted mr-3">
+                <i class="icon-calendar"></i>  4 - 6pm</small>
+              <small class="text-muted">
+                <i class="icon-home"></i>  creativeLabs HQ</small>
+              <div class="avatars-stack mt-2">
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/2.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/3.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/5.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/6.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+                <div class="avatar avatar-xs">
+                  <img class="img-avatar" src="assets/img/avatars/8.jpg" alt="admin@bootstrapmaster.com">
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+        <tab>
+          <ng-template tabHeading><i class="icon-speech"></i></ng-template>
+          <div class="p-3">
+            <div class="message">
+              <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                  <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                  <span class="avatar-status badge-success"></span>
+                </div>
+              </div>
+              <div>
+                <small class="text-muted">Lukasz Holeczek</small>
+                <small class="text-muted float-right mt-1">1:52 PM</small>
+              </div>
+              <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</small>
+            </div>
+            <hr>
+            <div class="message">
+              <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                  <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                  <span class="avatar-status badge-success"></span>
+                </div>
+              </div>
+              <div>
+                <small class="text-muted">Lukasz Holeczek</small>
+                <small class="text-muted float-right mt-1">1:52 PM</small>
+              </div>
+              <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</small>
+            </div>
+            <hr>
+            <div class="message">
+              <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                  <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                  <span class="avatar-status badge-success"></span>
+                </div>
+              </div>
+              <div>
+                <small class="text-muted">Lukasz Holeczek</small>
+                <small class="text-muted float-right mt-1">1:52 PM</small>
+              </div>
+              <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</small>
+            </div>
+            <hr>
+            <div class="message">
+              <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                  <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                  <span class="avatar-status badge-success"></span>
+                </div>
+              </div>
+              <div>
+                <small class="text-muted">Lukasz Holeczek</small>
+                <small class="text-muted float-right mt-1">1:52 PM</small>
+              </div>
+              <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</small>
+            </div>
+            <hr>
+            <div class="message">
+              <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                  <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
+                  <span class="avatar-status badge-success"></span>
+                </div>
+              </div>
+              <div>
+                <small class="text-muted">Lukasz Holeczek</small>
+                <small class="text-muted float-right mt-1">1:52 PM</small>
+              </div>
+              <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+              <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...</small>
+            </div>
+          </div>
+        </tab>
+        <tab>
+          <ng-template tabHeading><i class="icon-settings"></i></ng-template>
+          <div class="p-3">
+            <h6>Settings</h6>
+            <div class="aside-options">
+              <div class="clearfix mt-4">
+                <small><b>Option 1</b></small>
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" class="switch-input" checked>
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+              </div>
+              <div>
+                <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
+              </div>
+            </div>
+            <div class="aside-options">
+              <div class="clearfix mt-3">
+                <small><b>Option 2</b></small>
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" class="switch-input">
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+              </div>
+              <div>
+                <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</small>
+              </div>
+            </div>
+            <div class="aside-options">
+              <div class="clearfix mt-3">
+                <small><b>Option 3</b></small>
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" class="switch-input">
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                  <span class="switch-handle"></span>
+                </label>
+              </div>
+            </div>
+            <div class="aside-options">
+              <div class="clearfix mt-3">
+                <small><b>Option 4</b></small>
+                <label class="switch switch-label switch-pill switch-success switch-sm float-right">
+                  <input type="checkbox" class="switch-input" checked>
+                  <span class="switch-slider" data-checked="On" data-unchecked="Off"></span>
+                </label>
+              </div>
+            </div>
+            <hr>
+            <h6>System Utilization</h6>
+            <div class="text-uppercase mb-1 mt-4"><small><b>CPU Usage</b></small></div>
+            <div class="progress progress-xs">
+              <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">348 Processes. 1/4 Cores.</small>
+            <div class="text-uppercase mb-1 mt-2"><small><b>Memory Usage</b></small></div>
+            <div class="progress progress-xs">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">11444GB/16384MB</small>
+            <div class="text-uppercase mb-1 mt-2"><small><b>SSD 1 Usage</b></small></div>
+            <div class="progress progress-xs">
+              <div class="progress-bar bg-danger" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">243GB/256GB</small>
+            <div class="text-uppercase mb-1 mt-2"><small><b>SSD 2 Usage</b></small></div>
+            <div class="progress progress-xs">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">25GB/256GB</small>
+          </div>
+        </tab>
+      </tabset>
+      </app-aside> -->
+</div>
+<app-footer>
+   <!-- <span><a href="http://192.168.1.14:4200">Trường THPT Tân Mai</a> &copy; 2020 Hệ thống quản lý Giáo dục</span> -->
+   <span class="ml-auto"><a href="http://192.168.1.86:4200">{{ schoolName }}</a><a>&nbsp; &copy;&nbsp; IET4.0</a></span>
+</app-footer>
+<div class="modal fade" id="accountInfomationModal" data-keyboard="false" role="dialog"
+   aria-labelledby="userGroupConfigModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+<div class="modal-header">
+   <h5 class="modal-title" id="userGroupConfigModalLabel">Thông tin tài khoản</h5>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+   </button>
+</div>
+<div class="modal-body">
+   <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="row">
+         <!-- <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row">
+              <div class="col-lg col-sm-6">
+                  <div class="card h-100 mb-2">
+                      <div class="card-block text-center">
+                          <h1 class="p-3 text-muted"><i class="fa fa-2x fa-user"></i></h1>
+                      </div>
+                      <div class="card-footer text-center">45 Tests</div>
+                  </div>
+              </div>
+              <div class="col-lg col-sm-6">
+                  <div class="card h-100 mb-2">
+                      <div class="card-block text-center">
+                          <h1 class="p-3 text-muted"><i class="fa fa-2x fa-bullseye"></i></h1>
+                      </div>
+                      <div class="card-footer text-center">17 Targets</div>
+                  </div>
+              </div>
+              <div class="col-lg col-sm-6">
+                  <div class="card h-100 mb-2">
+                      <div class="card-block text-center">
+                          <h1 class="p-3 text-muted"><i class="fa fa-2x fa-tree"></i></h1>
+                      </div>
+                      <div class="card-footer text-center">39 Views</div>
+                  </div>
+              </div>
+              <div class="col-lg col-sm-6">
+                  <div class="card h-100 mb-2">
+                      <div class="card-block text-center">
+                          <h1 class="p-3 text-muted"><i class="fa fa-2x fa-car"></i></h1>
+                      </div>
+                      <div class="card-footer text-center">4 Categories</div>
+                  </div>
+              </div>
+            </div>
+            </div> -->
+         <!-- <div class="col-lg-4 col-md-4 col-sm-12"> -->
+         <!-- <div class="form-group">
+            <label for="user_name">Tên đăng nhập 1</label>
+
+              <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['username']" [ngIfElse]="dataNull">
+                <input class="form-control" type="text"
+              value="{{ this.listInformationUserAccount['username'] }}" disabled />
+              </ng-template>
+              <ng-template #dataNull>
+                <input class="form-control" type="text" placeholder="" disabled />
+              </ng-template>
+            </div> -->
+         <!-- </div> -->
+         <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="row">
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="email">Email:</label>
+                     </div>
+                     <div class="col-md-8">
+                        <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['email']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text"
+                           value="{{ this.listInformationUserAccount['email'] }}" disabled />
+                        </ng-template>
+                        <ng-template #dataNull>
+                           <input class="form-control" type="text" placeholder="" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="email">Tên đăng nhập:</label>
+                     </div>
+                     <div class="col-md-8">
+                        <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['email']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text"
+                           value="{{ this.listInformationUserAccount['email'] }}" disabled />
+                        </ng-template>
+                        <ng-template #dataNull>
+                           <input class="form-control" type="text" placeholder="" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="user_name">Nhóm NSD:</label>
+                     </div>
+                     <!-- <input class="form-control" type="text"  value="N01,N02,N03" data-role="tagsinput" placeholder="Add tags" disabled/> -->
+                     <div class="col-md-8">
+                      <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['group_user_configuration_id']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text" value="{{ this.listInformationUserAccount['group_user_configuration_id'] }}" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="user_name">Quyền truy cập:</label>
+                     </div>
+                     <!-- <input class="form-control" type="text"  value="N01,N02,N03" data-role="tagsinput" placeholder="Add tags" disabled/> -->
+                     <div class="col-md-8">
+                      <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['permission_name']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text" value="{{ this.listInformationUserAccount['permission_name'] }}" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="fullname">Họ và tên:</label>
+                     </div>
+                     <div class="col-md-8">
+                        <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['fullname']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text"
+                           value="{{ this.listInformationUserAccount['fullname']}}" disabled />
+                        </ng-template>
+                        <ng-template #dataNull>
+                           <input class="form-control" type="text" placeholder="" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row form-group">
+                     <div class="col-md-3">
+                        <label style="padding-top: 6px;" for="phone">Số điện thoại:</label>
+                     </div>
+                     <div class="col-md-8">
+                        <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['phone']" [ngIfElse]="dataNull">
+                        <input class="form-control" type="text"
+                           value="{{ this.listInformationUserAccount['phone'] }}" disabled />
+                        </ng-template>
+                        <ng-template #dataNull>
+                           <input class="form-control" type="text" placeholder="" disabled />
+                        </ng-template>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group col-lg-4 col-md-4 col-sm-12" style="float: right;">
+            <div class="form-group">
+              <ng-template [ngIf]="srcData" [ngIfElse]="imgURLNull">
+                <img [src]="srcData" height="108" *ngIf="srcData" style="width:72%;height: 172px; margin-top: 0rem; position:relative;left:28% !important;">
+              </ng-template>
+              <ng-template #imgURLNull>
+                <img src="assets/img/avatars/avatar.png" alt="Avatar" style="width:72%;height: 172px; margin-top: 0rem; position:relative;left:28% !important;">
+              </ng-template>
+              <!-- <img class="image-holder" [src]="srcData" style="width:72%;height: 172px; margin-top: 0rem; position:relative;left:28% !important;"> -->
+            </div>
+            <div class="row form-group">
+               <div class="col-md-4" style="padding:0px;">
+                  <label style="padding-top: 6px;" for="password">Giới tính:</label>
+               </div>
+               <div class="col-md-8" style="padding-left: 0px;">
+                  <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['gender'] == 0" [ngIfElse]="second">
+                  <input class="form-control" type="text" value="Nữ" disabled />
+                  </ng-template>
+                  <ng-template #second>
+                     <ng-template [ngIf]="true" [ngIfElse]="third">
+                     <input class="form-control" type="text" value="Nam" disabled />
+                  </ng-template>
+                  </ng-template>
+                  <ng-template #third>
+                     <ng-template [ngIf]="true" [ngIfElse]="third">
+                     <input class="form-control" type="text" value="Khác" disabled />
+                  </ng-template>
+                  </ng-template>
+               </div>
+            </div>
+            <div class="row form-group">
+               <div class="col-md-4" style="padding:0px;">
+                  <label style="padding-top: 6px;" for="dob">Ngày sinh:</label>
+               </div>
+               <div class="col-md-8" style="padding-left: 0px;">
+                  <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['dob']" [ngIfElse]="dataNull">
+                  <input class="form-control" type="date"
+                     value="{{ this.listInformationUserAccount['dob'] }}" disabled />
+                  </ng-template>
+                  <ng-template #dataNull>
+                     <input class="form-control"  type="text" placeholder="" disabled />
+                  </ng-template>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="row form-group">
+               <div class="col-md-2">
+                  <label style="padding-top: 6px;" for="address_detail">Địa chỉ:</label>
+               </div>
+               <div class="col-md-10">
+                  <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['address']" [ngIfElse]="dataNull">
+                  <input class="form-control" type="text" value="{{ addressDetail }}" disabled />
+                  </ng-template>
+                  <ng-template #dataNull>
+                     <input class="form-control" type="text" placeholder="" disabled />
+                  </ng-template>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+               <label for="address_detail">Phường/xã:</label>
+               <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['ward_name']" [ngIfElse]="dataNull">
+               <input class="form-control" type="text" value="{{ this.listInformationUserAccount['ward_name'] }}" disabled />
+               </ng-template>
+               <ng-template #dataNull>
+                  <input class="form-control" type="text" placeholder="" disabled />
+               </ng-template>
+            </div>
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+               <label for="address_detail">Quận/huyện:</label>
+               <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['district_name']" [ngIfElse]="dataNull">
+               <input class="form-control" type="text" value="{{ this.listInformationUserAccount['district_name'] }}" disabled />
+               </ng-template>
+               <ng-template #dataNull>
+                  <input class="form-control" type="text" placeholder="" disabled />
+               </ng-template>
+            </div>
+         </div>
+         <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="form-group">
+               <label for="address_detail">Tỉnh/thành phố:</label>
+               <ng-template [ngIf]="this.listInformationUserAccount && this.listInformationUserAccount['province_name']" [ngIfElse]="dataNull">
+               <input class="form-control" type="text" value="{{ this.listInformationUserAccount['province_name'] }}" disabled />
+               </ng-template>
+               <ng-template #dataNull>
+                  <input class="form-control" type="text" placeholder="" disabled />
+               </ng-template>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

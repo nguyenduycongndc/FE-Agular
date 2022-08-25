@@ -1,0 +1,129 @@
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+  /* background-color: red; */
+  width: 0px;
+  }
+  .container{
+    display: inline-block;
+    position:relative;
+    cursor:pointer;
+    font-size:14px;
+    user-select: none;
+    padding-left:40px;
+    margin-bottom:10px;
+  }
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .checkmark{
+    position:absolute;
+    top:0;
+    left:-30px;
+    width:27px;
+    height:27px;
+    background:#eee;
+    border-radius:3px;
+  }
+  .container:hover .checkmark{
+    background:#ccc;
+  }
+  .checkmark:after{
+    content:"";
+    position:absolute;
+    display:none;
+  }
+  .container .checkmark:after{
+    top:50%;
+    left:50%;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform:translate(-50%,-50%) rotate(45deg);
+  }
+  .container input:checked ~ .checkmark{
+    background:#2196F3;
+  }
+  .container input:checked ~ .checkmark:after{
+    display:block;
+  }
+
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .avatar {
+      width: 25% !important;
+      height: 60% !important;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .avatar {
+      width: 50% !important;
+      height: 50% !important;
+    }
+  }
+  @media (min-width: 992px) and (max-width: 1365px) {
+    .avatar {
+      width: 36% !important;
+      height: 60% !important;
+    }
+  }
+  @media (min-width: 1366px) and (max-width: 1439px) {
+    .avatar {
+      width: 34% !important;
+      height: 60% !important;
+    }
+  }
+  @media (min-width: 1440px) and (max-width: 1599px) {
+    .avatar {
+      width: 28% !important;
+      height: 60% !important;
+    }
+  }
+  @media (min-width: 1600px) and (max-width: 1979px) {
+    .avatar {
+      width: 19% !important;
+      height: 60% !important;
+    }
+  }
+  @media (min-width: 1980px) and (max-width: 2560px) {
+    .avatar {
+      width: 12% !important;
+      height: 60% !important;
+    }
+  }
+  @media (max-width: 575px){
+    .avatar {
+      width: 25% !important;
+      height: 50% !important;
+    }
+  }
+
+  @media only screen and (min-width: 1980px) {
+   
+  }
+
+
+  @media only screen and (max-width: 1979px) and (min-width: 1440px) {
+   
+  }
+
+  @media only screen and (max-width: 1439px) and (min-width: 1200px) {
+    
+  }
+
+  @media only screen and (max-width: 1199px) and (min-width: 768px) {
+   
+  }
+
+  @media only screen and (max-width: 767px) and (min-width: 576px) {
+   
+  }
+
+  @media only screen and (max-width: 575px) and (min-width: 376px) {
+   
+  }
+  @media only screen and (max-width: 375px) {
+   
+  }

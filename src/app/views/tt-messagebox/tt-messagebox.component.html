@@ -1,0 +1,64 @@
+<div *ngIf="isShowConfirm" class="modal fade show modal-wrapper" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-modal="true" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa fa-question-circle" style="color: orange;"></i> Xác nhận</h5>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message">{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirm()">
+          <i class="fa fa-check"></i> Có
+        </button>
+        <button type="button" class="btn btn-danger" (click)="cancel()">
+          <i class="fa fa-times"></i> Không
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isShowYNCConfirm" class="modal fade show modal-wrapper" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-modal="true" style="display: block;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fa fa-question-circle" style="color: orange;"></i> Xác nhận</h5>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message">{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="confirm()">
+          <i class="fa fa-check"></i> Có
+        </button>
+        <button type="button" class="btn btn-danger" (click)="reject()">
+          <i class="fa fa-times"></i> Không
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancel()">
+          Hoãn
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isShowMessage" class="modal fade show" tabindex="-1" aria-labelledby="myModalLabel"
+  style="display: block; padding-right: 17px;" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-primary" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"><i class="fa fa-info-circle"></i> Thông báo</h4>
+        <span class="header-close-button" (click)="cancel()"><i class="fa fa-times"></i></span>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message">{{message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" (click)="cancel()">Đóng</button>
+      </div>
+    </div>
+  </div>
+</div>

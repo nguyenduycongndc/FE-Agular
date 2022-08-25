@@ -1,0 +1,604 @@
+body {
+  position:relative
+}
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .customGrade {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+  }
+  .customGrade1 {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+  }
+  .customSemester {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+  }
+  .customClass {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+  }
+  .customYear{
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-left: 0.5em;
+  }
+  #btn-margin {
+    margin-top: 0.8em;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (min-width: 2560px){
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+
+  }
+
+  .customClass {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+
+  }
+
+  .customSemester {
+    max-width: 70%;
+    width: 70%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+
+  .customSemester {
+    max-width: 66%;
+    width: 66%;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (min-width: 1980px){
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customClass {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customSemester {
+    max-width: 70%;
+    width: 70%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+
+  .customSemester {
+    max-width: 66%;
+    width: 66%;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (min-width: 1441px) and (max-width: 1979px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customSemester {
+    max-width: 70%;
+    width: 70%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customClass {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (device-width: 1440px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customSemester {
+    max-width: 70%;
+    width: 70%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customClass {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (min-width: 1367px) and (max-width: 1439px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customSemester {
+    max-width: 70%;
+    width: 70%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+
+  .customClass {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (device-width: 1366px){
+  .customYear{
+    max-width: 68%;
+    width: 68% ;
+    float: right;
+  }
+  .customSemester {
+    max-width: 74%;
+    width: 74% ;
+    float: right;
+  }
+  .customGrade {
+    max-width: 80%;
+    width: 80% ;
+    float: right;
+  }
+  .customClass {
+    max-width: 82%;
+    width: 82% ;
+    float: right;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (min-width: 1025px) and (max-width: 1365px){
+  .customYear{
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+
+  }
+  .customSemester {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+  }
+  .customGrade {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+
+  }
+  .customClass {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+  }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22.9%;
+  }
+}
+@media only screen and (device-width: 1024px){
+  .customGrade {
+    max-width: 66%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+  }
+  .customClass {
+    max-width: 66%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+  }
+  #custom_semester{
+    float: left;
+    position: relative;
+    right: 74px;
+  }
+  .customSemester {
+    max-width: 49%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 190px;
+  }
+  .customYear{
+    max-width: 54%;
+    width: 66%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1023px){
+  .customGrade {
+    max-width: 66%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 15px;
+  }
+  .customClass {
+    max-width: 76%;
+    width: 76%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 2px;
+  }
+  #custom_semester{
+    float: left;
+    position: relative;
+    right: 74px;
+  }
+  .customSemester {
+    max-width: 49%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 173px;
+  }
+  .customYear{
+    max-width: 54%;
+    width: 66%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 991px){
+  .customGrade {
+    max-width: 66%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 15px;
+
+  }
+  .customClass {
+    max-width: 76%;
+    width: 76%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 2px;
+  }
+  #custom_semester{
+    position: relative;
+    right: 1px;
+  }
+  .customSemester {
+    max-width: 50%;
+    width: 50%;
+    float: right;
+    margin-bottom: 0.5em;
+    right: 100px;
+  }
+  .customYear{
+    max-width: 54%;
+    width: 66%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+@media only screen and (device-width: 768px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 767px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 541px) and (max-width: 766px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 426px) and (max-width: 539px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 425px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 415px) and (max-width: 424px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 414px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 412px) and (max-width: 413px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 411px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 376px) and (max-width: 410px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 375px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (min-width: 361px) and (max-width: 374px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 360px){
+  .filter_search{
+    margin-top: 8px;
+  }
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (min-width: 321px) and (max-width: 359px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 320px){
+  .filter_search{
+    margin-top: 8px;
+  }
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (min-width: 281px) and (max-width: 319px){
+  .filter_search{
+    margin-top: 8px;
+  }
+}
+@media only screen and (device-width: 280px){
+  .filter_search{
+    margin-top: 8px;
+  }
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (max-width: 279px){
+  .filter_search{
+    margin-top: 8px;
+  }
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+
+
+
+.card-footer {
+  padding: .6rem 0.1rem;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: -1rem;
+  color: #212529;
+}
+@media only screen and (max-width: 2040px) and (min-width: 1441px){
+  .table-responsive-sm{
+    display: none;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* .customGrade{
+    display: none;
+  } */
+}
+@media only screen and (max-width: 1440px) and (min-width: 572px) {
+  .table-responsive-sm {
+    display: none;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+   /* .customGrade1{
+    display: none;
+  } */
+}
+
+
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox] {
+  width: 0px;
+}
+
+:host /deep/ .multiselect-dropdown {
+  position: relative;
+  color: #aaa;
+}
+
+::placeholder {
+  color: #aaa;
+}
+
+.checkboxTable {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.checkboxTable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark1 {
+  position: absolute;
+  top: -5px;
+  left: 35%;
+  height: 20px;
+  width: 20px;
+  background-color: darkgray;
+}
+
+.checkboxTable:hover input~.checkmark1 {
+  background-color: #ccc;
+}
+
+.checkboxTable input:checked~.checkmark1 {
+  background-color: #2196F3;
+}
+
+.checkmark1:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkboxTable input:checked~.checkmark1:after {
+  display: block;
+}
+
+.checkboxTable .checkmark1:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+

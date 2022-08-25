@@ -1,0 +1,584 @@
+//checkboxGrid
+.checkboxTable {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxTable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkboxTable:hover .checkmarkGrid{
+  background:#ccc;
+}
+/* Create a custom checkbox */
+.checkmarkGrid {
+  position: absolute;
+  top: -4px;
+  left: 37%;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxTable:hover input ~ .checkmarkGrid {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxTable input:checked ~ .checkmarkGrid {
+  background-color: #2196F3;
+}
+
+/* Create the checkmarkGrid/indicator (hidden when not checked) */
+.checkmarkGrid:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmarkGrid when checked */
+.checkboxTable input:checked ~ .checkmarkGrid:after {
+  display: block;
+}
+
+/* Style the checkmarkGrid/indicator */
+.checkmarkGrid:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+//checkbox
+.container{
+  display: inline-block;
+  position:relative;
+  cursor:pointer;
+  font-size:14px;
+  user-select: none;
+  padding-left:40px;
+  margin-bottom:10px;
+}
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark{
+  position:absolute;
+  top:0;
+  left:0;
+  width:27px;
+  height:27px;
+  background:#eee;
+  border-radius:3px;
+}
+.container:hover .checkmark{
+  background:#ccc;
+}
+.checkmark:after{
+  content:"";
+  position:absolute;
+  display:none;
+}
+.container .checkmark:after{
+  top:50%;
+  left:50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+.container input:checked ~ .checkmark{
+  background:#2196F3;
+}
+.container input:checked ~ .checkmark:after{
+  display:block;
+}
+
+
+//End-lable
+@media only screen and (max-width: 700px) and (min-width: 572px){
+  .table-responsive-sm{
+    display: none;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+@media only screen and (max-width: 408) and (min-width: 370px){
+  #name_school{
+    display: none;
+  }
+  }
+
+.navbar-brand-full{
+  display: none;
+}
+
+@media only screen and (max-device-width: 2560px){
+  .checkmarkGrid{
+    left: 42%;
+  }
+  #optionStatus{
+    bottom: 10px;
+    position: relative;
+  }
+
+}
+@media only screen and (max-device-width: 1440px){
+  .checkmarkGrid{
+    left: 36%;
+  }
+  #optionStatus{
+    bottom: 3px;
+    position: relative;
+  }
+
+}
+@media only screen and (max-width: 1230px) and (min-width: 1195px){
+  .checkmarkGrid{
+    left: 33%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 1195px) and (min-width: 1140px){
+  .checkmarkGrid{
+    left: 32%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 1139px) and (min-width: 1125px){
+  .checkmarkGrid{
+    left: 31%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 1124px) and (min-width: 1090px){
+  .checkmarkGrid{
+    left: 30%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 1089px) and (min-width: 1040px){
+  .checkmarkGrid{
+    left: 28%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 1039px) and (min-width: 992px){
+  .checkmarkGrid{
+    left: 27%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 991px) and (min-width: 940px){
+  .checkmarkGrid{
+    left: 33%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 939px) and (min-width: 870px){
+  .checkmarkGrid{
+    left: 31%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 870px) and (min-width: 802px){
+  .checkmarkGrid{
+    left: 30%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 801px) and (min-width: 700px){
+  .checkmarkGrid{
+    left: 27%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 699px) and (min-width: 576px){
+  .checkmarkGrid{
+    left: 24%;
+  }
+  #hienthiOption{
+    position: relative;
+    width: 80px;
+  }
+}
+@media only screen and (max-width: 575px) and (min-width: 500px){
+  .checkmarkGrid{
+    left: 24%;
+  }
+  #optionStatus{
+    position: relative;
+    bottom: 2px;
+    left: 15px;
+  }
+}
+@media only screen and (max-device-width: 1024px){
+  #hienthiOption{
+    position: relative;
+    right: 40px;
+    width: 90px;
+  }
+  .hienthi{
+    position: relative;
+    width: 90px;
+    display: block;
+  }
+  #addNew{
+    position: relative;
+    display: contents;
+  }
+  .checkmarkGrid{
+    left: 29%;
+  }
+  #optionStatus{
+    bottom: -1px;
+  }
+}
+@media only screen and (max-device-width: 768px){
+  #hienthiOption{
+    position: relative;
+    width: 108px;
+  }
+  #optionStatus{
+    bottom: -1px;
+    max-width: 100%;
+    position: relative;
+  }
+  .hienthi{
+    position: relative;
+  }
+  #addNew{
+    position: relative;
+    display: contents;
+  }
+  .checkmarkGrid{
+    left: 27%;
+  }
+}
+@media only screen and (max-device-width: 450px){
+  #hienthiOption{
+    position: relative;
+    left: 258px;
+    width: 108px;
+    top: 0px;
+  }
+  .hienthi{
+    position: relative;
+    left: 190px;
+    top: 28px;;
+  }
+  #addNew{
+    position: relative;
+    display: block;
+  }
+  #optionStatus{
+    bottom: 2px;
+    max-width: 100%;
+    position: relative;
+  }
+  .checkmarkGrid{
+    left: 24%;
+  }
+}
+@media only screen and (max-device-width: 425px){
+  #logo_school{
+    position: relative;
+    left: 28%;
+  }
+  #optionDisplay{
+    position: relative;
+    bottom: 9px;
+  }
+  #optionStatus{
+    position: relative;
+    bottom: 7px;
+  }
+  #addNew{
+    position: relative;
+    bottom: 2px;
+    display: block;
+  }
+  #hienthiOption{
+    position: relative;
+    left: 237px;
+    width: 103px;
+    top: 0px;
+  }
+  .hienthi{
+    position: relative;
+    left: 173px;
+    top: 20px;
+  }
+  .checkmarkGrid{
+    left: 24%;
+  }
+}
+
+@media only screen and (max-device-width: 414px){
+  #logo_school{
+    position: relative;
+    left: 27%;
+  }
+  #optionDisplay{
+    position: relative;
+    bottom: 9px;
+  }
+  #optionStatus{
+    position: relative;
+    bottom: 7px;
+  }
+  #addNew{
+    position: relative;
+    bottom: 2px;
+  }
+  #hienthiOption{
+    position: relative;
+    left: 222px;
+    top: 0px;
+  }
+  .hienthi{
+    position: relative;
+    left: 145px;
+    top: 20px;
+  }
+  .checkmarkGrid{
+    left: 24%;
+  }
+}
+@media only screen and (max-device-width: 411px){
+  #logo_school{
+    position: relative;
+    left: 27%;
+  }
+  #optionDisplay{
+    position: relative;
+    bottom: 9px;
+  }
+  #optionStatus{
+    position: relative;
+    bottom: 7px;
+  }
+  #addNew{
+    position: relative;
+    bottom: 2px;
+  }
+  #hienthiOption{
+    position: relative;
+    left: 222px;
+    top: 0px;
+  }
+  .hienthi{
+    position: relative;
+    left: 152px;
+    top: 23px;
+  }
+  .checkmarkGrid{
+    left: 24%;
+  }
+}
+    //Iphone 678
+@media only screen and (max-device-width: 375px){
+  #btnR{
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+  #responCheckbox{
+    position: relative;
+    left: 13px;
+  }
+  .hienthi{
+    position: relative;
+    top: 20px;
+    left: 120px;
+  }
+  #hienthiOption{
+    position: relative;
+    bottom: 2px;
+    width: 102px;
+    left: 188px;
+  }
+  #optionDisplay{
+    position: relative;
+    bottom: 9px;
+  }
+  #optionStatus{
+      position: relative;
+      bottom: 7px;
+    }
+    #addNew{
+        position: relative;
+        bottom: 2px;
+      }
+      .checkmarkGrid{
+        left: 24%;
+      }
+ }
+@media only screen and (max-device-width: 360px){
+  #btnR{
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+  #responCheckbox{
+    position: relative;
+    left: 13px;
+  }
+  .hienthi{
+    position: relative;
+    left: 107px;
+    top: 20px;
+  }
+  #hienthiOption{
+    position: relative;
+    left: 173px;
+  }
+  #optionDisplay{
+    position: relative;
+    bottom: 9px;
+  }
+  #optionStatus{
+      position: relative;
+      bottom: 7px;
+    }
+    #addNew{
+        position: relative;
+        bottom: 2px;
+      }
+      .checkmarkGrid{
+        left: 24%;
+      }
+ }
+    //Iphone 5/SE
+    @media only screen and (max-device-width: 320px){
+      #btnR{
+        margin-top: 1px;
+        margin-bottom: 5px;
+      }
+      #responCheckbox{
+        position: relative;
+        left: 13px;
+      }
+      .hienthi{
+        position: relative;
+        top: 20px;
+        left: 50px;
+      }
+      #hienthiOption{
+        position: relative;
+        bottom: 2px;
+        width: 102px;
+        left: 132px;
+      }
+      #btnImport{
+        position: relative;
+        right: 0px;
+      }
+      #logo_school{
+        position: absolute;
+        left: 19%;
+      }
+      #optionStatus{
+        bottom: 7px;
+        max-width: 100%;
+        position: relative;
+      }
+      .checkmarkGrid{
+        left: 24%;
+      }
+    }
+     @media only screen and (max-device-width: 280px){
+      #logo_school{
+        position: relative;
+        left: 20%;
+      }
+      #optionDisplay{
+        position: relative;
+        bottom: 9px;
+      }
+      #optionStatus{
+        position: relative;
+        bottom: 7px;
+      }
+      #addNew{
+        position: relative;
+        bottom: 2px;
+      }
+      #hienthiOption{
+        position: relative;
+        left: 91px;
+      }
+      .hienthi{
+        position: relative;
+        left: 22px;
+      }
+      .checkmarkGrid{
+        left: 24%;
+      }
+    }
+
+// semester
+#tblSemester th{
+  vertical-align: inherit;
+}
+#tblGrade th{
+  vertical-align: inherit;
+}
+.form-group {
+  margin-bottom: 0.5rem;
+}

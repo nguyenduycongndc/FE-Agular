@@ -1,0 +1,237 @@
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+@media only screen and (min-width: 2561px){
+  .col-xl-3 {
+    max-width: 25% !important;
+}
+  .col-xl-5{
+    max-width: 26.666667% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 10.5em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 26.1em !important;
+  }
+
+
+}
+
+
+@media only screen and (max-width: 2560px) and (min-width: 1980px){
+  .col-xl-3 {
+    max-width: 25% !important;
+}
+  .col-xl-5{
+    max-width: 26.666667% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 10.5em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 26.1em !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 1980px) and (min-width: 1601px){
+  .col-xl-3 {
+    max-width: 25% !important;
+}
+  .col-xl-5{
+    max-width: 26.666667% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 10.1em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 19.1em !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 1600px) and (min-width: 1441px){
+  .col-xl-3{
+    max-width: 25% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 12.4em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 15.1em !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 1440px) and (min-width: 1367px){
+  .col-xl-3{
+    max-width: 25% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 10.8em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 12.8em !important;
+  }
+
+
+}
+
+@media only screen and (max-width:1366px) and (min-width: 1201px){
+  .col-xl-3{
+    max-width: 25% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 9.9em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 12.1em !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 992px){
+  .col-xl-3{
+    max-width: 25% !important;
+}
+  .responsive-col-md-lg {
+    max-width: 66%;
+  }
+
+  .responsive-col-xl {
+    max-width: 8.5em !important;
+  }
+
+  .workAddressRespon {
+    max-width: 11.1em !important;
+  }
+
+
+}
+
+@media only screen and (max-width: 991px) and (min-width: 768px){
+  .responsive-col-md-lg {
+    max-width: 70%;
+    margin-left: 1em;
+  }
+}
+
+// @media only screen and (max-width: 767px) and (min-width: 320px){
+//   .container, .container-sm {
+//     padding-left: 4em;
+//   }
+// }
+
+@media (min-width: 1200px)
+{
+  // .workAddressRespon {
+  //   max-width: 25% !important;
+  // }
+  .col-xl-3 {
+    flex: 0 0 25%;
+    max-width: 22%;
+  }
+}
+
+@media (min-width: 992px)
+{
+  // .workAddressRespon {
+  //   max-width: 25% !important;
+  // }
+  .col-lg-3 {
+    flex: 0 0 25%;
+    max-width: 22%;
+  }
+}
+
+.container{
+  display: inline-block;
+  position:relative;
+  cursor:pointer;
+  font-size:14px;
+  user-select: none;
+  padding-left:40px;
+  margin-bottom:10px;
+  top: 0.3em;
+}
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark{
+  position: absolute;
+  left: 0px;
+  width: 27px;
+  height: 27px;
+  background: #eee;
+  border-radius: 3px;
+}
+.container:hover .checkmark{
+  background:#ccc;
+}
+.checkmark:after{
+  content:"";
+  position:absolute;
+  display:none;
+}
+.container .checkmark:after{
+  top:50%;
+  left:50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+.container input:checked ~ .checkmark{
+  background:#2196F3;
+}
+.container input:checked ~ .checkmark:after{
+  display:block;
+}
+.focusedInput {
+  border-color: rgba(82,168,236,.8);
+  outline: 0;
+  outline: thin dotted \9;
+  -moz-box-shadow: 0 0 8px rgba(82,168,236,.6);
+  box-shadow: 0 0 8px rgba(82,168,236,.6) !important;
+}

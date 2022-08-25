@@ -1,0 +1,828 @@
+<form [formGroup]="subjectForm">
+  <div class="col-md-12">
+    <div class="card" id="container">
+      <!--Card Header-->
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách môn học theo lớp</strong>
+          </div>
+          <div class="col-md-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" #searchByKeyWordInput
+                (keyup.enter)="searchByKeyWord($event.target.value)" placeholder="Mã môn học/Tên môn học" tabIndex="1">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 0.6em 0.5em 1.5em 0.5em;">
+        <!-- <div class="output">
+          <p>Form Data:  {{subjectForm.controls.addData.value | json}}</p>
+          <p>Is Valid: {{subjectForm.valid}}</p>
+        </div> -->
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="form-group row" style="margin-bottom: -0.45rem;">
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                <label for="year" class="col-form-label" style="float: left;">Năm học:</label>
+                <ng-select [items]="ddlYearSearchData"
+                  class="customYear"
+                  tabIndex="2"
+                  bindLabel="name"
+                  [clearable]="false"
+                  placeholder="Chọn năm học"
+                  notFoundText="Không có dữ liệu"
+                  [(ngModel)]="selectedYearSearch"
+                  formControlName="dropYears"
+                  (change)="onSelectYearSearch($event)">
+                </ng-select>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+
+                    <label for="semester" id="custom_semester" class="col-form-label" style="float: left;">Học kỳ:</label>
+                    <ng-select [items]="ddlSemesterSearchData"
+                      class="customSemester"
+                      tabIndex="3"
+                      bindLabel="name"
+                      placeholder="Chọn học kỳ"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedSemesterSearch"
+                      formControlName="dropSemesters">
+                    </ng-select>
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-5 col-xl-3">
+                    <label for="grade" class="col-form-label" style="float: left;">Khối:</label>
+                    <ng-select [items]="ddlGradeSearchData"
+                      class="customGrade"
+                      tabIndex="4"
+                      bindLabel="name"
+                      placeholder="Chọn khối"
+                      notFoundText="Không có dữ liệu"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      [(ngModel)]="selectedGradeSearch"
+                      formControlName="dropGrades"
+                      (change)="onSelectGradeSearch($event)">
+                      <ng-template ng-header-tmp>
+                        <div>
+                          <button class="btn btn-link" (click)="selectAllGradeSearch(ddlGradeSearchData)">Chọn tất cả</button>
+                          <button class="btn btn-link" (click)="deSelectAllGradeSearch()">Bỏ chọn tất cả</button>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items">
+                        <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                          <span>{{item.name}}</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 1" >
+                          <span class="ng-value-label">+{{items.length - 1}}</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+
+              </div>
+              <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <label for="class" class="col-form-label" style="float: left;">Lớp:</label>
+                    <ng-select [items]="ddlClassSearchData"
+                      class="customClass"
+                      tabIndex="5"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      bindLabel="name"
+                      placeholder="Chọn lớp"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedClassSearch"
+                      formControlName="dropClasses">
+                      <ng-template ng-header-tmp>
+                        <div>
+                          <button class="btn btn-link" (click)="selectAllClassSearch(ddlClassSearchData)">Chọn tất cả</button>
+                          <button class="btn btn-link" (click)="deSelectAllClassSearch()">Bỏ chọn tất cả</button>
+                        </div>
+                      </ng-template>
+                      <ng-template ng-multi-label-tmp let-items="items">
+                        <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                          <span>{{item.name}}</span>
+                        </div>
+                        <div class="ng-value" *ngIf="items.length > 1" >
+                          <span class="ng-value-label">+{{items.length - 1}}</span>
+                        </div>
+                      </ng-template>
+                    </ng-select>
+              </div>
+
+              <div class="col-xl-1 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="form-group row" style="float: right; margin-right: 0em;">
+                    <button type="button" class="btn btn-primary" id="btn-margin" data-toggle="button" aria-pressed="false" [disabled]="loadingFilter"
+                      (click)="searchByInput()" autocomplete="off"  tabIndex="6">
+                      <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                    <i class="fa fa-filter" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr style="margin: 0 0 0.5% 0;">
+            <table class="table table-responsive-sm table-bordered table-striped table-sm reset-tabIndex" *ngIf="subjects">
+              <thead class="text-nowrap" *ngIf="headerSubject === true" style="text-align: center;">
+                <th style="vertical-align: inherit;">STT</th>
+                <th style="vertical-align: inherit; width: 25%;">Năm học</th>
+                <th style="vertical-align: inherit; cursor: pointer;" (click)="sortGrade()">Khối
+                  <i class="fa fa-sort" [hidden]="firstTimeGrade"></i>
+                  <i class="fa fa-caret-up" *ngIf="reTimeGrade == 2"></i>
+                  <i class="fa fa-caret-down" *ngIf="reTimeGrade == 1"></i>
+                </th>
+                <th style="vertical-align: inherit;">Lớp</th>
+                <th style="vertical-align: inherit; cursor: pointer;" (click)="sortName()">Tên môn
+                  <i class="fa fa-sort" [hidden]="firstTimeName"></i>
+                  <i class="fa fa-caret-up" *ngIf="reTimeName == 1"></i>
+                  <i class="fa fa-caret-down" *ngIf="reTimeName == 2"></i>
+                </th>
+                <th style="vertical-align: inherit; cursor: pointer;" (click)="sortCode()">Mã môn
+                  <i class="fa fa-sort" [hidden]="firstTimeCode"></i>
+                  <i class="fa fa-caret-up" *ngIf="reTimeCode==2"></i>
+                  <i class="fa fa-caret-down" *ngIf="reTimeCode==1"></i>
+                </th>
+                <th style="vertical-align: inherit; ">Ký hiệu</th>
+                <th style="vertical-align: inherit; cursor: pointer;" (click)="sortKind()">Loại môn
+                  <i class="fa fa-sort" [hidden]="firstTimeKind"></i>
+                  <i class="fa fa-caret-up" *ngIf="reTimeKind==2"></i>
+                  <i class="fa fa-caret-down" *ngIf="reTimeKind==1"></i>
+                </th>
+                <th style="vertical-align: inherit; cursor: pointer;" (click)="sortType()">Kiểu môn
+                  <i class="fa fa-sort" [hidden]="firstTimeType"></i>
+                  <i class="fa fa-caret-up" *ngIf="reTimeType==2"></i>
+                  <i class="fa fa-caret-down" *ngIf="reTimeType==1"></i>
+                </th>
+                <th style="vertical-align: inherit;">Số tiết</th>
+                <th style="vertical-align: inherit;">Hiệu lực</th>
+                <th style="vertical-align: inherit; width: 100%">Ghi chú</th>
+                <th style="vertical-align: inherit;">Trạng thái</th>
+                <th style="vertical-align: inherit;">Hoạt động</th>
+              </thead>
+              <tbody *ngIf="subjects">
+                <ng-container formArrayName="data" *ngFor="let group of getFormControls.controls | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index">
+                  <tr *ngIf="group.get('isEditable').value" [formGroupName]="i" style="text-align: center;">
+                    <input class="form-control" formControlName="id" hidden>
+                    <input class="form-control" formControlName="class_code" hidden>
+                    <td style="vertical-align: inherit; text-align: center"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlYearData"
+                        tabIndex="7"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        bindLabel="name"
+                        placeholder="Chọn năm học"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedYear"
+                        formControlName="year"
+                        (change)="onSelectYearSearch($event)">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('year').errors && group.get('year').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn năm học!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlGradeData"
+                        tabIndex="8"
+                        class="ddlGrade"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        bindLabel="name"
+                        placeholder="Chọn khối"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedGrade"
+                        formControlName="grade_id"
+                        (change)="onSelectGrade($event)">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('grade_id').errors && group.get('grade_id').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn khối!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                     <ng-select [items]="ddlClassData"
+                      tabIndex="9"
+                      bindLabel="name"
+                      [virtualScroll]="true"
+                      appendTo="body"
+                      dropdownPosition="bottom"
+                      placeholder="Chọn lớp"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedClass"
+                      formControlName="class_id"
+                      (change)="onSelectClass()">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('class_id').errors && group.get('class_id').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn lớp học!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <ng-select [items]="ddlSubjectData"
+                        tabIndex="9"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        bindLabel="name"
+                        placeholder="Chọn môn"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedSubject"
+                        formControlName="subject_name"
+                        (change)="onSelectSubject()">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('subject_name').errors && group.get('subject_name').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn môn học!
+                      </span> -->
+                      <input class="form-control" type="text" formControlName="subject_name" name="text-input" style="margin: 0.2em;" tabIndex="10"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('subject_name').errors }">
+                      <div *ngIf="submitted && group.get('code').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('subject_name').errors.required">Vui lòng nhập tên môn học!</div>
+                        <div *ngIf="group.get('subject_name').errors.maxlength">Tên MH không quá 50 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <input class="form-control" type="text" formControlName="code" name="text-input" style="margin: 0.2em;" tabIndex="11"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('code').errors }"
+                      style="text-align: center;">
+                      <div *ngIf="submitted && group.get('code').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('code').errors.required">Vui lòng nhập mã môn học!</div>
+                        <div *ngIf="group.get('code').errors.maxlength">Mã MH không quá 30 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <input class="form-control" type="text" formControlName="symbol" name="text-input" style="margin: 0.2em;" tabIndex="12"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('symbol').errors }"
+                      style="text-align: center;">
+                      <div *ngIf="submitted && group.get('symbol').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('symbol').errors.maxlength">Ký hiệu không quá 50 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="subject_kind" [(ngModel)]="subject_kind" name="text-input" style="margin: 0.2em;" disabled> -->
+                      <ng-select [items]="ddlSubjectKindData"
+                        tabIndex="13"
+                        bindLabel="name"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        placeholder="Chọn loại môn"
+                        notFoundText="Không có dữ liệu"
+                        formControlName="subject_kind"
+                        [(ngModel)]="selectedSubjectKind">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('subject_kind').errors && group.get('subject_kind').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn loại môn!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="subject_type" [(ngModel)]="subject_type" name="text-input" style="margin: 0.2em;" disabled> -->
+                      <ng-select [items]="ddlSubjectTypeData"
+                        tabIndex="14"
+                        bindLabel="name"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        placeholder="Chọn kiểu môn"
+                        notFoundText="Không có dữ liệu"
+                        formControlName="subject_type"
+                        [(ngModel)]="selectedSubjectType">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('subject_type').errors && group.get('subject_type').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn kiểu môn!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="lesson" name="text-input" style="margin: 0.2em;"> -->
+                      <input class="form-control lesson" type="text" formControlName="lesson" maxlength="3" min="1" max="500" style="margin: 0.2em; text-align: center;"
+                      (keypress)="numberOnly($event)" placeholder="" name="text-input" [ngClass]="{ 'is-invalid': submitted && group.get('lesson').errors }" tabIndex="15">
+                      <div *ngIf="submitted && group.get('lesson').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('lesson').errors.required">Vui lòng nhập tiết học!</div>
+                        <div *ngIf="group.get('lesson').errors.maxlength">Số tiết học không được lớn hơn 500 tiết</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlSchoolTimeData"
+                        tabIndex="16"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="name"
+                        placeholder="Chọn hiệu lực"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedSchoolTime"
+                        formControlName="school_time">
+                        <ng-template ng-header-tmp>
+                          <div>
+                            <button class="btn btn-link" (click)="onSelectAllSchoolTime(group)">Chọn tất cả</button>
+                            <button class="btn btn-link" (click)="onClearAllSchoolTime(group)">Bỏ chọn tất cả</button>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items">
+                          <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                            <span>{{item.name}}</span>
+                          </div>
+                          <div class="ng-value" *ngIf="items.length > 1" >
+                            <span class="ng-value-label">+{{items.length - 1}}</span>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('school_time').errors && group.get('school_time').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn hiệu lực!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <textarea class="form-control" cols="10" rows="1" formControlName="description" tabIndex="17"></textarea>
+                      <span *ngIf="submitted && group.get('description').errors && group.get('description').errors.maxlength" style="font-size: 80%; color: #dc3545;">
+                        Ghi chú không được vượt quá 150 ký tự!
+                      </span>
+                    </td>
+                    <td style="min-width: 4em;vertical-align: inherit; text-align: center">
+                      <!-- <label class="checkboxTable"> -->
+                        <input type="checkbox" formControlName="status" style="margin: .9em; width: 1.4em; height: 1.4em;" tabIndex="18" checked>
+                        <!-- <span class="checkmark1" tabIndex="1" ></span> -->
+                      <!-- </label> -->
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-template [ngIf]="checkEdit == true" [ngIfElse]="notEditDelete">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Quay lại"
+                        (click)="cancelEdit(group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="19">
+                          <i class="fa fa-reply" aria-hidden="true"></i>
+                        </button>
+                      </ng-template>
+                      <ng-template #notEditDelete>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hủy bỏ"
+                        (click)="deleteRow(i)" style="margin-top: 1px; margin: 0.1em;" tabIndex="19">
+                          <i class="fa fa-reply" aria-hidden="true"></i>
+                        </button>
+                      </ng-template>
+                      <ng-template [ngIf]="checkEdit == true" [ngIfElse]="notEdit">
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="Lưu lại"
+                        (click)="doneRowEdit(group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="19">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                      </ng-template>
+                      <ng-template #notEdit>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="Lưu lại"
+                        (click)="doneRow(group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="19">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                      </ng-template>
+                    </td>
+                  </tr>
+                  <ng-container *ngIf="!group.get('isEditable').value">
+                    <tr>
+                      <td style="vertical-align: inherit; text-align: center"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('year').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('grade_id').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('class_id').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{ group.get('subject_name').value }}
+                      </td>
+                      <td  style="vertical-align: inherit; text-align: center">
+                        {{group.get('code').value}}
+                      </td>
+                      <td  style="vertical-align: inherit; text-align: center">
+                        {{group.get('symbol').value}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{group.get('subject_kind').value.name}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{group.get('subject_type').value.name}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                          {{group.get('lesson').value}}
+                      </td>
+                      <td *ngIf="group.get('school_time').value" style="vertical-align: inherit; text-align: left">
+                        <div *ngFor="let schoolTime of group.get('school_time').value">
+                          {{ schoolTime.name }}
+                        </div>
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                        {{group.get('description').value}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        <div *ngIf="group.get('status').value === true; then active; else inactive" hidden></div>
+                        <ng-template #active>
+                            <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" checked>
+                        </ng-template>
+                        <ng-template #inactive>
+                            <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" disabled>
+                        </ng-template>
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        <div *ngIf="group.get('history').value === 2; then dis; else unDis" hidden></div>
+                        <ng-template #dis>
+                          <ng-template [ngIf]="group.get('isEdit').value === '1'" [ngIfElse]="notEdit">
+                            <button type="button" class="edit btn btn-primary btn-sm" title="Sửa"
+                            (click)="editRow(group)" style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="20">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                            (click)="deleteEditRow(i, group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="20">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template #notEdit>
+                            <button type="button" class="edit btn btn-primary btn-sm" title="Sửa"
+                            (click)="editRow(group)" disabled style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="20">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                            (click)="deleteEditRow(i, group)" disabled style="margin-top: 1px; margin: 0.1em;" tabIndex="20">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                        </ng-template>
+                        <ng-template #unDis>
+                          <ng-template [ngIf]="group.get('isEdit').value === '1'" [ngIfElse]="notEdit">
+                            <button type="button" class="edit btn btn-primary btn-sm" title="Sửa" disabled
+                            (click)="editRow(group)" style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="20">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa" disabled
+                            (click)="deleteEditRow(i, group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="20">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                          <ng-template #notEdit>
+                            <button type="button" class="edit btn btn-primary btn-sm" title="Sửa" disabled
+                            (click)="editRow(group)" disabled style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="20">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa" disabled
+                            (click)="deleteEditRow(i, group)" disabled style="margin-top: 1px; margin: 0.1em;" tabIndex="20">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                          </ng-template>
+                        </ng-template>
+                      </td>
+                      <!-- <td s style="vertical-align: inherit; text-align: center">
+                        <div [hidden]="true" *ngIf="group.get('isEdit').value === '0'; then undis; else dis"></div>
+                        <ng-template #undis>
+                          <button type="button" class="edit btn btn-primary btn-sm" title="Sửa"
+                          (click)="editRow(group)" style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="15">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                          (click)="deleteEditRow(i, group)" style="margin-top: 1px; margin: 0.1em;" tabIndex="15">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </ng-template>
+                        <ng-template #dis>
+                          <button type="button" class="edit btn btn-primary btn-sm" title="Sửa"
+                          (click)="editRow(group)" disabled style="margin-top:1px; margin: 0.1em; margin-right: 3%;" tabIndex="15">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                          </button>
+                          <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                          (click)="deleteEditRow(i, group)" disabled style="margin-top: 1px; margin: 0.1em;" tabIndex="15">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                        </ng-template>
+
+                      </td> -->
+                    </tr>
+                  </ng-container>
+                </ng-container>
+              </tbody>
+              <tbody *ngIf="checkSubjectData == true">
+                <tr>
+                  <td colspan="14" style="text-align: center;"> Dữ liệu không tồn tại
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+              <div class="text-right" *ngIf="subjects" style="margin-top: 2em;">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                      <div
+                        *ngFor="let item of subjects | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                        <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                            {{(p-1)*countPage+i+1}}/{{subjects.length}}</span> bản ghi</p>
+                      </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+                      <pagination-controls #paginator (pageChange)="p = $event" tabIndex="21"></pagination-controls>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <div id="addSubjectTable" style="overflow-x:auto;overflow-y:auto;"> -->
+              <table class="table table-responsive-sm table-bordered table-striped table-sm" *ngIf="checkAddSubject === true">
+                <thead class="text-nowrap" *ngIf="headerAddSubject === true" style="text-align: center;">
+                  <th style="vertical-align: inherit;">STT</th>
+                  <th style="vertical-align: inherit; width: 25%;">Năm học</th>
+                  <th style="vertical-align: inherit;">Khối</th>
+                  <th style="vertical-align: inherit;">Lớp</th>
+                  <th style="vertical-align: inherit;">Tên môn</th>
+                  <th style="vertical-align: inherit;">Mã môn</th>
+                  <th style="vertical-align: inherit; ">Ký hiệu</th>
+                  <th style="vertical-align: inherit;">Loại môn</th>
+                  <th style="vertical-align: inherit;">Kiểu môn</th>
+                  <th style="vertical-align: inherit;">Số tiết</th>
+                  <th style="vertical-align: inherit;">Hiệu lực</th>
+                  <th style="vertical-align: inherit; width: 30%">Ghi chú</th>
+                  <th style="vertical-align: inherit;">Trạng thái</th>
+                  <th style="vertical-align: inherit;">Hoạt động</th>
+                </thead>
+                <tbody>
+                  <ng-container formArrayName="addData" *ngFor="let group of getAddFormControls.controls ; let i=index">
+                  <tr *ngIf="group.get('isEditable').value" [formGroupName]="i" style="text-align: center;">
+                    <!-- <input class="form-control" formControlName="id" hidden> -->
+                    <td style="vertical-align: inherit; text-align: center"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlYearData"
+                        tabIndex="22"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        bindLabel="name"
+                        placeholder="Chọn năm học"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedYear"
+                        formControlName="year"
+                        (change)="onSelectYear($event)">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('year').errors && group.get('year').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn năm học!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlGradeData"
+                        tabIndex="23"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        bindLabel="name"
+                        placeholder="Chọn khối"
+                        notFoundText="Không có dữ liệu"
+                        dropdownPosition="auto"
+                        [(ngModel)]="selectedGrade"
+                        formControlName="grade_id"
+                        (change)="onSelectGrade($event)">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('grade_id').errors && group.get('grade_id').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn khối!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                    <ng-select [items]="ddlClassData"
+                      tabIndex="24"
+                      [virtualScroll]="true"
+                      appendTo="body"
+                      bindLabel="name"
+                      placeholder="Chọn lớp"
+                      notFoundText="Không có dữ liệu"
+                      [(ngModel)]="selectedClass"
+                      formControlName="class_id"
+                      (change)="onSelectClass()">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('class_id').errors && group.get('class_id').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn lớp học!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <input class="form-control" type="text" formControlName="subject_name" name="text-input" style="margin: 0.2em;" tabIndex="25"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('subject_name').errors }">
+                      <div *ngIf="submitted && group.get('subject_name').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('subject_name').errors.required">Vui lòng nhập tên môn học!</div>
+                        <div *ngIf="group.get('subject_name').errors.maxlength">Tên MH không quá 50 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <input class="form-control" type="text" formControlName="code" name="text-input" style="margin: 0.2em;" tabIndex="26"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('code').errors }"
+                      style="text-align: center;">
+                      <div *ngIf="submitted && group.get('code').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('code').errors.required">Vui lòng nhập tên môn học!</div>
+                        <div *ngIf="group.get('code').errors.maxlength">Tên MH không quá 30 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <input class="form-control" type="text" formControlName="symbol" name="text-input" style="margin: 0.2em;" tabIndex="27"
+                      [ngClass]="{ 'is-invalid': submitted && group.get('symbol').errors }"
+                      style="text-align: center;">
+                      <div *ngIf="submitted && group.get('symbol').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('symbol').errors.maxlength">Ký hiệu không quá 50 ký tự</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="subject_kind" [(ngModel)]="subject_kind" name="text-input" style="margin: 0.2em;" disabled> -->
+                      <ng-select [items]="ddlSubjectKindData"
+                        tabIndex="28"
+                        bindLabel="name"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        placeholder="Chọn loại môn"
+                        notFoundText="Không có dữ liệu"
+                        formControlName="subject_kind"
+                        [(ngModel)]="selectedSubjectKind">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('subject_kind').errors && group.get('subject_kind').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn loại môn!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="subject_type" [(ngModel)]="subject_type" name="text-input" style="margin: 0.2em;" disabled> -->
+                      <ng-select [items]="ddlSubjectTypeData"
+                        tabIndex="29"
+                        bindLabel="name"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        placeholder="Chọn kiểu môn"
+                        notFoundText="Không có dữ liệu"
+                        formControlName="subject_type"
+                        [(ngModel)]="selectedSubjectType">
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('subject_kind').errors && group.get('subject_kind').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn kiểu môn!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <!-- <input class="form-control" type="text" formControlName="lesson" name="text-input" style="margin: 0.2em;"> -->
+                      <input class="form-control lesson" type="text" formControlName="lesson" maxlength="3" min="1" max="500" style="margin: 0.2em; text-align: center;"
+                      (keypress)="numberOnly($event)" placeholder="" name="text-input" [ngClass]="{ 'is-invalid': submitted && group.get('lesson').errors }" tabIndex="30">
+                      <div *ngIf="submitted && group.get('lesson').errors" class="invalid-feedback">
+                        <div *ngIf="group.get('lesson').errors.required">Vui lòng nhập tiết học!</div>
+                        <div *ngIf="group.get('lesson').errors.maxlength">Số tiết học không được lớn hơn 500 tiết</div>
+                      </div>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <ng-select [items]="ddlSchoolTimeData"
+                        tabIndex = "31"
+                        [virtualScroll]="true"
+                        appendTo="body"
+                        dropdownPosition="bottom"
+                        [multiple]="true"
+                        [closeOnSelect]="false"
+                        bindLabel="name"
+                        placeholder="--Chọn hiệu lực--"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedSchoolTime"
+                        formControlName="school_time">
+                        <ng-template ng-header-tmp>
+                          <div>
+                            <button class="btn btn-link" (click)="onSelectAllSchoolTime(group)">Chọn tất cả</button>
+                            <button class="btn btn-link" (click)="onClearAllSchoolTime(group)">Bỏ chọn tất cả</button>
+                          </div>
+                        </ng-template>
+                        <ng-template ng-multi-label-tmp let-items="items">
+                          <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                            <span>{{item.name}}</span>
+                          </div>
+                          <div class="ng-value" *ngIf="items.length > 1" >
+                            <span class="ng-value-label">+{{items.length - 1}}</span>
+                          </div>
+                        </ng-template>
+                      </ng-select>
+                      <span *ngIf="submitted && group.get('school_time').errors && group.get('school_time').errors.required" style="font-size: 80%; color: #dc3545;">
+                        Vui lòng chọn hiệu lực!
+                      </span>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                      <textarea class="form-control" cols="10" rows="1" formControlName="description" tabIndex = "32"></textarea>
+                      <span *ngIf="submitted && group.get('description').errors && group.get('description').errors.maxlength" style="font-size: 80%; color: #dc3545;">
+                        Ghi chú không được vượt quá 150 ký tự!
+                      </span>
+                    </td>
+                    <td style="min-width: 4em;vertical-align: inherit; text-align: center">
+                      <!-- <label class="checkboxTable"> -->
+                        <!-- <input type="checkbox" formControlName="status" style="margin: .9em;" checked> -->
+                        <!-- <span class="checkmark1"></span> -->
+                      <!-- </label> -->
+                      <input type="checkbox" formControlName="status" style="margin: .9em; width: 1.4em; height: 1.4em;" tabIndex = "33" checked>
+                    </td>
+                    <td style="min-width: 12em;vertical-align: inherit; text-align: center">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Hủy bỏ"
+                        (click)="deleteRow(i)" style="margin-top: 1px; margin: 0.1em;" tabIndex = "34">
+                          <i class="fa fa-reply" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm" data-toggle="tooltip" title="Lưu lại"
+                        (click)="doneRow(group)" style="margin-top: 1px; margin: 0.1em;" tabIndex = "34">
+                          <i class="fa fa-check" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                  </tr>
+                  <ng-container *ngIf="!group.get('isEditable').value">
+                    <tr>
+                      <td style="vertical-align: inherit; text-align: center"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('year').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('grade_id').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        {{ group.get('class_id').value.name }}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{ group.get('subject_name').value }}
+                      </td>
+                      <td  style="vertical-align: inherit; text-align: center">
+                        {{group.get('code').value}}
+                      </td>
+                      <td  style="vertical-align: inherit; text-align: center">
+                        {{group.get('symbol').value}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{group.get('subject_kind').value.name}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                          {{group.get('subject_type').value.name}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                          {{group.get('lesson').value}}
+                      </td>
+                      <td *ngIf="group.get('school_time').value" style="vertical-align: inherit; text-align: left">
+                        <div *ngFor="let schoolTime of group.get('school_time').value">
+                          {{ schoolTime.name }}
+                        </div>
+                      </td>
+                      <td style="vertical-align: inherit; text-align: left">
+                        {{group.get('description').value}}
+                      </td>
+                      <td style="vertical-align: inherit; text-align: center">
+                        <ng-template [ngIf]="group.get('status').value == 1" [ngIfElse]="notActive">
+                          <!-- <label class="checkboxTable">
+                            <input type="checkbox" style="margin: .9em;" disabled checked>
+                            <span class="checkmark1"></span>
+                            </label> -->
+                            <input type="checkbox" formControlName="status" style="margin: .9em; width: 1.4em; height: 1.4em;" checked>
+                        </ng-template>
+                        <ng-template #notActive>
+                          <!-- <label class="checkboxTable">
+                            <input type="checkbox" style="margin: .9em;" disabled>
+                            <span class="checkmark1"></span>
+                            </label> -->
+                            <input type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;">
+                        </ng-template>
+                      </td>
+                      <td s style="vertical-align: inherit; text-align: center">
+                        <button type="button" class="edit btn btn-primary btn-sm" title="Sửa" tabIndex="35"
+                        (click)="editRowAddNew(group)" style="margin-top:1px; margin: 0.1em; margin-right: 3%;">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa" tabIndex="35"
+                          (click)="deleteRow(i)" style="margin-top: 1px; margin: 0.1em;">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                          </button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                  </ng-container>
+                </tbody>
+              </table>
+              </div>
+            <!-- </div> -->
+      </div>
+      <div class="card-footer respon2">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row" style="margin-bottom: 0;">
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12">
+                <button class="btn btn-success" type="button" (click)="addRow()" [disabled]="loadingAddSubject" style="margin-right: 0.3em; margin-bottom: 0.3em;" tabIndex="36">
+                  <span *ngIf="loadingAddSubject" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-plus" aria-hidden="true"></i> Thêm mới
+                </button>
+                <!-- <button class="btn btn-primary btn-sm" id="btnApplyGradeAll" type="button" disabled (click)="applyGradeAll()" [disabled]="checkEdit === true"
+                [disabled]="loadingApplyGrade" style="margin-right: 0.3em; margin-bottom: 0.3em;" tabIndex="26">
+                  <span *ngIf="loadingApplyGrade" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-save"></i> Áp dụng toàn khối
+                </button> -->
+              <button class="btn btn-primary btn-sm" id="btnApplyClass" (click)="applyClass()" [disabled]="checkEdit === true" [disabled]="loadingApplyClass"
+              style="margin-bottom: 0.3em;" type="button"  tabIndex="37" disabled>
+                <span *ngIf="loadingApplyClass" class="spinner-border spinner-border-sm mr-1"></span>
+                <i class="fa fa-save"></i> Áp dụng
+              </button>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+              <label for="father_name" class="col-form-label" style="margin-left: 2em;">Hiển thị:</label>
+              <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6" style="float: right;" (change)="perPageSelected($event.target.value)"  tabIndex="38">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <!-- <label for="father_name" class="col-xl-6 col-lg-7 col-md-6 col-sm-6 col-6 col-form-label" style="margin: 0px 0px 0px 0;">Hiển thị:</label>
+              <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6" style="float: right;" (change)="perPageSelected($event.target.value)"  tabIndex="28">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

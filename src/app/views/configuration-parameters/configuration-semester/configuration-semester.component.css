@@ -1,0 +1,741 @@
+header {
+  background-color: #333;
+  color: #fff;
+  overflow: auto;
+  position: sticky;
+  top:0;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+.vendor_logo_hide {
+  color: transparent;
+  width: 99px;
+}
+
+.vendor_logo {
+  color: black;
+  width: 100%;
+}
+
+.action-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.output {
+  padding: 20px;
+}
+
+.delete {
+  color: red  ;
+}
+
+.done {
+  color: green;
+}
+
+.edit {
+  color: yellow;
+}
+span.ui-column-resizer {
+  width: 100%;
+  height: 100%;
+  cursor: col-resize;
+  padding: 30px;
+
+}
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+/* checkboxGrid */
+.checkboxTable {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxTable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkboxTable:hover .checkmarkGrid{
+  background:#ccc;
+}
+/* Create a custom checkbox */
+.checkmarkGrid {
+  position: absolute;
+  top: -4px;
+  left: 37%;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxTable:hover input ~ .checkmarkGrid {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxTable input:checked ~ .checkmarkGrid {
+  background-color: #2196F3;
+}
+
+/* Create the checkmarkGrid/indicator (hidden when not checked) */
+.checkmarkGrid:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmarkGrid when checked */
+.checkboxTable input:checked ~ .checkmarkGrid:after {
+  display: block;
+}
+
+/* Style the checkmarkGrid/indicator */
+.checkmarkGrid:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+@keyframes check {0% {height: 0;width: 0;}
+25% {height: 0;width: 10px;}
+50% {height: 20px;width: 10px;}
+}
+.checkbox{background-color:#fff;display:inline-block;height:28px;margin:0 .25em;width:28px;border-radius:4px;border:1px solid #ccc;}
+.checkbox span{display:block;height:28px;position:relative;width:28px;padding:0}
+.checkbox span:after{-moz-transform:scaleX(-1) rotate(135deg);-ms-transform:scaleX(-1) rotate(135deg);-webkit-transform:scaleX(-1) rotate(135deg);transform:scaleX(-1) rotate(135deg);-moz-transform-origin:left top;-ms-transform-origin:left top;-webkit-transform-origin:left top;transform-origin:left top;border-right:4px solid #fff;border-top:4px solid #fff;content:'';display:block;height:20px;left:3px;position:absolute;top:15px;width:10px}
+.checkbox span:hover:after{border-color:#999}
+.checkbox input{display:none}
+.checkbox input:checked + span:after{-webkit-animation:check .8s;-moz-animation:check .8s;-o-animation:check .8s;animation:check .8s;border-color:#555}
+.checkbox input:checked + .default:after{border-color:#444}
+.checkbox input:checked + .primary:after{border-color:#2196F3}
+.checkbox input:checked + .success:after{border-color:#8bc34a}
+.checkbox input:checked + .info:after{border-color:#3de0f5}
+.checkbox input:checked + .warning:after{border-color:#FFC107}
+.checkbox input:checked + .danger:after{border-color:#f44336}
+
+.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element {
+  caret-color: #f44336;
+}
+
+.container{
+  display: inline-block;
+  position:relative;
+  cursor:pointer;
+  font-size:14px;
+  user-select: none;
+  padding-left:40px;
+  margin-bottom:10px;
+}
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark{
+  position:absolute;
+  top:0;
+  left:0;
+  width:27px;
+  height:27px;
+  background:#eee;
+  border-radius:3px;
+}
+.container:hover .checkmark{
+  background:#ccc;
+}
+.checkmark:after{
+  content:"";
+  position:absolute;
+  display:none;
+}
+.container .checkmark:after{
+  top:50%;
+  left:50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+.container input:checked ~ .checkmark{
+  background:#2196F3;
+}
+.container input:checked ~ .checkmark:after{
+  display:block;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+/* form{
+  font-size: small;
+} */
+.ngx-pagination {
+  margin-left: 0px;
+  margin-bottom: 1rem;
+  /* margin-right: 0rem; */
+  /* padding-right: 50px; */
+  width: 272px;
+  float: right;
+}
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+  /* background-color: red; */
+  width: 0px;
+  }
+
+  @media only screen and (min-width: 2561px){
+    #examTimeCheck{
+      position: relative;
+      top: 30px;
+    }
+  }
+  @media only screen and (max-device-width: 2560px){
+    .checkmarkGrid{
+      left: 42%;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+     #examTimeCheck{
+      position: relative;
+      top: 30px;
+    }
+    /* .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+      bottom: 5px;
+    }
+    #hienthiOption{
+      position: relative;
+      left: 36px;
+    } */
+  }
+  @media only screen and (max-device-width: 1440px){
+    .checkmarkGrid{
+      left: 36%;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+    /* .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+      bottom: 5px;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 7px;
+    } */
+  }
+  @media only screen and (max-width: 1357px) and (min-width: 1231px){
+    .checkmarkGrid{
+      left: 33%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 10px;
+    }
+    .yearSearch {
+      max-width: 66%;
+      width: 66%;
+     }
+  }
+  @media only screen and (max-width: 1230px) and (min-width: 1195px){
+    .checkmarkGrid{
+      left: 33%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 10px;
+    }
+    .yearSearch {
+      max-width: 65%;
+      width: 65%;
+     }
+  }
+  @media only screen and (max-width: 1195px) and (min-width: 1140px){
+    .checkmarkGrid{
+      left: 32%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 10px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 1139px) and (min-width: 1125px){
+    .checkmarkGrid{
+      left: 31%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 10px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 1124px) and (min-width: 1090px){
+    .checkmarkGrid{
+      left: 30%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      right: 30px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 1089px) and (min-width: 1040px){
+    .checkmarkGrid{
+      left: 28%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      right: 36px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 1039px) and (min-width: 992px){
+    .checkmarkGrid{
+      left: 25%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      right: 41px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 991px) and (min-width: 940px){
+    .checkmarkGrid{
+      left: 31%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 9px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 939px) and (min-width: 870px){
+    .checkmarkGrid{
+      left: 31%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 9px;
+    }
+  }
+  @media only screen and (max-width: 870px) and (min-width: 802px){
+    .checkmarkGrid{
+      left: 28%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      right: 37px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 801px) and (min-width: 768px){
+    .hienthi{
+      position: relative;
+      display: block;
+      width: 90px;
+     }
+     #hienthiOption{
+       width: 95px;
+     }
+     .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 767px) and (min-width: 700px){
+    .checkmarkGrid{
+      left: 22%;
+    }
+     .hienthi{
+      position: relative;
+      width: 90px;
+      top:10px;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 66px;
+      bottom: 18px;
+    }
+    #btnSemesterConfiguration{
+      position: relative;
+      top:7px;
+    }
+    #rowCustom{
+      position: relative;
+      height: 46px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 699px) and (min-width: 576px){
+    .checkmarkGrid{
+      left: 24%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+      top: 10px;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 97px;
+      left: 66px;
+      bottom: 18px;
+    }
+    #btnSemesterConfiguration{
+      position: relative;
+      top:7px;
+    }
+    #rowCustom{
+      position: relative;
+      height: 46px;
+    }
+    .yearSearch {
+      max-width: 48%;
+      width: 48%;
+     }
+  }
+  @media only screen and (max-width: 575px) and (min-width: 500px){
+    .checkmarkGrid{
+      left: 21%;
+    }
+    .hienthi{
+      position: relative;
+      bottom: 5px;
+    }
+    #hienthiOption{
+      position: relative;
+      bottom: 3px;
+    }
+    #btnSemesterConfiguration{
+      position: relative;
+      top: 1px;
+    }
+  }
+  @media only screen and (max-device-width: 575px){
+    #examTimeCheck{
+      position: relative;
+      top: 1px;
+    }
+  }
+  @media only screen and (max-width: 575px){
+    #examTimeCheck{
+      position: relative;
+      top: 1px;
+    }
+  }
+  @media only screen and (max-device-width: 1024px){
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+    }
+    .checkmarkGrid{
+      left: 29%;
+    }
+    #hienthiOption{
+      position: relative;
+      width: 105px;
+      right: 38px;
+   }
+  }
+  @media only screen and (max-device-width: 768px){
+    .checkmarkGrid{
+      left: 27%;
+    }
+    .hienthi{
+      position: relative;
+      width: 90px;
+      display: block;
+
+    }
+    #hienthiOption{
+      position: relative;
+      width: 105px;
+      right: 38px;
+   }
+  }
+  @media only screen and (max-device-width: 450px){
+    .hienthi{
+      position: relative;
+      left: 190px;
+      top: 20px;
+    }
+    .checkmarkGrid{
+      left: 21%;
+    }
+    #hienthiOption{
+      position: relative;
+      bottom: 8px;
+      width: 105px;
+      left: 259px;
+    }
+  }
+  @media only screen and (max-device-width: 425px){
+    .hienthi{
+      position: relative;
+      left: 173px;
+      top: 20px;
+    }
+    .checkmarkGrid{
+      left: 21%;
+    }
+    #hienthiOption{
+      position: relative;
+      bottom: 8px;
+      width: 105px;
+      left: 235px;
+    }
+  }
+
+  @media only screen and (max-device-width: 414px){
+    .hienthi{
+      position: relative;
+      left: 145px;
+      top: 20px;
+    }
+    .checkmarkGrid{
+      left: 24%;
+    }
+    #hienthiOption{
+      position: relative;
+      bottom: 8px;
+      width: 105px;
+      left: 224px;
+    }
+  }
+  @media only screen and (max-device-width: 411px){
+    .hienthi{
+      position: relative;
+      left: 152px;
+      top: 23px;
+    }
+    .checkmarkGrid{
+      left: 21%;
+    }
+    #hienthiOption{
+      position: relative;
+      bottom: 8px;
+      width: 105px;
+      left: 221px;
+    }
+  }
+      /* Iphone 678 */
+  @media only screen and (max-device-width: 375px){
+    .hienthi{
+      position: relative;
+      top: 20px;
+      left: 120px;
+    }
+    .checkmarkGrid{
+      left: 21%;
+    }
+    #hienthiOption{
+      position: relative;
+      left: 187px;
+    }
+   }
+  @media only screen and (max-device-width: 360px){
+    .hienthi{
+      position: relative;
+      left: 107px;
+      top: 20px;
+    }
+    .checkmarkGrid{
+      left: 21%;
+    }
+    #hienthiOption{
+      position: relative;
+      left: 173px;
+    }
+   }
+    /* Iphone 5/SE */
+    @media only screen and (max-device-width: 320px){
+      .hienthi{
+        position: relative;
+        top: 22px;
+        left: 61px;
+      }
+      .checkmarkGrid{
+        left: 21%;
+      }
+      #hienthiOption{
+        position: relative;
+        left: 133px;
+      }
+      #btnSemesterConfiguration{
+        position: relative;
+        bottom: 3px;
+      }
+    }
+      @media only screen and (max-device-width: 280px){
+      .hienthi{
+        position: relative;
+        left: 22px;
+        top: 27px;
+      }
+      .checkmarkGrid{
+        left: 24%;
+      }
+      #hienthiOption{
+        position: relative;
+        left: 94px;
+      }
+    }
+    .yearSearch{
+      float: left;
+    }
+    @media only screen and (max-width: 576px){
+      .yearSearch {
+        max-width: 100%;
+        width: 100%;
+      }
+    }

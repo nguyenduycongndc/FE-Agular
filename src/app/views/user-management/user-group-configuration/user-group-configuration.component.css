@@ -1,0 +1,562 @@
+/* Checkbox */
+.checkboxTable {
+  /* display: block; */
+  position: relative;
+  padding-left: 76px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxTable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkboxTable:hover .checkmarkGrid{
+  background:#ccc;
+}
+/* Create a custom checkbox */
+.checkmarkGrid {
+  position: absolute;
+  top: -4px;
+  left: 37%;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxTable:hover input ~ .checkmarkGrid {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxTable input:checked ~ .checkmarkGrid {
+  background-color: #2196F3;
+}
+
+/* Create the checkmarkGrid/indicator (hidden when not checked) */
+.checkmarkGrid:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmarkGrid when checked */
+.checkboxTable input:checked ~ .checkmarkGrid:after {
+  display: block;
+}
+
+/* Style the checkmarkGrid/indicator */
+.checkmarkGrid:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Checkbox */
+
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 0.6rem;
+}
+div.upload {
+  background-color:#fff;
+  border: 1px solid #ddd;
+  border-radius:5px;
+  display:inline-block;
+  height: 34px;
+  padding: 0px 0px 0px 3px;
+  position:relative;
+  width: auto;
+}
+div.upload:hover {
+  opacity:0.95;
+}
+
+div.upload input[type="file"] {
+  display: input-block;
+  width: 100%;
+  height: 40px;
+  opacity: 0;
+  cursor:pointer;
+  position:absolute;
+  left:0;
+}
+.uploadButton {
+  background-color: #425F9C;
+  border: none;
+  border-radius: 3px;
+  color: #FFF;
+  cursor:pointer;
+  display: inline-block;
+  height: 30px;
+  margin-right:15px;
+  width: auto;
+  padding:0 20px;
+  box-sizing: content-box;
+  margin-top: 1px;
+}
+
+.fileName {
+  font-family: Arial;
+  font-size:14px;
+}
+
+.upload + .uploadButton {
+  height:38px;
+}
+
+.marginButton {
+  margin: 0.2em;
+}
+@media only screen and (max-device-width: 540px){
+  #hienthiOption{
+    position: relative;
+    left: -50px;
+    top: 5px;
+  }
+  .hienthi{
+    position: relative;
+    left: -30px;
+    top: 9px;
+  }
+}
+@media only screen and (max-device-width: 425px){
+  #hienthiOption{
+    position: relative;
+    left: -51px;
+  }
+  .hienthi{
+    position: relative;
+    left: -34px;
+  }
+}
+@media only screen and (max-device-width: 360px){
+  #hienthiOption{
+    position: relative;
+    left: -47px;
+  }
+  .hienthi{
+    position: relative;
+    left: -33px;
+  }
+}
+@media only screen and (max-device-width: 320px){
+  #hienthiOption{
+    position: relative;
+    left: -33px;
+    top: 15px;
+  }
+  .hienthi{
+    position: relative;
+    left: -30px;
+    top: 19px;
+  }
+}
+@media only screen and (max-device-width: 280px){
+  #hienthiOption{
+    position: relative;
+    top: 25px;
+    left: -38px;
+  }
+  .hienthi{
+    position: relative;
+    top: 27px;
+    left: -29px;
+
+  }
+}
+@media only screen and (max-width: 2560px) and (min-width: 1319px){
+  .hienthi{
+    top: 5px;
+    position: relative;
+  }
+ 
+}
+@media only screen and (max-width: 1318px) and (min-width: 991px){
+  .hienthi{
+    top: 5px;
+    position: relative;
+  }
+ 
+}
+@media only screen and (max-width: 991px) and (min-width: 629px){
+  .hienthi{
+    top: 5px;
+    position: relative;
+  }
+ 
+}
+@media only screen and (max-width: 629px) and (min-width: 576px){
+  .hienthi{
+    top: 5px;
+    position: relative;
+  }
+
+}
+@media only screen and (max-width: 629px) and (min-width: 576px){
+  .hienthi{
+    top: 5px;
+    position: relative;
+  }
+
+}
+:host /deep/ .multiselect-dropdown{
+  position: relative;
+  color: #aaa;
+}
+::placeholder {
+  color: #aaa;
+}
+
+@media only screen and (max-width: 375px) and (min-width: 321px) {
+.text{
+    display: inline-block;
+    width: 8em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  overflow: auto;
+  position: sticky;
+  top:0;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+mat-icon {
+  cursor: pointer;
+}
+
+.vendor_logo_hide {
+  color: transparent;
+  width: 99px;
+}
+
+.vendor_logo {
+  color: black;
+  width: 100%;
+}
+
+.action-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.output {
+  padding: 20px;
+}
+
+.delete {
+  color: red  ;
+}
+
+.done {
+  color: green;
+}
+
+.edit {
+  color: yellow;
+}
+span.ui-column-resizer {
+  width: 100%;
+  height: 100%;
+  cursor: col-resize;
+  padding: 30px;
+
+}
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+/* _print.scss:116 */
+/* .table-bordered {
+  th,
+  td {
+    border: 1px solid #c8ced3 !important;
+  }
+} */
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+
+@keyframes check {0% {height: 0;width: 0;}
+25% {height: 0;width: 10px;}
+50% {height: 20px;width: 10px;}
+}
+.checkbox{background-color:#fff;display:inline-block;height:28px;margin:0 .25em;width:28px;border-radius:4px;border:1px solid #ccc;}
+.checkbox span{display:block;height:28px;position:relative;width:28px;padding:0}
+.checkbox span:after{-moz-transform:scaleX(-1) rotate(135deg);-ms-transform:scaleX(-1) rotate(135deg);-webkit-transform:scaleX(-1) rotate(135deg);transform:scaleX(-1) rotate(135deg);-moz-transform-origin:left top;-ms-transform-origin:left top;-webkit-transform-origin:left top;transform-origin:left top;border-right:4px solid #fff;border-top:4px solid #fff;content:'';display:block;height:20px;left:3px;position:absolute;top:15px;width:10px}
+.checkbox span:hover:after{border-color:#999}
+.checkbox input{display:none}
+.checkbox input:checked + span:after{-webkit-animation:check .8s;-moz-animation:check .8s;-o-animation:check .8s;animation:check .8s;border-color:#555}
+.checkbox input:checked + .default:after{border-color:#444}
+.checkbox input:checked + .primary:after{border-color:#2196F3}
+.checkbox input:checked + .success:after{border-color:#8bc34a}
+.checkbox input:checked + .info:after{border-color:#3de0f5}
+.checkbox input:checked + .warning:after{border-color:#FFC107}
+.checkbox input:checked + .danger:after{border-color:#f44336}
+
+.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element {
+  caret-color: #f44336;
+}
+
+
+.container{
+  display: inline-block;
+  position:relative;
+  cursor:pointer;
+  font-size:14px;
+  user-select: none;
+  padding-left:40px;
+  margin-bottom:10px;
+}
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark{
+  position:absolute;
+  top:0;
+  left:0;
+  width:27px;
+  height:27px;
+  background:#eee;
+  border-radius:3px;
+}
+.container:hover .checkmark{
+  background:#ccc;
+}
+.checkmark:after{
+  content:"";
+  position:absolute;
+  display:none;
+}
+.container .checkmark:after{
+  top:50%;
+  left:50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+.container input:checked ~ .checkmark{
+  background:#2196F3;
+}
+.container input:checked ~ .checkmark:after{
+  display:block;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+/* form{
+  font-size: small;
+} */
+.respon{
+  margin-top: -4px;
+}
+.respon1{
+  margin-top: -4px;
+}
+
+@media only screen and (min-width: 1980px) {
+  .gradeSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .classSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+@media only screen and (max-width: 1979px) and (min-width: 1440px) {
+  .gradeSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .classSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    width: 58%;
+    max-width: 58%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+@media only screen and (max-width: 1439px) and (min-width: 1200px) {
+  .gradeSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .classSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    width: 63%;
+    max-width: 63%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+  .gradeSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .classSearchExtraSmallDevices{
+    width: 72%;
+    max-width: 72%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    width: 55%;
+    max-width: 55%;
+    float: left;
+    margin-left: 0.5em;
+  }
+}
+
+@media only screen and (max-width: 767px) and (min-width: 576px) {
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+@media only screen and (max-width: 575px) and (min-width: 376px) {
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+  /* background-color: red; */
+  width: 0px;
+}
+.lableCheck{
+
+}

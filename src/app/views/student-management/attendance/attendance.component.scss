@@ -1,0 +1,185 @@
+::ng-deep attendance {
+
+  @media only screen and(min-width: 2560px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+
+    .customTypeOfTime {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 2559px) {
+    .customYear {
+      float: left;
+      width: 63%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+
+    .customTypeOfTime {
+      float: left;
+      width: 79%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 1912px) {
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customTypeOfTime {
+      float: left;
+      width: 52%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 1515px) {
+    .customYear {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 57%;
+      max-width: 100%;
+    }
+
+    .customTypeOfTime {
+      float: left;
+      width: 52%;
+      max-width: 100%;
+    }
+  }
+
+  @media only screen and(max-width: 540px) {
+    .customYear {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .customClass {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .customTypeOfTime {
+      float: left;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .btnFilter {
+      margin-top: 1em;
+    }
+  }
+
+  .table td {
+    padding: .1rem;
+    vertical-align: middle;
+}
+
+.brick-stand {
+  height: 14px;
+  margin-left: 1em;
+  margin-right: 1em;
+  border-style: solid;
+  border-width: 0 0 0 1px;
+  border-left-color: #d0d0d0;
+  border-right-color: #fff;
+}
+
+.p-4 {
+  padding: 0rem!important;
+}
+.mb-4{
+  overflow: auto;
+  margin-bottom: 0rem!important;
+}
+
+  .format-text-input input {
+    padding: 5px;
+    margin: 5px 0;
+    outline: none;
+    width: 100%;
+    border: transparent;
+    background-color: transparent;
+    text-align: center;
+    color: white;
+    font-weight: 100;
+  }
+  #format-text-input input:focus,
+  #format-text-input input:active {
+    border-color: transparent;
+    border-bottom: 2px solid #1c87c9;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input[type=checkbox]{
+    box-sizing: border-box;
+    padding: 0;
+  }
+  input:focus { color: black }
+
+  .text_grid_left {
+    text-align: left;
+  }
+
+  .text_grid_center {
+    text-align: center;
+  }
+
+  // .absent {
+  //   background-color: red; text-align: center;
+  // }
+  .yet-attendance {
+    background-color: #33B679; text-align: center;
+  }
+  .not-attendance{
+    background-color: gold; text-align: center;
+  }
+
+  .last-week {
+    background-color: #eaeff4;
+  }
+
+  .holiday {
+    background-color: darkorange;
+  }
+}

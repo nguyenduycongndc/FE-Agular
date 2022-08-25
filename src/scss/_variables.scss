@@ -1,0 +1,458 @@
+$sidebar-width:                       250px !default;
+
+app-sidebar-nav-link-content{
+    padding-left: 20px
+  }
+  .sidebar .sidebar-nav{
+    width: 250px;
+  }
+  app-sidebar{
+    width: 250px;
+  }
+
+//
+cui-breadcrumb .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.0rem;
+    list-style: none;
+    background-color: #fff;
+    border-radius: 0;
+
+}
+
+body{
+  font-family: Roboto,sans-serif !important;
+  font-size: 12px !important;
+}
+body .navbar {
+  padding: 0rem 1rem !important;
+}
+// body .form-group {
+//   margin-bottom: 0.3rem;
+// }
+body .btn {
+  font-family: Roboto,sans-serif !important;
+    font-size: 12px !important;
+}
+input[type="text"]
+{
+  font-family: Roboto,sans-serif !important;
+  font-size: 12px !important;
+}
+input[type="date"]
+{
+    font-size: 1em;
+}
+input[type="time"]
+{
+    font-size: 1em;
+}
+textarea.form-control {
+  font-size: 1em;
+}
+input[type="password"]
+{
+  font-size: 1em;
+}
+input[type="phone"]
+{
+  font-size: 1em;
+}
+input[type="tel"]
+{
+  font-size: 1em;
+}
+label {
+  font-size: 1em;
+}
+// Placeholder for text
+input.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #aaa;
+  opacity: .8; /* Firefox */
+}
+input.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #aaa;
+  opacity: .8;
+}
+input.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  color: #aaa;
+  opacity: .8;
+}
+
+// Placeholder for textarea
+textarea.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #aaa;
+  opacity: .8; /* Firefox */
+}
+textarea.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #aaa;
+  opacity: .8;
+}
+textarea.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  color: #aaa;
+  opacity: .8;
+}
+
+.intl-tel-input {
+  width: 100%;
+}
+#tblYear td{
+  padding:0;
+}
+
+#tblUserGroupConfig td{
+  padding:0;
+}
+#tblUserAccount td{
+  padding:0;
+}
+#tblUserAccount th{
+  vertical-align: inherit;
+}
+
+#tblUserGroupConfig th{
+  vertical-align: inherit;
+}
+
+#tblYear th{
+  vertical-align: inherit;
+}
+//Logo
+#logo_school{
+  position: relative;
+  right: 8%;
+}
+
+#name_school{
+  position: relative;
+  right: 30%;
+}
+.navbar-brand-minimized {
+  display: none !important;
+}
+//lable
+// .lable_padding{
+//   padding-top:7px;
+// }
+//End-lable
+@media only screen and (max-width: 700px) and (min-width: 572px){
+  .table-responsive-sm{
+    display: none;
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #btnUserAccount {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+}
+
+
+//Iphone 678
+@media only screen and (max-device-width: 375px){
+  #btnR{
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+  #responCheckbox{
+    position: relative;
+    left: 13px;
+  }
+  .hienthi{
+    position: relative;
+    top: 19px;
+    left: 120px;
+  }
+  #hienthiOption{
+    position: relative;
+    bottom: 9px;
+    width: 102px;
+    left: 185px;
+  }
+  #btnImport{
+    position: relative;
+    right: 7px;
+  }
+  #btnUserAccount{
+    margin-top: 1%;
+    margin-bottom: 4%;
+  }
+  #name_school{
+    display: none;
+  }
+  #logo_school{
+    position: absolute;
+    left: 23%;
+  }
+}
+
+@media only screen and (max-width: 408) and (min-width: 370px){
+  #name_school{
+    display: none;
+  }
+  #btnUserAccount {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+  }
+
+//pixel 2// iphone X
+@media only screen and (min-width: 411px) and (max-width:450px){
+  #btnImport{
+    margin-top: 4px;
+  }
+  #responCheckbox{
+    position: relative;
+    left: 13px;
+  }
+  .hienthi{
+    position: relative;
+    top: 20px;
+    left: 155px;
+  }
+  #hienthiOption{
+    position: relative;
+    bottom: 8px;
+    width: 105px;
+    left: 221px;
+  }
+  #btnR{
+    margin-top:-3px;
+  }
+  #name_school{
+    display: none;
+  }
+  #logo_school{
+    position: absolute;
+    left: 27%;
+  }
+  #btnUserAccount {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+}
+
+//Iphone 5/SE
+@media only screen and (max-device-width: 320px){
+  #btnR{
+    margin-top: 1px;
+    margin-bottom: 5px;
+  }
+  #responCheckbox{
+    position: relative;
+    left: 13px;
+  }
+  .hienthi{
+    position: relative;
+    top: 24px;
+    left: 72px;
+  }
+  #hienthiOption{
+    position: relative;
+    bottom: 2px;
+    width: 102px;
+    left: 129px;
+    margin-bottom: 2%;
+  }
+  #btnImport{
+    position: relative;
+    right: 0px;
+  }
+  #logo_school{
+    position: absolute;
+    left: 19%;
+  }
+  #btnUserAccount {
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+}
+
+
+@media only screen and (max-width: 1219px) and (min-width: 320px){
+  #btnXoa{
+    margin-top:3%;
+  }
+}
+
+.navbar-brand-full{
+  display: none;
+}
+
+
+@media only screen and (max-device-width: 2560px){
+  #logo_school{
+    position: relative;
+    right: 6%;
+  }
+}
+
+@media only screen and (max-width: 2048px) and (min-width: 1920px){
+  #logo_school{
+      position: relative;
+      right: 7.5%;
+  }
+}
+
+  @media only screen and (max-device-width: 1600px){
+    #logo_school{
+      position: relative;
+      right: 9%;
+    }
+  }
+
+  @media only screen and (max-device-width: 1440px){
+    #logo_school{
+      position: relative;
+      right: 10%;
+    }
+  }
+
+
+@media only screen and (max-device-width: 1366px){
+  #logo_school{
+    position: relative;
+    right: 10%;
+  }
+}
+
+@media only screen and (max-device-width: 1280){
+  #logo_school{
+    position: relative;
+    right: 13%;
+  }
+}
+
+@media only screen and (max-device-width: 1024px){
+  #logo_school{
+    position: relative;
+    left: -14%;
+  }
+}
+
+@media only screen and (max-width:3250px ) and (min-width: 2560px){
+  #logo_school{
+      position: relative;
+      right: 5.5%;
+  }
+}
+
+@media only screen and (max-width:1980px ) and (min-width: 1601px){
+  #logo_school{
+      position: relative;
+      right: 8%;
+  }
+}
+
+@media only screen and (max-width:1600px ) and (min-width: 1401px){
+  #logo_school{
+      position: relative;
+      right: 10%;
+  }
+}
+
+@media only screen and (max-width:1400px ) and (min-width: 1201px){
+  #logo_school{
+      position: relative;
+      right: 13%;
+  }
+}
+@media only screen and (max-width: 1200px) and (min-width: 1025px){
+  #logo_school{
+      position: relative;
+      right: 12%;
+  }
+}
+@media only screen and (max-width: 1024px) and (min-width: 993px){
+  #logo_school{
+      position: relative;
+      right: 12%;
+  }
+}
+
+@media only screen and (max-width: 992px) and (min-width: 551px){
+  #name_school {
+    position: relative;
+    right: 38%;
+}
+#logo_school{
+  position: relative;
+  // right: 7.5%;
+  left:0%;
+}
+}
+@media only screen and (max-width: 550px) and (min-width: 426px){
+  #logo_school{
+      position: relative;
+      // right: 7.5%;
+      left:27%;
+  }
+  #name_school{
+    display: none;
+  }
+}
+@media only screen and (max-device-width: 768px){
+  #logo_school{
+    position: relative;
+    left: 37%;
+  }
+}
+
+@media only screen and (max-device-width: 425px){
+  #logo_school{
+    position: relative;
+    left: 28%;
+  }
+}
+
+@media only screen and (max-device-width: 411px){
+  #logo_school{
+    position: relative;
+    left: 27%;
+  }
+}
+
+@media only screen and (max-device-width: 375px){
+  #logo_school{
+    position: relative;
+    left: 25%;
+  }
+}
+
+@media only screen and (max-device-width: 320px){
+  #logo_school{
+    position: relative;
+    left: 20%;
+  }
+
+}
+// semester
+#tblSemester th{
+  vertical-align: inherit;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: #ffffff !important;
+  background-color: #0c5bbd !important;
+  // background-color: #337ab7 !important;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder{
+  position: inherit !important;
+}
+
+.card-header {
+  padding: 0.3rem 0.95rem !important;
+}
+
+.modal-title {
+  font-family: Roboto, sans-serif !important;
+  font-size: 15px !important;
+}
+

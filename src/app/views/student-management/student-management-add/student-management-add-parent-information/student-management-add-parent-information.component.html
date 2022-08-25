@@ -1,0 +1,288 @@
+<form [formGroup]="parentInformationForm">
+  <!-- <span *ngIf="basicInfoData">{{basicInfoData[0]['studentId']}}</span> -->
+  <!-- <pre>{{parentInformationForm.value | json}}</pre> -->
+  <div class="form-group row">
+    <div class="col-xl-4 col-lg-6 col-md-7 col-sm-12 col-12">
+      <div class="form-group row">
+      <label for="father_name" class="col-xl-5 col-lg-4 col-md-3 col-sm-12 col-12 col-form-label">Họ tên Cha:</label>
+      <div class="col-xl-7 col-lg-8 col-md-9 col-sm-12 col-12 responsive-col-md-lg">
+          <input type="text" class="form-control" formControlName="father_name" placeholder="Nhập họ tên Cha"
+          [ngClass]="{ 'is-invalid': submitted && f.father_name.errors }" tabindex="1" autofocus>
+          <div *ngIf="submitted && f.father_name.errors" class="invalid-feedback">
+            <div *ngIf="f.father_name.errors.required">Họ tên Cha không được để trống</div>
+            <div *ngIf="f.father_name.errors.maxlength">Họ tên Cha không được lớn hơn 50 ký tự</div>
+          </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="father_phone" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label">Điện thoại:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <ngx-intl-tel-input
+            tabindex="2"
+            [inputId]="'phone'"
+            [cssClass]="'form-control'"
+            [onlyCountries]="countryISO.Vietnam"
+            NumberTextValue="NumberModel"
+            [enableAutoCountrySelect]="true"
+            [enablePlaceholder]="true"
+            [maxLength]="15"
+            [selectedCountryISO]="countryISO.Vietnam"
+            [phoneValidation]="true"
+            searchCountryPlaceholder='Tìm kiếm quốc gia'
+            [separateDialCode]="separateDialCode"
+            name="phone" formControlName="father_phone">
+          </ngx-intl-tel-input>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="father_email" class="col-xl-3 col-lg-2 col-md-2 col-sm-12 col-12 col-form-label">Email:</label>
+        <div class="col-xl-9 col-lg-10 col-md-10 col-sm-12 col-12">
+          <input type="text" class="form-control" formControlName="father_email" placeholder="Nhập email"
+            [ngClass]="{ 'is-invalid': submitted && f.father_email.errors }" tabindex="3">
+          <div *ngIf="submitted && f.father_email.errors" class="invalid-feedback">
+            <div *ngIf="f.father_email.errors.email">Email không hợp lệ</div>
+            <div *ngIf="f.father_email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="father_job" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label responsive-col-xl">Nghề nghiệp:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <input type="text" class="form-control" formControlName="father_job" placeholder="Nhập nghề nghiệp"
+          [ngClass]="{ 'is-invalid': submitted && f.father_job.errors }" tabindex="4">
+          <div *ngIf="submitted && f.father_job.errors" class="invalid-feedback">
+            <div *ngIf="f.father_job.errors.maxlength">Nghề nghiệp không được lớn hơn 200 ký tự</div>
+          </div>
+      </div>
+    </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="father_work_address" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label workAddressRespon">ĐV công tác:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="father_work_address" placeholder="Nhập đơn vị công tác"
+            [ngClass]="{ 'is-invalid': submitted && f.father_work_address.errors }" tabindex="5">
+            <div *ngIf="submitted && f.father_work_address.errors" class="invalid-feedback">
+              <div *ngIf="f.father_work_address.errors.maxlength">Đơn vị công tác không được lớn hơn 200 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-7 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="mother_name" class="col-xl-5 col-lg-4 col-md-3 col-sm-12 col-12 col-form-label">Họ tên Mẹ:</label>
+        <div class="col-xl-7 col-lg-8 col-md-9 col-sm-12 col-12 responsive-col-md-lg">
+            <input type="text" class="form-control" formControlName="mother_name" placeholder="Nhập họ tên mẹ"
+            [ngClass]="{ 'is-invalid': submitted && f.mother_name.errors }" tabindex="6">
+            <div *ngIf="submitted && f.mother_name.errors" class="invalid-feedback">
+              <div *ngIf="f.mother_name.errors.required">Họ tên Mẹ không được để trống</div>
+              <div *ngIf="f.mother_name.errors.maxlength">Họ tên Mẹ không được lớn hơn 50 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="mother_phone" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label">Điện thoại:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <ngx-intl-tel-input
+            tabindex="7"
+            [inputId]="'phone'"
+            [cssClass]="'form-control'"
+            [onlyCountries]="countryISO.Vietnam"
+            [enablePlaceholder]="true"
+            [enableAutoCountrySelect]="true"
+            NumberTextValue="NumberModel"
+            [maxLength]="15"
+            [selectedCountryISO]="countryISO.Vietnam"
+            [phoneValidation]="true"
+            searchCountryPlaceholder='Tìm kiếm quốc gia'
+            [separateDialCode]="separateDialCode"
+            name="phone" formControlName="mother_phone">
+          </ngx-intl-tel-input>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="mother_email" class="col-xl-3 col-lg-2 col-md-2 col-sm-12 col-12 col-form-label">Email:</label>
+        <div class="col-xl-9 col-lg-10 col-md-10 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="mother_email" placeholder="Nhập email"
+              [ngClass]="{ 'is-invalid': submitted && f.mother_email.errors }" tabindex="8">
+            <div *ngIf="submitted && f.mother_email.errors" class="invalid-feedback">
+              <div *ngIf="f.mother_email.errors.email">Email không hợp lệ</div>
+              <div *ngIf="f.mother_email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="mother_job" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label responsive-col-xl">Nghề nghiệp:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="mother_job" placeholder="Nhập nghề nghiệp"
+            [ngClass]="{ 'is-invalid': submitted && f.mother_job.errors }" tabindex="9">
+            <div *ngIf="submitted && f.mother_job.errors" class="invalid-feedback">
+              <div *ngIf="f.mother_job.errors.maxlength">Nghề nghiệp không được lớn hơn 200 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="mother_work_address" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label workAddressRespon">ĐV công tác:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="mother_work_address" placeholder="Nhập đơn vị công tác"
+            [ngClass]="{ 'is-invalid': submitted && f.mother_work_address.errors }" tabindex="10">
+            <div *ngIf="submitted && f.mother_work_address.errors" class="invalid-feedback">
+              <div *ngIf="f.mother_work_address.errors.maxlength">Đơn vị công tác không được lớn hơn 200 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-4 col-lg-6 col-md-7 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_name" class="col-xl-5 col-lg-4 col-md-3 col-sm-12 col-12 col-form-label">Người GH:</label>
+        <div class="col-xl-7 col-lg-8 col-md-9 col-sm-12 col-12 responsive-col-md-lg">
+            <input type="text" class="form-control" formControlName="protector_name" placeholder="Nhập họ tên người giám hộ"
+            [ngClass]="{ 'is-invalid': submitted && f.protector_name.errors }" tabindex="11">
+            <div *ngIf="submitted && f.protector_name.errors" class="invalid-feedback">
+              <div *ngIf="f.protector_name.errors.required">Họ tên người giám hộ không được để trống</div>
+              <div *ngIf="f.protector_name.errors.maxlength">Họ tên người giám hộ không được lớn hơn 50 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_phone" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label">Điện thoại:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <ngx-intl-tel-input
+            tabindex="12"
+            [inputId]="'phone'"
+            cssClass='form-control'
+            [onlyCountries]="countryISO.Vietnam"
+            NumberTextValue="NumberModel"
+            [enableAutoCountrySelect]="true"
+            [enablePlaceholder]="true"
+            [maxLength]="15"
+            [selectedCountryISO]="countryISO.Vietnam"
+            [phoneValidation]="true"
+            searchCountryPlaceholder='Tìm kiếm quốc gia'
+            [separateDialCode]="separateDialCode"
+            name="phone" formControlName="protector_phone">
+          </ngx-intl-tel-input>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_email" class="col-xl-3 col-lg-2 col-md-2 col-sm-12 col-12 col-form-label">Email:</label>
+        <div class="col-xl-9 col-lg-10 col-md-10 col-sm-12 col-12">
+          <input type="text" class="form-control" formControlName="protector_email" placeholder="Nhập email"
+          [ngClass]="{ 'is-invalid': submitted && f.protector_email.errors }" tabindex="13">
+          <div *ngIf="submitted && f.protector_email.errors" class="invalid-feedback">
+            <div *ngIf="f.protector_email.errors.email">Email không hợp lệ</div>
+            <div *ngIf="f.protector_email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_job" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label responsive-col-xl">Nghề nghiệp:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="protector_job" placeholder="Nhập nghề nghiệp"
+            [ngClass]="{ 'is-invalid': submitted && f.protector_job.errors }" tabindex="14">
+            <div *ngIf="submitted && f.protector_job.errors" class="invalid-feedback">
+              <div *ngIf="f.protector_job.errors.maxlength">Nghề nghiệp không được lớn hơn 200 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_work_address" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label workAddressRespon">ĐV công tác:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+            <input type="text" class="form-control" formControlName="protector_work_address" placeholder="Nhập đơn vị công tác"
+            [ngClass]="{ 'is-invalid': submitted && f.protector_work_address.errors }" tabindex="15">
+            <div *ngIf="submitted && f.protector_work_address.errors" class="invalid-feedback">
+              <div *ngIf="f.protector_work_address.errors.maxlength">Đơn vị công tác không được lớn hơn 200 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-xl-8 col-lg-6 col-md-8 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="account_email" class="col-xl-4 col-lg-4 col-md-3 col-sm-12 col-12 col-form-label responsive-col-xl">Tên TK:</label>
+        <div class="col-xl-8 col-lg-8 col-md-9 col-sm-12 col-12">
+            <input type="text" class="form-control" id="account_email" formControlName="account_email" placeholder="Nhập địa chỉ email"
+              [ngClass]="{ 'is-invalid': submitted && f.account_email.errors }" (keyup)="setStatus()" tabindex="16">
+            <div *ngIf="submitted && f.account_email.errors" class="invalid-feedback">
+              <div *ngIf="f.account_email.errors.email">Email không hợp lệ</div>
+              <div *ngIf="f.account_email.errors.maxlength">Email không được lớn hơn 100 ký tự</div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-4 col-sm-12 col-12 row justify-content-center mb-4" style="margin-bottom: 0em !important; padding-left: 2em !important;">
+          <label class="container">
+            <input type="checkbox" class="accountStatus" formControlName="account_status" disabled>
+            <span class="checkmark" tabindex="17"></span>Hoạt động
+          </label>
+    </div>
+
+
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="password" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label responsive-col-xl">Mật khẩu:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <input class="form-control" type="password" name="text-input" formControlName="password"
+            placeholder="Nhập Mật khẩu" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" tabindex="18">
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.minlength">Mật khẩu không được nhỏ hơn 6 ký tự</div>
+            <div *ngIf="f.password.errors.maxlength">Mật khẩu không được lớn hơn 100 ký tự</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+      <div class="form-group row">
+        <label for="protector_work_address" class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12 col-form-label workAddressRespon">Xác nhận MK:</label>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+          <input class="form-control" type="password" name="text-input" formControlName="confirm_password"
+            placeholder="Xác nhận mật khẩu"
+            [ngClass]="{ 'is-invalid': submitted && f.confirm_password.errors }" tabindex="19">
+          <div *ngIf="submitted && f.confirm_password.errors" class="invalid-feedback">
+            <div *ngIf="f.confirm_password.errors.minlength">Xác nhận mật khẩu không được nhỏ hơn 6 ký tự</div>
+            <div *ngIf="f.confirm_password.errors.maxlength">Xác nhận mật khẩu không được lớn hơn 100 ký tự</div>
+            <div *ngIf="f.confirm_password.errors.mustMatch">Mật khẩu không trùng khớp</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center mb-4" style="margin-bottom: 0em !important;">
+    <div class="col-12 text-right">
+      <button type="button" class="btn btn-success" (click)="addParentSingle()" style="margin-right: 0.3em;" tabindex="20">
+        <i class="fa fa-floppy-o"></i>&nbsp;Lưu lại</button>
+      <button type="button" class="btn btn-primary" (click)="addParentContinue()" style="margin-left: 0.3em;" tabindex="21">
+        <i class="fa fa-arrow-circle-right"></i>&nbsp;Tiếp</button>
+    </div>
+  </div>
+</form>

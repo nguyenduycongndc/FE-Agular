@@ -1,0 +1,396 @@
+<form [formGroup]="form">
+  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+              <strong>&emsp;Danh sách mẫu nhận xét</strong>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input  tabindex="1" type="text" class="form-control" #searchByKeyWordInput formControlName='search'
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Nội dung nhận xét">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 0.6rem !important;">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+          <div class="form-group row" style="margin-bottom: -0.45rem;">
+            <!-- drop loại nx -->
+            <div class="col-xl-5 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-bottom: 1em;">
+                <label class="col-form-label" style="float: left; margin-right: 1em;">Loại nhận xét:</label>
+                <ng-select
+                  [items]="ddlCommentType"
+                  class="commentTypeSearch"
+                  [tabIndex]="2"
+                  [clearable]="false"
+                  bindLabel="name"
+                  [multiple]="true"
+                  [closeOnSelect]="false"
+                  placeholder="Chọn loại nhận xét"
+                  notFoundText="Không có dữ liệu"
+                  [(ngModel)]="selectedCommentType"
+                  formControlName="commentType"
+                  (change)="onSelectCommentType()">
+                <ng-template ng-header-tmp>
+                <div>
+                  <button class="btn btn-link" (click)="selectAllCommentTypeFilter(ddlCommentType)">Chọn tất cả</button>
+                  <button class="btn btn-link" (click)="deSelectAllCommentTypeFilter()">Bỏ chọn tất cả</button>
+                </div>
+              </ng-template>
+              <ng-template ng-multi-label-tmp let-items="items">
+                <div class="ng-value" *ngFor="let item of (items ? items.slice(0,1): [])">
+                  <span>{{item.name}}</span>
+                </div>
+                <div class="ng-value" *ngIf="items.length > 1" >
+                  <span class="ng-value-label">+{{items.length - 1}}</span>
+                </div>
+                </ng-template>
+              </ng-select>
+            </div>
+            <!-- checkbox Hd -->
+            <!-- <div class="col-xl-2 col-lg-3 col-md-3 col-sm-4 col-8" style="margin-bottom: 1em; top: 2px;">
+              <label class="customCheckbox" style="display: flex;">
+                <input type="checkbox"tabindex="2" formControlName="statusFilter" style="margin: .1em; width: 1.6em; height: 1.6em; position: relative; right: 3px; top: 2px;" onclick="return true;" checked>
+              <a class="customCheckbox2">Hoạt động</a>
+            </label>
+            </div> -->
+            <!-- button lọc -->
+            <!-- <div class="col-xl-5 col-lg-3 col-md-3 col-sm-2 col-4" style="margin-bottom: 1em;"> -->
+
+            <!-- <div class="col-xl-7 col-lg-6 col-md-6 col-sm-6 col-12" style="margin-bottom: 1em;">
+              <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" [disabled]="loadingFilter"
+                      style="float: right;" autocomplete="off" (click)="filter()" tabindex="3">
+                      <span *ngIf="loadingFilter" class="spinner-border spinner-border-sm mr-1"></span>
+                      <i class="fa fa-filter" aria-hidden="true"></i>
+                    </button>
+            </div> -->
+
+          </div>
+        </div>
+
+        <hr style="margin: 1% 0 1% 0;">
+        <!-- Table -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12" *ngIf="commentFormConfigurationData">
+          <table class="table table-responsive-sm table-bordered table-striped table-sm"
+          style="text-align: center;" id="tblCommentFormConfiguration">
+            <thead *ngIf="headerCommentFormConfiguration === true" id="tblGrade">
+              <tr>
+                <th style="vertical-align: inherit;width: 5%;">STT</th>
+                <th style="vertical-align: inherit;">Nội dung mẫu nhận xét</th>
+                <th style="vertical-align: inherit;">Loại mẫu nhận xét</th>
+                <!-- <th>Môn học</th> -->
+                <th style="vertical-align: inherit;">Ghi chú</th>
+                <!-- <th>Trạng thái</th> -->
+                <th style="vertical-align: inherit;">Hoạt động</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="commentFormConfigurationData">
+              <tr *ngFor="let item of commentFormConfigurationData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index" >
+                <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }} </td>
+                <td style="vertical-align: inherit;text-align: left;">{{ item.content }}</td>
+                <td style="vertical-align: inherit;text-align: left;">
+                  <!-- {{ item.comment_type }} -->
+                  <ng-template [ngIf]="item.comment_type == 0">
+                    Nhận xét về môn học
+                  </ng-template>
+                  <ng-template [ngIf]="item.comment_type == 1">
+                    Nhận xét về năng lực
+                  </ng-template>
+                  <ng-template [ngIf]="item.comment_type == 2">
+                    Nhận xét về phẩm chất
+                  </ng-template>
+                </td>
+                <!-- <td style="vertical-align: inherit;">{{ item.subjects }}</td> -->
+                <td style="vertical-align: inherit;max-width: 120px;text-align: left;">{{ item.description }}</td>
+                <!-- <td style="vertical-align: middle;">
+                  <ng-template [ngIf]="item.status == 0" [ngIfElse]="notEqual">
+                    <input ng-if="item.status == 0" type="checkbox" name="status" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" />
+                    </ng-template>
+                    <ng-template #notEqual>
+                        <input ng-if="item.status == 1" type="checkbox" name="status" style="margin: .9em; width: 1.4em; height: 1.4em;" onclick="return false;" checked />
+                    </ng-template>
+                </td> -->
+                <td style="vertical-align: middle;">
+                  <div class="row" style="padding: 3% 15px;" >
+                      <div class="col-lg-12 col-md-12 col-sm-12">
+                          <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"  tabindex="3"
+                          data-target="#updateCommentFormModal" (click)="getByIdCommentFormConfigurationData(item.id)" style="margin-top:1px; margin-right: 3%;margin-bottom: 0.2em;margin-top: 0.2em;">
+                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" id="btnXoa" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"  tabindex="3"
+                        (click)="deleteCommentFormConfigurationData(item.id)" style="margin-top: 1px;margin-bottom: 0.2em;margin-top: 0.2em;">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="checkCommentFormData === false">
+              <tr>
+                <td colspan="12"> Dữ liệu không tồn tại
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-right row" *ngIf="commentFormConfigurationData">
+            <!-- <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> -->
+              <!-- <div class="row"> -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div
+                    *ngFor="let item of commentFormConfigurationData | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                    <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                        {{(p-1)*countPage+i+1}}/{{ commentFormConfigurationData.length }}</span> bản ghi</p>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" *ngIf="headerCommentFormConfiguration === true">
+                  <pagination-controls (pageChange)="p = $event" tabindex="4"></pagination-controls>
+                </div>
+
+              <!-- </div> -->
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="form-group row col-xl-9 col-lg-9 col-md-8 col-sm-7 col-12" style="margin-bottom: 0rem;">
+                  <button id="customCreat" class="btn btn-success btn-sm marginButton" type="button" data-toggle="modal" data-target="#createCommentFormModal"
+                    (click)="resetCommentForm()" style="float: right;" tabindex="30">
+                    <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                  </button>
+                <button class="btn btn-primary btn-sm marginButton" type="button" (click)="downloadTemplateFile();" tabindex="31" [disabled]="loadingDownload">
+                  <span *ngIf="loadingDownload" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-cloud-download"></i> Tải tệp mẫu
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="exportFile();" tabindex="32" [disabled]="loadingExport">
+                    <span *ngIf="loadingExport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-download"></i> Xuất ra tệp
+                  </button>
+                  <button class="btn btn-primary btn-sm marginButton" type="button" (click)="importFile();" tabindex="33" [disabled]="loadingImport">
+                    <span *ngIf="loadingImport" class="spinner-border spinner-border-sm mr-1"></span>
+                  <i class="fa fa-upload"></i> Nhập từ tệp
+                  </button>
+                  <div class="upload marginButton">
+                    <input type="button" class="uploadButton" value="Chọn tệp" tabindex="34" />
+                    <input type="file" name="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" id="fileUpload" #fileInput (change)="uploadFile(fileInput.files)"/>
+
+                    <ng-template [ngIf]="fileURL" [ngIfElse]="notChoosenFile">
+                      <span class="text" *ngIf="fileURL" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">{{ fileURL }}</span>
+                    </ng-template>
+                    <ng-template #notChoosenFile>
+                      <span class="text" style="overflow: hidden;max-width: 75ch; vertical-align: middle;">Vui lòng chọn tệp</span>
+                    </ng-template>
+                  </div>
+              </div>
+              <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5 col-12" id="rowShow" >
+                <div class="row">
+                   <div class="col-xl-4 col-lg-5 col-md-4 col-sm-4 col-3" style="max-width: 200%;padding: 3% 0 0 15px;">
+                    <span class="showRecord">Hiển thị:</span>
+                   </div>
+                   <div class="col-xl-7 col-lg-7 col-md-7 col-sm-8 col-5" style="margin-right: -50px !important;">
+                      <select id="showOption" class="form-control" (change)="perPageSelected($event.target.value)" tabindex="35">
+                         <option value="10">10</option>
+                         <option value="20">20</option>
+                         <option value="50">50</option>
+                         <option value="100">100</option>
+                      </select>
+                   </div>
+                </div>
+             </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Thêm mới -->
+  <div class="modal fade" id="createCommentFormModal" data-keyboard="false" role="dialog"
+    aria-labelledby="commentFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title">Thêm mới</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="5">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0">
+          <div class="form-group" style="margin-top: .5rem; margin-bottom: .5rem; padding-left: .9em; padding-right: .9em;">
+             <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label" >Loại nhận xét:<span style="color: red;">*</span></label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <ng-select
+                        [items]="ddlCommentType"
+                        class="commentTypeAdd"
+                        [tabIndex]="6"
+                        [clearable]="false"
+                        bindLabel="name"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        placeholder="Chọn loại nhận xét"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedAddCommentType"
+                        formControlName="addCommentType">
+                </ng-select>
+                <span *ngIf="submitted && f?.addCommentType?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Loại nhận xét không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label">Nội dung nhận xét:<span style="color: red;">*</span></label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <input class="form-control" id="content" type="text" name="text-input" formControlName="addCommentContent"
+                placeholder="Nhận xét"  [ngClass]="{ 'is-invalid': submitted && f.addCommentContent.errors }" tabindex="7">
+                <div *ngIf="submitted && f.addCommentContent.errors" class="invalid-feedback">
+                  <div *ngIf="f.addCommentContent.errors.required">Nội dung nhận xét không được để trống</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label" >Môn học:</label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <ng-select
+                        [items]="ddlLesson"
+                        class="lessonAdd"
+                        tabindex="10"
+                        [clearable]="false"
+                        bindLabel="name"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        placeholder="Chọn môn học"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedAddLesson"
+                        formControlName="addLesson">
+                </ng-select>
+              </div>
+            </div> -->
+            <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label" >Ghi chú:</label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <textarea cols="10" rows="3" class="form-control" formControlName="description" (keyup)="onKeyUp($event)"
+                    placeholder="Nhập ghi chú" tabindex="8"></textarea>
+                    <span style="float: right; opacity: .6;">
+                      {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                    </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-success" (click)="createCommentForm()" tabindex="9"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="10"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Cập nhật -->
+  <div class="modal fade" id="updateCommentFormModal" role="dialog" aria-labelledby="commentFormModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="padding: 2%;">
+          <h5 class="modal-title">Cập nhật</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" tabindex="11">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0%;">
+          <div class="form-group" style="margin-top: .5rem; margin-bottom: .5rem; padding-left: .9em; padding-right: .9em;">
+             <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label">Loại nhận xét:<span style="color: red;">*</span></label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <ng-select
+                        [items]="ddlCommentType"
+                        class="commentTypeUpdate"
+                        [tabIndex]="11"
+                        [clearable]="false"
+                        bindLabel="name"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        placeholder="Chọn loại nhận xét"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedUpdateCommentType"
+                        formControlName="updateCommentType">
+                </ng-select>
+                <span *ngIf="submitted && f?.updateCommentType?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                  Loại nhận xét không được để trống
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label">Nội dung nhận xét:<span style="color: red;">*</span></label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <input [(ngModel)] = "updateContent" value="{{updateContent}}"  class="form-control" id="content" type="text" name="text-input" formControlName="updateCommentContent"
+                placeholder="Nhận xét" [ngClass]="{ 'is-invalid': submitted && f.updateCommentContent.errors }" tabindex="12">
+                <div *ngIf="submitted && f.updateCommentContent.errors" class="invalid-feedback">
+                  <div *ngIf="f.updateCommentContent.errors.required">Nội dung nhận xét không được để trống</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label" >Môn học:</label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <ng-select
+                        [items]="ddlLesson"
+                        class="lessonUpdate"
+                        tabindex="16"
+                        [clearable]="false"
+                        bindLabel="name"
+                        [multiple]="false"
+                        [closeOnSelect]="true"
+                        placeholder="Chọn môn học"
+                        notFoundText="Không có dữ liệu"
+                        [(ngModel)]="selectedUpdateLesson"
+                        formControlName="updateLesson">
+                </ng-select>
+              </div>
+            </div> -->
+            <div class="form-group row">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label class="col-form-label" >Ghi chú:</label>
+              </div>
+              <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-12">
+                <textarea cols="10" rows="3" class="form-control" formControlName="description" value="{{updateDescription}}" [(ngModel)]="updateDescription" (keyup)="onKeyUp($event)"
+                    placeholder="Nhập ghi chú" tabindex="13"></textarea>
+                    <span style="float: right; opacity: .6;">
+                      {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                    </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="padding: 1% 2%;">
+          <button type="button" class="btn btn-primary" (click)="updateCommentForm(idCommentForm)" tabindex="14">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" tabindex="15"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

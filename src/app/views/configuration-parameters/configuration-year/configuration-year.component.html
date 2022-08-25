@@ -1,0 +1,377 @@
+<form [formGroup]="form">
+  <!-- <pre>{{form.value|json}}</pre> -->
+  <div class="col-md-12">
+    <div class="card">
+      <!--Card Header-->
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-6" style="margin-top: 6px; margin-bottom: 3px;">
+            <span class="fa-stack">
+              <i class="fa fa-list-alt fa-stack-2x"></i>
+            </span>
+            <strong>&emsp;Danh sách năm học</strong>
+          </div>
+          <div class="col-md-6" style="text-align: end; padding: 0 1% 0 21%;">
+            <div class="form-group has-search" style="margin-bottom: 0% !important;" tabIndex="1">
+              <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" #searchByKeyWordInput
+                (keyup.enter)="searchByKeyWord($event.target.value);" placeholder="Tìm kiếm năm học">
+            </div>
+          </div>
+        </div>
+    </div>
+      <div class="card-body" style="padding: 0.6rem !important;">
+          <!--Card-body-->
+          <div class="form-group" style="max-width: 100%;
+    max-height: 50%;border:1px solid #80808069;border-radius: 3px; margin-bottom: 0% !important; padding-top: 1%;">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <!-- <div class="row">
+              <div class="col-xl-4 col-lg-5 col-md-4 col-sm-4 col-12" style="max-width: 100%;">
+                <div class="row">
+                  <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3" style="max-width: 200%; padding: 1% 0 0 15px;">
+                    <span class="hienthi">Hiển thị</span>
+                  </div>
+                  <div class="col-8 col-sm-8 col-md-8 col-lg-9 col-xl-9" style="margin-right: -50px !important; ">
+                    <select id="hienthiOption" class="form-control" (change)="perPageSelected($event.target.value)" tabindex="6">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-8 col-lg-7 col-md-8 col-sm-8 col-12">
+                <button class="btn btn-success" id="btnUserAccount" type="button" data-toggle="modal" (click)="resetYearForm()" data-target="#addYearModal"
+                  style="float: right;" tabindex="7">
+                  <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                </button>
+              </div>
+            </div>
+          <hr style="margin: 1% 0 1% 0;"> -->
+          <!-- Table -->
+              <table class="table table-responsive-sm table-bordered table-striped table-sm"
+                style="text-align: center;" id="tblYear">
+                <thead>
+                <!-- <thead *ngIf="headerYearConfig == true"> -->
+                  <tr>
+                    <th>STT</th>
+                    <th>Năm học</th>
+                    <th>Năm bắt đầu</th>
+                    <th>Năm kết thúc</th>
+                    <th>Ghi chú</th>
+                    <th>Trạng thái</th>
+                    <th>Hoạt động</th>
+                  </tr>
+                </thead>
+                <tbody *ngIf="years">
+                  <tr class="item1"
+                  *ngFor="let item of years | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; let i = index">
+                    <td style="vertical-align: inherit;"> {{ ( p - 1 ) * countPage + i + 1 }}</td>
+                    <td style="vertical-align: inherit;">{{item.school_year}}</td>
+                    <td style="vertical-align: inherit;">{{item.start_year}}</td>
+                    <td style="vertical-align: inherit;">{{item.end_year}}</td>
+                    <td style="max-width: 120px;text-align: left;padding-left: 1%;">{{item.description}}</td>
+                    <td style="vertical-align: inherit;"(click)="active(item.id, item.status)">
+                      <ng-template [ngIf]="item.status == 0">
+                        <input ng-if="item.status == 0"  type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" tabIndex="2" onclick="return false;" disabled/>
+                      </ng-template>
+                      <ng-template [ngIf]="item.status == 1" >
+                        <label class="checkboxTable">
+                          <input ng-if="item.status == 1" type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" tabIndex="2" data-toggle="modal" data-target="#confirmModal" onclick="return false;"checked />
+                        </label>
+                      </ng-template>
+                      <ng-template [ngIf]="item.status == 2" >
+                        <label class="checkboxTable">
+                          <input ng-if="item.status == 2" type="checkbox" style="margin: .9em; width: 1.4em; height: 1.4em;" tabIndex="2" data-toggle="modal" data-target="#confirmModal"/>
+                        </label>
+                      </ng-template>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <div *ngIf="item.history === 2; then dis; else unDis" hidden></div>
+                        <div class="row" style="padding: 1% 15px;" >
+                          <div class="col-lg-12 col-md-12 col-sm-12">
+                            <ng-template #dis>
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa"
+                              data-target="#editYearModal" (click)="find(item.id)" style="margin: 3px 0 0 0; width: 29.8px; margin-right: 0.2em;margin-left: 0.2em;" tabIndex="2">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button  type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa"
+                            (click)="deletePost(item.id)" style="margin: 3px 0 0 0;" tabIndex="2">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            </ng-template>
+                            <ng-template #unDis>
+                              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" title="Sửa" disabled
+                              data-target="#editYearModal" (click)="find(item.id)" style="margin: 3px 0 0 0; width: 29.8px; margin-right: 0.2em;margin-left: 0.2em;" tabIndex="2">
+                              <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button  type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Xóa" disabled
+                            (click)="deletePost(item.id)" style="margin: 3px 0 0 0;" tabIndex="2">
+                              <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                            </ng-template>
+                          </div>
+                        </div>
+                  </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="checkYears === false">
+                  <tr>
+                    <td colspan="11"> Dữ liệu không tồn tại
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="text-right" *ngIf="years">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div
+                        *ngFor="let item of years | paginate: { itemsPerPage: countPage, currentPage: p, totalItems: totalItems }; index as i ;last as isLast">
+                        <p *ngIf="isLast">Hiển thị <span style="font-weight: bold;">{{ (p - 1) * countPage + 1 }} -
+                            {{(p-1)*countPage+i+1}}/{{years.length}}</span> bản ghi</p>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-6" *ngIf="headerYearConfig === true" > -->
+                    <div class="col-md-6">
+                      <pagination-controls (pageChange)="p = $event" tabIndex="3"></pagination-controls>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            <!-- Table-->
+            <div class="modal fade" id="confirmModal" data-keyboard="false" role="dialog"
+            aria-labelledby="configYearModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-body" style="padding: 14px;">
+                  <h6>Bạn muốn thay đổi trạng thái dữ liệu này?</h6>
+                </div>
+                <div class="modal-footer" style="padding: 1% 17%;">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="exitSetStatus()">Hủy bỏ</button>
+                  <button type="button" class="btn btn-primary" (click)="setStatus()">Xác nhận</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  <!--Modal thêm mới năm học-->
+            <div class="modal fade" id="addYearModal" data-keyboard="false" role="dialog"
+              aria-labelledby="configYearModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header" style="padding: 2%;">
+                    <h5 class="modal-title" id="configYearModalLabel">Thêm mới</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group col-md-12" style="margin-top:12px;">
+                      <div class="form-group row">
+
+                          <div class="col-md-6">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <label class="lable_padding">Năm bắt đầu:  <span style="color: red; font-size: large;">*</span></label>
+                                </div>
+                                <div class="col-md-8">
+                                  <ng-select [items]="ddlYearData"
+                                  class="customYear"
+                                  tabIndex="4"
+                                  bindLabel="name"
+                                  placeholder="Chọn năm bắt đầu"
+                                  notFoundText="Không có dữ liệu"
+                                  [(ngModel)]="selectedStartYear"
+                                  formControlName="start_year">
+                                </ng-select>
+                                  <span *ngIf="submitted && f?.start_year?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                                    Năm bắt đầu không được để trống
+                                  </span>
+                                </div>
+                              </div>
+                          </div>
+
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-4">
+                              <label class="lable_padding">Năm kết thúc:  <span style="color: red; font-size: large;">*</span></label>
+                              </div>
+                              <div class="col-md-8">
+                                <ng-select [items]="ddlYearData" #selectEndyear
+                                class="customYear"
+                                tabIndex="5"
+                                bindLabel="name"
+                                placeholder="Chọn năm kết thúc"
+                                notFoundText="Không có dữ liệu"
+                                [(ngModel)]="selectedEndYear"
+                                formControlName="end_year">
+                              </ng-select>
+                                <span *ngIf="submitted && f?.end_year?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                                  Năm kết thúc không được để trống
+                                </span>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                      <div class="form-group row">
+                        <div class="col-md-2">
+                          <label for="grade">Ghi chú:</label>
+                        </div>
+                        <div class="col-md-10">
+                          <textarea cols="10" rows="3" class="form-control" formControlName="description" (keyup)="onKeyUp($event)"
+                            placeholder="Ghi chú" tabIndex="6"></textarea>
+                          <span style="float: right; opacity: .6;">
+                            {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                          </span>
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                  <div class="modal-footer" style="padding: 1% 2%;">
+                    <button type="button" class="btn btn-success" (click)="createYear()" tabIndex="7"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Lưu lại</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="8"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Modal Cập nhật -->
+            <div class="modal fade" id="editYearModal"
+            role="dialog" aria-labelledby="YearModalLabel" aria-hidden="true" [ngStyle]="{display: yearConfigGetId ? 'block':'none'}">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="padding: 2%;">
+                  <h5 class="modal-title" id="YearModalLabel">Cập nhật</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group col-md-12" style="margin-top:12px;">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <label class="lable_padding">Năm bắt đầu: <span style="color: red; font-size: large;">*</span></label>
+                              </div>
+                              <div class="col-md-8">
+                                <ng-select [items]="ddlYearData"
+                                class="customYear"
+                                tabIndex="9"
+                                bindLabel="name"
+                                placeholder="Chọn năm bắt đầu"
+                                notFoundText="Không có dữ liệu"
+                                [(ngModel)]="selectedStartYear"
+                                formControlName="start_year">
+                              </ng-select>
+                                <!-- <ng-multiselect-dropdown #selectStartyear tabindex="14"
+                                [placeholder]="'Danh sách năm bắt đầu'"
+                                [(ngModel)]="selectedStartYear"
+                                [settings]="ddlStartYearDataSettings"
+                                [data]="ddlYearData"
+                                formControlName="start_year"
+                                (onSelect)="onStartYearSelect($event)"
+                                (onDeSelect)="onStartYearDeSelect()"
+                                >
+                                </ng-multiselect-dropdown> -->
+                                <span *ngIf="submitted && f?.start_year?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                                  Năm bắt đầu không được để trống
+                                </span>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-4">
+                            <label class="lable_padding">Năm kết thúc: <span style="color: red; font-size: large;">*</span></label>
+                            </div>
+                            <div class="col-md-8">
+                              <ng-select [items]="ddlYearData"
+                              class="customYear"
+                              tabIndex="10"
+                              bindLabel="name"
+                              placeholder="Chọn năm kết thúc"
+                              notFoundText="Không có dữ liệu"
+                              [(ngModel)]="selectedEndYear"
+                              formControlName="end_year">
+                            </ng-select>
+                              <!-- <ng-multiselect-dropdown #selectEndyear tabindex="15"
+                              [placeholder]="'Danh sách năm kết thúc'"
+                              [(ngModel)]="selectedEndYear"
+                              [settings]="ddlEndYearDataSettings"
+                              [data]="ddlYearData"
+                              formControlName="end_year"
+                              (onSelect)="onEndYearSelect($event)"
+                              (onDeSelect)="onEndYearDeSelect()"
+                              >
+                              </ng-multiselect-dropdown> -->
+                              <span *ngIf="submitted && f?.end_year?.errors?.required" style="font-size: 80%; color: #dc3545;">
+                                Năm kết thúc không được để trống
+                              </span>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                    <div class="form-group row">
+                      <div class="col-md-2">
+                        <label for="grade">Ghi chú:</label>
+                      </div>
+                      <div class="col-md-10">
+                        <textarea cols="10" rows="3" class="form-control" formControlName="description" (keyup)="onKeyUp($event)"
+                          placeholder="Ghi chú" tabIndex="11"></textarea>
+                          <span style="float: right; opacity: .6;">
+                          {{numberOfCharactersDescription}}/{{maxNumberOfCharactersDescription}}
+                        </span>
+                      </div>
+                    </div>
+                </div>
+
+                </div>
+                <div class="modal-footer" style="padding: 1% 2%;">
+                  <button type="button" class="btn btn-primary" (click)="updateYear(yearConfigGetId['year'].id)" tabIndex="12">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>&nbsp;Cập nhật</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal" tabIndex="13"><i class="fa fa-ban" aria-hidden="true"></i>&nbsp;Hủy</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer respon2">
+        <div class="form-group" style="margin-bottom: 0rem;">
+          <form action="" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 col-12" style="margin-bottom: 0rem;">
+                <button class="btn btn-success" id="btnUserAccount" type="button" data-toggle="modal" (click)="resetYearForm()" data-target="#addYearModal"
+                  style="float: left;" tabIndex="14">
+                  <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Thêm mới
+                </button>
+              </div>
+              <div class="col-xl-3 col-lg-4 col-md-4 col-sm-4 col-12">
+                <label for="father_name" class="col-xl-6 col-lg-7 col-md-6 col-sm-6 col-6 col-form-label" style="margin: 0px 0px 0px 0;">Hiển thị:</label>
+                  <select id="" class="form-control col-xl-6 col-lg-5 col-md-6 col-sm-6 col-6 hienthiOption1" style="float: right;"
+                  (change)="perPageSelected($event.target.value)" tabIndex="15">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                </div>
+            </div>
+          </form>
+        </div>
+     </div>
+    </div>
+  </div>
+</form>

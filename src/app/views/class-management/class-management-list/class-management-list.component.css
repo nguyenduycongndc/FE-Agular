@@ -1,0 +1,852 @@
+.card-body {
+  flex: 1 1 auto;
+  min-height: 1px;
+  padding: 0.6rem;
+}
+div.upload {
+  background-color:#fff;
+  border: 1px solid #ddd;
+  border-radius:5px;
+  display:inline-block;
+  height: 34px;
+  padding: 0px 38px 0px 3px;
+  position:relative;
+  width: auto;
+}
+
+div.upload:hover {
+  opacity:0.95;
+}
+
+div.upload input[type="file"] {
+  display: input-block;
+  width: 100%;
+  height: 40px;
+  opacity: 0;
+  cursor:pointer;
+  position:absolute;
+  left:0;
+}
+.uploadButton {
+  background-color: #425F9C;
+  border: none;
+  border-radius: 3px;
+  color: #FFF;
+  cursor:pointer;
+  display: inline-block;
+  height: 30px;
+  margin-right:15px;
+  width: auto;
+  padding:0 20px;
+  box-sizing: content-box;
+  margin-top: 1px;
+}
+
+.fileName {
+  font-family: Arial;
+  font-size:14px;
+}
+
+.upload + .uploadButton {
+  height:38px;
+}
+
+.marginButton {
+  margin: 0.2em;
+}
+
+
+
+.has-search .form-control {
+  padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+/* checkboxGrid */
+.checkboxTable {
+  /* display: block; */
+  position: relative;
+  padding-left: 76px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxTable input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkboxTable:hover .checkmarkGrid{
+  background:#ccc;
+}
+/* Create a custom checkbox */
+.checkmarkGrid {
+  position: absolute;
+  top: -4px;
+  left: 37%;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkboxTable:hover input ~ .checkmarkGrid {
+  background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxTable input:checked ~ .checkmarkGrid {
+  background-color: #2196F3;
+}
+
+/* Create the checkmarkGrid/indicator (hidden when not checked) */
+.checkmarkGrid:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmarkGrid when checked */
+.checkboxTable input:checked ~ .checkmarkGrid:after {
+  display: block;
+}
+
+/* Style the checkmarkGrid/indicator */
+.checkmarkGrid:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+@keyframes check {
+  0% {
+    height: 0;
+    width: 0;
+  }
+
+  25% {
+    height: 0;
+    width: 10px;
+  }
+
+  50% {
+    height: 20px;
+    width: 10px;
+  }
+}
+
+.checkbox {
+  background-color: #fff;
+  display: inline-block;
+  height: 28px;
+  margin: 0 .25em;
+  width: 28px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.checkbox span {
+  display: block;
+  height: 28px;
+  position: relative;
+  width: 28px;
+  padding: 0
+}
+
+.checkbox span:after {
+  -moz-transform: scaleX(-1) rotate(135deg);
+  -ms-transform: scaleX(-1) rotate(135deg);
+  -webkit-transform: scaleX(-1) rotate(135deg);
+  transform: scaleX(-1) rotate(135deg);
+  -moz-transform-origin: left top;
+  -ms-transform-origin: left top;
+  -webkit-transform-origin: left top;
+  transform-origin: left top;
+  border-right: 4px solid #fff;
+  border-top: 4px solid #fff;
+  content: '';
+  display: block;
+  height: 20px;
+  left: 3px;
+  position: absolute;
+  top: 15px;
+  width: 10px
+}
+
+.checkbox span:hover:after {
+  border-color: #999
+}
+
+.checkbox input {
+  display: none
+}
+
+.checkbox input:checked+span:after {
+  -webkit-animation: check .8s;
+  -moz-animation: check .8s;
+  -o-animation: check .8s;
+  animation: check .8s;
+  border-color: #555
+}
+
+.checkbox input:checked+.default:after {
+  border-color: #444
+}
+
+.checkbox input:checked+.primary:after {
+  border-color: #2196F3
+}
+
+.checkbox input:checked+.success:after {
+  border-color: #8bc34a
+}
+
+.checkbox input:checked+.info:after {
+  border-color: #3de0f5
+}
+
+.checkbox input:checked+.warning:after {
+  border-color: #FFC107
+}
+
+.checkbox input:checked+.danger:after {
+  border-color: #f44336
+}
+
+.mat-warn .mat-input-element,
+.mat-form-field-invalid .mat-input-element {
+  caret-color: #f44336;
+}
+
+.container {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  padding-left: 40px;
+  margin-bottom: 10px;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 27px;
+  height: 27px;
+  background: #eee;
+  border-radius: 3px;
+}
+
+.container:hover .checkmark {
+  background: #ccc;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.container .checkmark:after {
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.container input:checked~.checkmark {
+  background: #2196F3;
+}
+
+.container input:checked~.checkmark:after {
+  display: block;
+}
+
+
+@media only screen and (min-width: 2560px){
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+@media only screen and (max-width: 2559px){
+  .customCheckbox2{
+    position: relative;
+    top: 3px;
+  }
+}
+
+@media only screen and (min-width: 1980px){
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+}
+@media only screen and (min-width: 1441px) and (max-width: 1979px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+}
+@media only screen and (device-width: 1440px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+}
+@media only screen and (min-width: 1367px) and (max-width: 1439px){
+  .customYear{
+    max-width: 60%;
+    width: 60%;
+    float: left;
+    margin-left: 0.5em;
+  }
+  .customGrade {
+    max-width: 78%;
+    width: 78%;
+    float: left;
+    margin-left: 0.5em;
+  }
+}
+@media only screen and (device-width: 1366px){
+  .customYear{
+    max-width: 80%;
+    width: 80% ;
+    float: right;
+  }
+  .customGrade {
+    max-width: 88%;
+    width: 88% ;
+    float: right;
+  }
+
+}
+
+@media only screen and (min-width: 1208px) and (max-width: 1359px){
+  .customYear{
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+  }
+  .customGrade {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+
+  }
+  #optionStatus{
+    margin-top:4%;
+  }
+  #filter_search{
+    margin-top:3.5%;
+  }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1365px){
+  .customYear{
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+  }
+  .customGrade {
+    max-width: 100%;
+    width: 100%;
+    float: right;
+    margin-bottom: 8%;
+
+  }
+}
+@media only screen and (device-width: 1024px){
+  .customGrade {
+    max-width: 66%;
+    width: 66%;
+    float: right;
+    margin-bottom: 0.5em;
+  }
+  .customYear{
+    max-width: 54%;
+    width: 66%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1023px){
+  .customGrade {
+    max-width: 82%;
+    width: 82%;
+    float: right;
+    margin-bottom: 0.5em;
+    /* right: 15px; */
+  }
+  .customYear{
+    max-width: 56%;
+    width: 56%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+@media only screen and (min-width: 950px) and (max-width: 991px){
+  .customGrade {
+    max-width: 88%;
+    width: 88%;
+    float: right;
+    margin-bottom: 0.5em;
+    /* right: 15px; */
+  }
+  .customYear{
+    max-width: 68%;
+    width: 68%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+
+@media only screen and (min-width: 775px) and (max-width: 949px){
+  .customGrade {
+    max-width: 77%;
+    width: 77%;
+    float: right;
+    margin-bottom: 0.5em;
+    /* right: 15px; */
+  }
+  .customYear{
+    max-width: 55%;
+    width: 55%;
+    float: right;
+    margin-left: 0.5em;
+    right: 73px;
+  }
+}
+
+@media only screen and (max-width: 986px){
+  /* .filter_search{
+    margin-top: 8px;
+  } */
+  #optionStatus{
+    position: relative;
+    top: 6px;
+    left: 0 !important;
+  }
+  #responCheckbox {
+    position: relative;
+    left: 0 !important;
+  }
+  #filter_search{
+    position: relative;
+    bottom: 29px;
+  }
+}
+@media only screen and (min-width: 361px) and (max-width: 374px){
+}
+@media only screen and (device-width: 360px){
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (min-width: 321px) and (max-width: 359px){
+}
+@media only screen and (device-width: 320px){
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (min-width: 281px) and (max-width: 319px){
+}
+@media only screen and (device-width: 280px){
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+@media only screen and (max-width: 279px){
+  .hienthiOption1{
+    position: relative;
+    right: 16%;
+  }
+}
+
+
+
+@media only screen and (max-width: 2560px) and (min-width: 1981px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 20%;
+    right: 25em;
+  }
+}
+@media only screen and (max-width: 1980px) and (min-width: 1601px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 20%;
+    right: 18.3em;
+  }
+}
+@media only screen and (max-width: 1600px) and (min-width: 1441px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 30%;
+    right: 10em;
+  }
+}
+@media only screen and (max-width: 1440px) and (min-width: 1367px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 30%;
+    right: 12em;
+  }
+}
+@media only screen and (max-width: 1366px) and (min-width: 1025px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 30%;
+    right: 9em;
+  }
+}
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+  .showDisplay {
+    position: relative;
+    top: 15px;
+  }
+  #btnAddFormat {
+    position: relative;
+    top: 8px;
+  }
+  #showOption {
+    position: relative;
+    float: right;
+    top: 8px;
+    max-width: 50%;
+    right: 40px;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 634px) {
+  #btnAddFormat {
+    padding-top: 5% !important;
+    width: 50%;
+}
+  .showDisplay {
+      position: relative;
+      top: 24px;
+  }
+  #showOption {
+    position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 74px;
+  }
+  #btnAddFormat {
+    padding-top: 3% !important;
+  }
+}
+
+@media only screen and (max-width: 633px) and (min-width: 426px) {
+  #btnAddFormat {
+    padding-top: 5% !important;
+    width: 50%;
+}
+  .showDisplay {
+      position: relative;
+      top: 24px;
+  }
+  #showOption {
+    position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 74px;
+  }
+  #btnAddFormat {
+    padding-top: 3%;
+  }
+}
+@media only screen and (max-width: 425px) and (min-width: 376px) {
+  #btnUserAccount {
+    margin-top: -13%;
+    margin-bottom: 3%;
+  }
+  .text {
+    display: inline-block;
+    width: 10em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .showDisplay {
+      /* position: relative;
+      top: 24px;
+      left: 134px; */
+      position: relative;
+    top: 24px;
+    left: 0px;
+  }
+  #showOption {
+    /* position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 217px; */
+
+    /* position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 0px;
+    top: 40px; */
+
+    position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 68px;
+    top: -8px;
+  }
+}
+@media only screen and (max-width: 375px) and (min-width: 321px) {
+  .text {
+    display: inline-block;
+    width: 8em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .showDisplay {
+      /* position: relative;
+      top: 24px;
+      left: 100px; */
+      position: relative;
+      top: 24px;
+      left: 114px;
+  }
+  #showOption {
+    /* position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 167px; */
+    position: relative;
+    bottom: 2px;
+    width: 105px;
+    left: 186px;
+    top: -7px;
+  }
+}
+@media only screen and (max-width: 360px) {
+  .showDisplay {
+    /* position: relative;
+    top: 24px;
+    left: 100px; */
+    position: relative;
+    top: 24px;
+    left: 100px;
+}
+  #showOption {
+  /* position: relative;
+  bottom: 2px;
+  width: 105px;
+  left: 167px; */
+  position: relative;
+  bottom: 2px;
+  width: 105px;
+  left: 172px;
+  top: -7px;
+}
+}
+@media only screen and (max-width: 320px) {
+  #btnUserAccount {
+    margin-top: 16%;
+    margin-bottom: 4%;
+  }
+  #btnAddFormat {
+    width: 50%;
+    margin: auto;
+  }
+  .text {
+    display: inline-block;
+    width: 5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .showDisplay {
+    position: relative;
+    top: 0px;
+    left: 0px;
+  }
+  #showOption {
+    position: relative;
+    bottom: 2px;
+    width: 106px;
+    left: 0px;
+    top: 3px;
+  }
+  #btnAddFormat{
+    top: 5px;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .showDisplay {
+    position: relative;
+    top: 0px;
+    left: 0px;
+  }
+  #showOption {
+    position: relative;
+    bottom: 2px;
+    width: 87px;
+    left: 0px;
+  }
+}
+:host /deep/ .multiselect-dropdown .dropdown-list .item2 .multiselect-item-checkbox input[type=checkbox]{
+  width: 0px;
+}
+
+.column-header {
+  vertical-align: inherit;
+  cursor: pointer;
+  max-width: 60px;
+}
+
+table td {
+  padding: 0;
+}
+
+.functionCell {
+  vertical-align: middle;
+}
+
+.functionCell button:not(:last-child) {
+  margin-right: 5px;
+}
+
+.table-filter-row td {
+  padding: 0;
+}
+
